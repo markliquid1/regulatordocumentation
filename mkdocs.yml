@@ -1,26 +1,58 @@
-site_name: Xengineering Regulator Docs
+site_name: Xengineering Documentation
 site_url: https://docs.xengineering.net
+site_description: Technical documentation for Xengineering marine electrical regulator system
+site_author: Xengineering
+
+repo_name: markliquid1/regulatordocumentation
+repo_url: https://github.com/markliquid1/regulatordocumentation
+
+theme:
+ name: material
+ features:
+   - navigation.sections
+   - navigation.expand
+   - search.highlight
+
+plugins:
+ - search
+
+extra_css:
+ - stylesheets/extra.css
+
+markdown_extensions:
+ - admonition
+ - pymdownx.highlight
+ - pymdownx.superfences
+ - toc:
+     permalink: true
+
 nav:
-  - Home: index.md
-  - Hardware:
-      - Overview: hardware/overview.md
-      - Connectors: hardware/connectors.md
-      - Power Flow: hardware/power.md
-      - Digital Inputs: hardware/digital_inputs.md
-      - Digital Outputs: hardware/digital_outputs.md
-      - NMEA0183: hardware/nmea0183.md
-      - Victron Ve.Direct: hardware/victron.md
-      - NMEA 2000: hardware/nmea2k.md
-      - Analog Inputs: hardware/analog_inputs.md
-      - ESP32 Brain: hardware/esp32.md
-  - Software:
-      - Overview: software/overview.md
-      - ESP32 Code:
-          - Main Code: software/esp32/main.md
-          - Important Functions: software/esp32/important.md
-          - Non-Important Functions: software/esp32/non_important.md
-      - Client Code:
-          - HTML: software/client/html.md
-          - JavaScript: software/client/javascript.md
-          - CSS: software/client/css.md
-  - Basic Use: basic_use.md
+ - Home: index.md
+ - Basic Use:
+   - Getting Started: basic-use/getting-started.md
+   - Installation: basic-use/installation.md
+   - Quick Start Guide: basic-use/quick-start.md
+   - Troubleshooting: basic-use/troubleshooting.md
+ - Hardware:
+   - Overview: hardware/index.md
+   - Connectors: hardware/connectors.md
+   - Main Power Flow: hardware/power-flow.md
+   - Digital Inputs: hardware/digital-inputs.md
+   - Digital Outputs: hardware/digital-outputs.md
+   - NMEA0183: hardware/nmea0183.md
+   - Victron VE.Direct: hardware/victron-vedirect.md
+   - NMEA2K: hardware/nmea2k.md
+   - Analog Inputs: hardware/analog-inputs.md
+   - ESP32 Brain: hardware/esp32-brain.md
+ - Software:
+   - Overview: software/index.md
+   - ESP32 Code:
+     - Main Code: software/esp32/main-code.md
+     - Important Functions: software/esp32/important-functions.md
+     - Non-Important Functions: software/esp32/non-important-functions.md
+   - Client Code:
+     - HTML: software/client/html.md
+     - JavaScript: software/client/javascript.md
+     - CSS: software/client/css.md
+
+copyright: Copyright &copy; 2025 Xengineering
