@@ -1,0 +1,26 @@
+site_name: Xengineering Regulator Docs
+site_url: https://docs.xengineering.net
+nav:
+  - Home: index.md
+  - Hardware:
+      - Overview: hardware/overview.md
+      - Connectors: hardware/connectors.md
+      - Power Flow: hardware/power.md
+      - Digital Inputs: hardware/digital_inputs.md
+      - Digital Outputs: hardware/digital_outputs.md
+      - NMEA0183: hardware/nmea0183.md
+      - Victron Ve.Direct: hardware/victron.md
+      - NMEA 2000: hardware/nmea2k.md
+      - Analog Inputs: hardware/analog_inputs.md
+      - ESP32 Brain: hardware/esp32.md
+  - Software:
+      - Overview: software/overview.md
+      - ESP32 Code:
+          - Main Code: software/esp32/main.md
+          - Important Functions: software/esp32/important.md
+          - Non-Important Functions: software/esp32/non_important.md
+      - Client Code:
+          - HTML: software/client/html.md
+          - JavaScript: software/client/javascript.md
+          - CSS: software/client/css.md
+  - Basic Use: basic_use.md
