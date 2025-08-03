@@ -1,6 +1,5 @@
 # Xengineering Regulator Documentation
 
-<<<<<<< HEAD
 Welcome to the comprehensive documentation for the Xengineering marine electrical regulator system.
 
 ## What You'll Find Here
@@ -30,8 +29,3 @@ The Xengineering Regulator is a sophisticated marine electrical management syste
 ---
 
 Choose your path above based on whether you're installing/using the system or developing/modifying it.
-=======
-FUCK YOU
-
-Welcome to the comprehensive documentation for the Xengineering marine electrical regulator system.
->>>>>>> af8f379
