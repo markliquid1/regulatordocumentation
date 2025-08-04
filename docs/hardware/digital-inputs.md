@@ -1,38 +1,36 @@
 # Digital Inputs
 
 ## Design Requirements
-- **Input voltage range**: 5V to 54V on FORCEFLOAT signal
+- **Input voltage range**: 5V to 54V on any of 6 digital input channels that use optical isolators
 - **Temperature range**: -40°F to 180°F (-40°C to 82°C)
-- **Lifetime target**: 10+ years at typical voltages, 3-6 years at maximum voltage
-- **Application**: Automotive ignition switch sensing with galvanic isolation
+- **Lifetime target**: 10+ years at typical voltages (~12V), 3-6 years at maximum voltage (54V)
 
-## How the Optocoupler Works
+## How an Optocoupler Works
 
-The VO615A optocoupler provides electrical isolation between input and output circuits using light transmission:
+The VO615A optocoupler provides electrical isolation between input circuit and ESP32 GPIO using light transmission:
 
 ### Input Side (LED)
-1. FORCEFLOAT voltage applied across current limiting resistor and IR LED
+1. Input voltage applied across current limiting resistor and IR LED
 2. Forward current flows through LED, producing infrared light
 3. Light intensity proportional to forward current
 
-### Output Side (Phototransistor)
+### Output (ESP32 GPIO) Side (Phototransistor)
 1. IR light strikes phototransistor base region
 2. Light creates electron-hole pairs, acting as base current
 3. Transistor turns on, allowing collector current to flow
 4. Collector current = LED current × CTR (Current Transfer Ratio)
 5. When sufficient collector current flows, voltage at collector drops low enough to register as logic LOW on ESP32
+6. Voltage otherwise pulled high (3.3V) by pull up resistor to 3.3V Supply
 
 ### Isolation Benefits
-- **Electrical isolation**: Input and output circuits share no electrical connection
-- **Noise immunity**: Ground loops and electrical noise cannot pass through light barrier
 - **Protection**: High voltage transients on input side cannot damage ESP32
-- **Safety**: Meets automotive isolation requirements for different voltage domains
+- **Flexibility**: Can accept input signals from 5V to 60V (lower life at higher voltages)
 
-## Final Component Selection
+## Component Selection
 
 ### Optocoupler: VO615A-9
 - **CTR**: 200-400% minimum (vs 50-600% for base VO615A)
-- **Reason**: Higher CTR enables reliable switching at low input voltages (5V)
+- **Reason**: Higher CTR enables reliable switching at low input voltages (5V), minimal extra cost
 
 ### Current Limiting Resistor: 6.8kΩ, 1W, 2512 SMD
 - **Calculation basis**:
@@ -50,8 +48,8 @@ The VO615A optocoupler provides electrical isolation between input and output ci
 | 54V | 7.7 mA | 770% of min | 3-6 years | 404 mW | 33.7 mA |
 
 **Power consumption notes**:
-- Power is consumed **only when FORCEFLOAT is active** (ignition switch ON)
-- **No power consumption when FORCEFLOAT = 0V** (ignition switch OFF)
+- Power is consumed **only when Input Signal is active** (ie external switch is ON)
+- **No power consumption when Input Signal = 0V** (ie external switch OFF)
 - LED power = Forward current × 1.43V (LED forward voltage)
 - Resistor power = Forward current² × 6.8kΩ
 
@@ -60,7 +58,7 @@ The VO615A optocoupler provides electrical isolation between input and output ci
 ### Pull-up Resistor Selection
 The ESP32 side requires a pull-up resistor from the optocoupler collector to 3.3V:
 
-**Existing value: 13kΩ**
+**Chosen value: 13kΩ**
 
 **Analysis**:
 - **Logic HIGH**: When LED is OFF, phototransistor is OFF, collector pulled to 3.3V through 13kΩ
@@ -93,7 +91,7 @@ The ESP32 side requires a pull-up resistor from the optocoupler collector to 3.3
 
 ## Design Validation
 - **5V switching**: 0.53mA with 200% CTR provides reliable switching despite being below 1mA datasheet specification
-- **54V survival**: 7.7mA current provides acceptable 3-6 year lifetime for automotive applications
+- **54V survival**: 7.7mA current provides marginal 3-6 year life if 100% duty cycle
 - **Temperature performance**: VO615A-9's high CTR provides margin for temperature derating across -40°F to 180°F range
 - **Component availability**: Both VO615A-9 and 6.8kΩ 1W resistors are standard, readily available parts
 
