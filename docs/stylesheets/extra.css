@@ -8,20 +8,185 @@
   --md-default-fg-color: #333333;
   --md-default-fg-color--light: #999999;
   --md-default-bg-color: #f5f5f5;
+  
+  /* Sidebar variables inspired by OpenPilot */
+  --sidebar-bg: #2c3e50;
+  --sidebar-section-header: #5dade2;
+  --sidebar-text-primary: #ecf0f1;
+  --sidebar-text-secondary: #bdc3c7;
+  --sidebar-hover-bg: rgba(93, 173, 226, 0.1);
+  --sidebar-active-bg: rgba(93, 173, 226, 0.2);
+  --sidebar-border: #34495e;
 }
 
+/* Main sidebar styling */
+.md-sidebar--primary {
+  background-color: var(--sidebar-bg);
+  border-right: 1px solid var(--sidebar-border);
+}
+
+.md-sidebar__scrollwrap {
+  background-color: var(--sidebar-bg);
+}
+
+/* Navigation container */
+.md-nav--primary {
+  background-color: var(--sidebar-bg);
+}
+
+/* Section headers (like GETTING STARTED, HOW-TO, etc.) */
+.md-nav__title {
+  background-color: var(--sidebar-bg);
+  color: var(--sidebar-section-header);
+  font-weight: 600;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 1.2rem 1.2rem 0.6rem 1.2rem;
+  margin: 0;
+  border: none;
+  box-shadow: none;
+}
+
+/* Remove the default title styling */
+.md-nav__title--site {
+  background-color: var(--sidebar-bg);
+  color: var(--sidebar-text-primary);
+  font-size: 1rem;
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: normal;
+  padding: 1rem 1.2rem;
+}
+
+/* Navigation lists */
+.md-nav__list {
+  padding: 0;
+  margin: 0;
+}
+
+/* Navigation items */
+.md-nav__item {
+  margin: 0;
+  padding: 0;
+}
+
+/* Navigation links */
+.md-nav__link {
+  color: var(--sidebar-text-primary);
+  padding: 0.5rem 1.2rem;
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 400;
+  border: none;
+  border-radius: 0;
+  transition: all 0.2s ease;
+  display: block;
+}
+
+/* Hover states */
+.md-nav__link:hover {
+  background-color: var(--sidebar-hover-bg);
+  color: var(--sidebar-text-primary);
+  text-decoration: none;
+}
+
+/* Active/current page */
+.md-nav__link--active {
+  background-color: var(--sidebar-active-bg);
+  color: var(--sidebar-section-header);
+  font-weight: 500;
+  border-left: 3px solid var(--sidebar-section-header);
+  padding-left: calc(1.2rem - 3px);
+}
+
+/* Nested navigation (sub-items) */
+.md-nav__item--nested > .md-nav__link {
+  color: var(--sidebar-text-secondary);
+  font-weight: 500;
+  font-size: 0.8rem;
+}
+
+.md-nav--secondary .md-nav__link {
+  color: var(--sidebar-text-secondary);
+  padding-left: 2rem;
+  font-size: 0.8rem;
+}
+
+.md-nav--secondary .md-nav__link:hover {
+  color: var(--sidebar-text-primary);
+  background-color: var(--sidebar-hover-bg);
+}
+
+.md-nav--secondary .md-nav__link--active {
+  color: var(--sidebar-section-header);
+  background-color: var(--sidebar-active-bg);
+}
+
+/* Search box styling */
+.md-search {
+  background-color: var(--sidebar-bg);
+  padding: 1rem 1.2rem;
+}
+
+.md-search__form {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 0.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.md-search__input {
+  background-color: transparent;
+  color: var(--sidebar-text-primary);
+  font-size: 0.875rem;
+}
+
+.md-search__input::placeholder {
+  color: var(--sidebar-text-secondary);
+}
+
+/* Remove default focus styles and add custom ones */
+.md-nav__link:focus {
+  background-color: var(--sidebar-hover-bg);
+  outline: none;
+}
+
+/* Ensure proper spacing between sections */
+.md-nav__item--section {
+  margin-top: 1.5rem;
+}
+
+.md-nav__item--section:first-child {
+  margin-top: 0;
+}
+
+/* Hide the secondary sidebar completely */
+.md-sidebar--secondary {
+  display: none !important;
+}
+
+/* Adjust main content links to use accent color */
 .md-typeset a {
   color: #00a19a;
 }
 
-.md-nav__link--active {
-  color: #00a19a;
+/* Responsive adjustments */
+@media screen and (max-width: 76.1875em) {
+  .md-nav--primary .md-nav__title--site {
+    background-color: var(--sidebar-bg);
+    color: var(--sidebar-text-primary);
+  }
 }
 
-.md-nav__link:hover {
-  color: #00a19a;
+/* Custom styling for external links (arrows) */
+.md-nav__link[href$="→"]::after,
+.md-nav__link[title*="→"]::after {
+  content: "→";
+  opacity: 0.6;
+  margin-left: 0.5rem;
 }
 
-.md-sidebar--secondary {
-  display: none !important;
+/* Site title link hover */
+.md-nav__title--site .md-nav__link:hover {
+  background-color: var(--sidebar-hover-bg);
 }
