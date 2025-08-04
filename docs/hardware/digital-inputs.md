@@ -1,6 +1,6 @@
 # Digital Inputs
 
-The system supports two distinct digital input architectures:
+The regulator has two different styles of digital input architectures, depending on the pin in question. They are all exposed in the Ethernet Connectors (see wiring diagrams).
 
 1. **Optocoupler Style**: Activated by voltage input (5-54V) 
 2. **Ground Style**: Activated by shorting input to ground 
@@ -135,7 +135,6 @@ ESP32_GPIO ──[13kΩ]──3.3V        |
 
 ## Schematic
 ```
-                         R57
 3.3V ──[10kΩ]──┬──[C51:1µF]──GND
                │
                ├──[D32:ESD]──GND
