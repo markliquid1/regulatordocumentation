@@ -8,7 +8,7 @@ The system supports two distinct digital input architectures:
 ---
 
 # Optocoupler Style Digital Inputs
-![Optocoupler Schematic](../images/opto_schematic.png)
+![Optocoupler Schematic](/images/opto_schematic.png)
 
 
 ## Design Requirements
