@@ -56,4 +56,11 @@ nav:
      - JavaScript: software/client/javascript.md
      - CSS: software/client/css.md
 
+ - Local Xengineering Ref Only:
+   - Partitioning: localstuff for Xengineering ref/esp32_partition_guide.md
+   - Setup Guide: localstuff for Xengineering ref/mkdocs_setup_guide.md
+   - OTA: localstuff for Xengineering ref/updated_ota_docs.md
+   - Planning: localstuff for Xengineering ref/updated_planning_doc.md
+
+
 copyright: Copyright &copy; 2025 Xengineering
