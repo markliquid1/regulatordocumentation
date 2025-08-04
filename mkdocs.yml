@@ -37,8 +37,8 @@ nav:
    - Overview: hardware/index.md
    - Connectors: hardware/connectors.md
    - Main Power Flow: hardware/power-flow.md
-   - Alternator Field Drive: field output.md  
-   - Digital Inputs: hardware/digital-inputs.md
+   - Alternator Field Drive: hardware/field output.md  
+   - Digital Inputs: hardware/optocoupler_design_summary.md
    - Digital Outputs: hardware/digital-outputs.md
    - NMEA0183: hardware/nmea0183.md
    - Victron VE.Direct: hardware/victron-vedirect.md
