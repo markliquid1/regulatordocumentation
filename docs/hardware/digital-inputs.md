@@ -1,4 +1,4 @@
-# VO615A Optocoupler Design Summary
+# Digital Inputs
 
 ## Design Requirements
 - **Input voltage range**: 5V to 54V on FORCEFLOAT signal
