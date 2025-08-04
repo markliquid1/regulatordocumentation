@@ -8,8 +8,8 @@ The system supports two distinct digital input architectures:
 ---
 
 # Optocoupler Style Digital Inputs
+![Optocoupler Schematic](../images/opto_schematic.png)
 
-![Optocoupler Schematic](docs/images/opto_schematic.png)
 
 ## Design Requirements
 - **Input voltage range**: 5V to 54V on any of 6 digital input channels that use optical isolators
