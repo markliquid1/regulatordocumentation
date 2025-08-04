@@ -1,35 +1,27 @@
 :root {
- --md-primary-fg-color: #0c0c0d;
- --md-primary-fg-color--light: #151516;
- --md-primary-fg-color--dark: #000000;
- --md-accent-fg-color: #00c0ff;
- --md-accent-fg-color--transparent: rgba(0, 192, 255, 0.1);
- 
- --md-default-fg-color: #ffffff;
- --md-default-fg-color--light: #999999;
- --md-default-bg-color: #0c0c0d;
- --md-default-bg-color--light: #151516;
-}
-
-[data-md-color-scheme="slate"] {
- --md-primary-fg-color: #0c0c0d;
- --md-accent-fg-color: #00c0ff;
- --md-default-bg-color: #0c0c0d;
- --md-default-fg-color: #ffffff;
+  --md-primary-fg-color: #333333;
+  --md-primary-fg-color--light: #444444;
+  --md-primary-fg-color--dark: #222222;
+  --md-accent-fg-color: #00a19a;
+  --md-accent-fg-color--transparent: rgba(0, 161, 154, 0.1);
+  
+  --md-default-fg-color: #333333;
+  --md-default-fg-color--light: #999999;
+  --md-default-bg-color: #f5f5f5;
 }
 
 .md-typeset a {
- color: #00c0ff;
+  color: #00a19a;
 }
 
 .md-nav__link--active {
- color: #00c0ff;
+  color: #00a19a;
 }
 
 .md-nav__link:hover {
- color: #00c0ff;
+  color: #00a19a;
 }
 
 .md-sidebar--secondary {
- display: none !important;
+  display: none !important;
 }
