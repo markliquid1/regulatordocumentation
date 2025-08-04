@@ -2,14 +2,14 @@
 
 The system supports two distinct digital input architectures:
 
-1. **Optocoupler Style**: Activated by voltage input (5-54V) 
-2. **Ground Style**: Activated by shorting input to ground 
+1. **Optocoupler Style**: Activated by voltage input (5-54V) - provides galvanic isolation
+2. **Ground Style**: Activated by shorting input to ground - simple, cost-effective
 
 ---
 
 # Optocoupler Style Digital Inputs
 
-![Schematic](images/opto_schematic.png)
+![Optocoupler Schematic](images/opto_schematic.png)
 
 ## Design Requirements
 - **Input voltage range**: 5V to 54V on any of 6 digital input channels that use optical isolators
@@ -114,6 +114,15 @@ The 1N4148WSX provides robust protection for all expected marine transient condi
 - **54V survival**: 7.7mA current provides marginal 3-6 year life if 100% duty cycle
 - **Temperature performance**: VO615A-9's high CTR provides margin for temperature derating across -40°F to 180°F range
 
+## Schematic Implementation
+```
+Input Signal ──[6.8kΩ, 1W]──[LED|──── GND
+                                 |
+                                 |  (Optical coupling)
+                                 |
+ESP32_GPIO ──[13kΩ]──3.3V        |
+        └─────────────[Collector|Emitter]──── GND
+```
 
 ## Bill of Materials (Optocoupler Style)
 - **U1**: VO615A-9 optocoupler
@@ -125,17 +134,7 @@ The 1N4148WSX provides robust protection for all expected marine transient condi
 
 # Ground Style Digital Inputs
 
-## Schematic
-```
-                         R57
-3.3V ──[10kΩ]──┬──[C51:1µF]──GND
-               │
-               ├──[D32:ESD]──GND
-               │
-               ├── Output Signal to ESP32 GPIO
-               │
-               └──[R5:500Ω]── Input Signal
-```
+![Ground Style Schematic](images/ground_input_schematic.png)
 
 ## Design Requirements
 - **Input method**: Short to ground activation
@@ -162,7 +161,7 @@ This design uses a voltage divider with current limiting and RC debounce filteri
 ## Component Analysis
 
 ### Current Limiting Resistor: R5 (500Ω)
-- **Function**: Limits current (in the case of stray voltage pickup or user error) and provides voltage division when Input Signal is grounded
+- **Function**: Limits current and provides voltage division when Input Signal is grounded
 - **Current calculation**: I = 3.3V / (500Ω + 10kΩ) = 0.31 mA when input grounded
 - **Power dissipation**: P = (0.31mA)² × 500Ω = 0.05 mW (negligible)
 - **Protection**: Prevents excessive current if Input Signal wiring has faults or picks up noise
@@ -201,7 +200,7 @@ This design uses a voltage divider with current limiting and RC debounce filteri
 
 **Power consumption notes**:
 - **Continuous power draw** regardless of input state (due to pull-up resistor)
-- Very low power consumption 
+- Very low power consumption suitable for battery applications
 - Power draw is essentially constant whether switch is open or closed
 
 ### Voltage Levels
@@ -214,10 +213,21 @@ This design uses a voltage divider with current limiting and RC debounce filteri
 ## Design Validation
 - **Noise immunity**: 1µF capacitor filters electrical noise effectively
 - **ESD protection**: 25V clamp diode protects against static discharge
-- **Current limiting**: 500Ω resistor resists damage from wiring faults
+- **Current limiting**: 500Ω resistor prevents damage from wiring faults
 - **Low power**: <1.1mW continuous power consumption
 - **Reliable switching**: Large noise margins ensure reliable operation
 
+## Schematic Implementation
+```
+                         R57
+3.3V ──[10kΩ]──┬──[C51:1µF]──GND
+               │
+               ├──[D32:ESD]──GND
+               │
+               ├── Output Signal to ESP32 GPIO
+               │
+               └──[R5:500Ω]── Input Signal
+```
 
 ## Bill of Materials (Ground Style)
 - **R5**: 500Ω ±5%, 1/8W, 0603 SMD resistor
@@ -229,6 +239,7 @@ This design uses a voltage divider with current limiting and RC debounce filteri
 
 | Feature | Optocoupler Style | Ground Style |
 |---------|------------------|--------------|
+| **Isolation** | Full galvanic isolation | No isolation |
 | **Input Range** | 5V to 54V | Ground short only |
 | **Power (Active)** | 1.4-33.7 mA@12V | 0.085 mA@12V |
 | **Power (Inactive)** | 0.07 mA@12V | 0.091 mA@12V |
