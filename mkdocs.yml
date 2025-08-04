@@ -1,6 +1,6 @@
-site_name: Xengineering Documentation
+site_name: Xengineering Alternator Regulator Documentation
 site_url: https://docs.xengineering.net
-site_description: Technical documentation for Xengineering marine electrical regulator system
+site_description: Technical documentation for Xengineering marine open-source alternator regulator system
 site_author: Xengineering
 
 repo_name: markliquid1/regulatordocumentation
