@@ -47,12 +47,12 @@ nav:
    - Sensor Systems: software/esp32/sensor_systems.md
    - Communication Interfaces: software/esp32/communication_interfaces.md
    - Field Control: software/esp32/field_control_docs.md
-   - Learning Mode: software/esp32/learning_mode_docs.md
+   - Learning Mode: software/esp32/Learning_Mode_System.md
    - Battery Management: software/esp32/battery_management_docs.md
-   - Network & Web System: software/esp32/network_web_system.md
+   - Network & Web System: software/esp32/network_web_system_docs.md
    - Safety & Monitoring: software/esp32/safety_monitoring_docs.md
    - Advanced Features: software/esp32/advanced_features_docs.md
-   - Configuration: software/esp32/configuration_docs.md
+   - Configuration: software/esp32/configuration_development_docs.md
  - Software - Client:
    - Web Interface Overview: software/client/web-interface-overview.md
    - HTML Structure: software/client/html.md
