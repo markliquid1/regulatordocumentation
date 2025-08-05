@@ -51,7 +51,9 @@ Input Signal ──[R1]──┬──[R2]──GND
 - **Input impedance**: >1MΩ (isolates high-impedance voltage dividers)
 
 #### ADC (ADS1115)
-- **Resolution**: 16-bit with ±4.096V range (GAIN = 1 setting)
+- **Resolution**: 16-bit with ±4.096V range (GAIN = 1 setting) * but input range is limited to 0–3.3V by supply rail
+
+
 - **Interface**: I2C communication
 - **Sample rate**: 128 SPS recommended for low noise
 - **Effective input range**: 0-3.6V (limited by 3.3V supply)
@@ -361,13 +363,13 @@ Input Signal ──[R1]──┬──[R2]──GND
 ### ADS1115 Configuration
 
 **Recommended Settings**
-- **PGA (Programmable Gain Amplifier)**: ±4.096V (GAIN = 1)
+- **PGA (Programmable Gain Amplifier)**: ±4.096V (GAIN = 1) *but input range is limited to 0–3.3V by supply rail
 - **Sample rate**: 128 SPS for optimal noise performance
 - **Operating mode**: Single-shot or continuous conversion
 - **Comparator**: Disabled for normal operation
 
 **Resolution Analysis**
-- **ADC range**: ±4.096V full scale
+- **ADC range**: ±4.096V full scale * but input range is limited to 0–3.3V by supply rail
 - **16-bit resolution**: 0.125mV per LSB
 - **Effective resolution**: 0.125mV / divider_ratio per input LSB
 
