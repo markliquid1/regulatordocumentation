@@ -412,7 +412,7 @@ The documented 5V/10kΩ configuration suffers from:
 | 7 | OUT2 | Op Amp B Output | **ADS1115 Channel 1 (A1)** |
 | 8 | OUT3 | Op Amp C Output | **ADS1115 Channel 2 (A2)** |
 | 9 | IN3- | Op Amp C Inverting Input | **Connect to Pin 8 (unity gain)** |
-| 10 | IN3+ | Op Amp C Non-inverting Input | **Channel 2 voltage divider** |
+| 10 | IN3+ | Op Amp C Non-inverting Input | **LM2907_OUT DIRECT NO DIVIDER** |
 | 11 | V- | Negative Power Supply | **GND (0V)** |
 | 12 | IN4+ | Op Amp D Non-inverting Input | **Channel 3 voltage divider** |
 | 13 | IN4- | Op Amp D Inverting Input | **Connect to Pin 14 (unity gain)** |
