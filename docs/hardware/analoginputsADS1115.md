@@ -1,10 +1,10 @@
-# Analog Inputs System - Complete Engineering Documentation
+# Analog Inputs System - ADS1115
 
 ## Overview
 
-The regulator features a 4-channel analog input system designed for precision voltage measurements in marine and automotive applications. The system uses an ADS1115 16-bit ADC with I2C interface, combined with precision voltage divider architecture and op-amp buffering for high-impedance, accurate measurements with minimal power consumption.
+The regulator features an ADS1115 4 channel 16-bit ADC with I2C interface and op-amp buffering for high-impedance, accurate measurements with negligible power consumption in all conditions.
 
-## Critical System Limitations
+## Critical Design Limitations
 
 ### Op-Amp Output Voltage Constraints
 
