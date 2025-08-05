@@ -42,12 +42,12 @@ nav:
    - Power Supply: hardware/power-supply.md
    - ESP32 Controller: hardware/esp32-controller.md
    - Connectors & Wiring: hardware/connectors.md
- - Software - ESP32:
-   - System Overview: software/esp32/system-overview.md
-   - Sensor Systems: software/esp32/sensor-systems.md
-   - Communication Interfaces: software/esp32/communication-interfaces.md
-   - Field Control: software/esp32/field-control.md
-   - Learning Mode: software/esp32/learning-mode.md
+  - Software - ESP32:
+      - System Overview: software/esp32/system-overview.md
+      - Sensor Systems: software/esp32/sensor-systems.md
+      - Communication Interfaces: software/esp32/communication-interfaces.md
+      - Field Control: software/esp32/field-control.md
+      - Learning Mode: software/esp32/learning-mode.md
    - Battery Management: software/esp32/battery-management.md
    - Network & Web System: software/esp32/network-web-system.md
    - Safety & Monitoring: software/esp32/safety-monitoring.md
