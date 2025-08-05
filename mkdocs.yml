@@ -34,33 +34,35 @@ nav:
    - Quick Start Guide: basic-use/quick-start.md
    - Troubleshooting: basic-use/troubleshooting.md
  - Hardware:
-   - Overview: hardware/index.md
-   - Connectors: hardware/connectors.md
-   - Main Power Flow: hardware/power-flow.md
-   - Alternator Field Drive: hardware/field output.md  
+   - System Architecture: hardware/system-architecture.md
    - Digital Inputs: hardware/digital-inputs.md
    - Digital Outputs: hardware/digital-outputs.md
-   - NMEA0183: hardware/nmea0183.md
-   - Victron VE.Direct: hardware/victron-vedirect.md
-   - NMEA2K: hardware/nmea2k.md
+   - Alternator Field Drive: hardware/field-output.md
    - Analog Inputs: hardware/analog-inputs.md
-   - ESP32 Brain: hardware/esp32-brain.md
- - Software:
-   - Overview: software/index.md
-   - ESP32 Code:
-     - Main Code: software/esp32/main-code.md
-     - Important Functions: software/esp32/important-functions.md
-     - Non-Important Functions: software/esp32/non-important-functions.md
-   - Client Code:
-     - HTML: software/client/html.md
-     - JavaScript: software/client/javascript.md
-     - CSS: software/client/css.md
-
+   - Power Supply: hardware/power-supply.md
+   - ESP32 Controller: hardware/esp32-controller.md
+   - Connectors & Wiring: hardware/connectors.md
+ - Software - ESP32:
+   - System Overview: software/esp32/system-overview.md
+   - Sensor Systems: software/esp32/sensor-systems.md
+   - Communication Interfaces: software/esp32/communication-interfaces.md
+   - Field Control: software/esp32/field-control.md
+   - Learning Mode: software/esp32/learning-mode.md
+   - Battery Management: software/esp32/battery-management.md
+   - Network & Web System: software/esp32/network-web-system.md
+   - Safety & Monitoring: software/esp32/safety-monitoring.md
+   - Advanced Features: software/esp32/advanced-features.md
+   - Configuration: software/esp32/configuration.md
+ - Software - Client:
+   - Web Interface Overview: software/client/web-interface-overview.md
+   - HTML Structure: software/client/html.md
+   - JavaScript Logic: software/client/javascript.md
+   - CSS Styling: software/client/css.md
+   - Real-time Data Flow: software/client/realtime-data.md
  - Local Xengineering Ref Only:
    - Partitioning: localstuff for Xengineering ref/esp32_partition_guide.md
    - MkDocs Guide: localstuff for Xengineering ref/mkdocs_setup_guide.md
    - OTA: localstuff for Xengineering ref/updated_ota_docs V3.md
    - Planning: localstuff for Xengineering ref/updated_planning_doc.md
-
 
 copyright: Copyright &copy; 2025 Xengineering
