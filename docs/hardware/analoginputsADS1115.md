@@ -498,6 +498,7 @@ The documented 5V/10kΩ configuration suffers from:
 ✅ **Marine environment**: Ultra-low power, high accuracy, EMI immune design  
 ✅ **Battery compatibility**: 129µA total consumption suitable for extended operation  
 ✅ **Fault tolerance**: Robust protection against high-voltage transients and DC faults
+
 ⚠️ **Low-signal limitations**: Minimum voltage constraints affect idle RPM and cold temperature detection
 
 ---
@@ -568,24 +569,22 @@ The documented 5V/10kΩ configuration suffers from:
 - **Sensor requirements**: 2.5V center, ±2V swing for full scale
 - **Resolution**: 0.02A theoretical, ~1A practical accuracy
 - **Power impact**: 10.8µA (minimal)
-- **Limitation**: Cannot measure extreme negative currents below -246A (exceeds sensor range anyway)
 
 ### Channel 2: RPM Monitoring
 - **Input requirements**: Minimum 50mV (±50mV) for reliable detection  
 - **Recommended input**: 100mV+ for best performance
-- **Major improvement**: Direct connection (no voltage divider) reduces minimum detectable frequency from 16Hz to **8Hz**
 - **Supported configurations**:
   - Multi-pulse alternator stator (typical marine/automotive)
-  - Single pulse per revolution (slow engines) - **significantly improved with 8Hz minimum**
+  - Single pulse per revolution (slow engines) - 
 - **Frequency range**: **8Hz to 2640Hz** (optimized from 16Hz-4000Hz)
-- **Engine RPM range**: **Dramatically improved minimum RPM detection**:
+- **Engine RPM range**: 
   - Conservative (6-pulse, 1.5:1): **53 RPM** to **17,600 RPM**
   - Aggressive (7-pulse, 2.5:1): **27 RPM** to **9,041 RPM**  
   - 1-pulse direct: **479 RPM** to **158,400 RPM**
 - **Signal types**: Both sine and square waves work identically
 - **DC fault protection**: Safe up to 56V sustained DC input
 - **Power impact**: **Eliminated** (no voltage divider power consumption)
-- **Design optimization**: Removing voltage divider provides superior idle detection while maintaining adequate maximum RPM for marine applications
+
 
 ### Channel 3: Temperature Monitor
 - **Current configuration**: 10kΩ pullup at 5V supply
@@ -602,8 +601,6 @@ The documented 5V/10kΩ configuration suffers from:
 - **Total power consumption**: 193µA equivalent at 12V (with 5V Channel 3)
 - **Battery life impact**: Minimal (<0.01% daily consumption on 100Ah battery)
 - **Environmental rating**: Suitable for marine applications (-40°C to +85°C)
-- **EMI performance**: Excellent noise immunity with integrated filtering
-- **Calibration**: Precision components minimize calibration requirements
 - **Op-amp trade-offs**: TLV9154IDR rail-to-rail output provides best available low-voltage performance, but fundamental ~10mV limitation still constrains minimum measurements
 - **ADC reality check**: Actual 0-3.3V range, not advertised ±4.096V range
 - **Configuration status**: 
@@ -620,7 +617,7 @@ The documented 5V/10kΩ configuration suffers from:
 **Channel-Specific Impacts**:
 - **Channel 0**: No practical impact (batteries never operate at 0.21V minimum)
 - **Channel 1**: No practical impact (minimum -246A within sensor ±200A range)
-- **Channel 2**: **Significantly improved idle detection** - minimum 8Hz (27-479 RPM depending on configuration)
+- **Channel 2**: - minimum 8Hz (27-479 RPM depending on configuration)
 - **Channel 3**: **Cold temperature limitation** - 5V design cannot measure below ~15°C
 
 **Design Philosophy Trade-offs**:
@@ -646,4 +643,3 @@ This analog input system has been thoroughly analyzed for both capabilities and 
 
 **Fault Protection**: Robust design handles overvoltage conditions and DC faults without component damage, **with design optimizations minimizing the cost of protection**.
 
-**Environmental Robustness**: Industrial-grade components selected for marine temperature and EMI requirements.
