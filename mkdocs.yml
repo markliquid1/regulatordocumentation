@@ -50,9 +50,9 @@ nav:
    - Learning Mode: software/esp32/learning_mode_docs.md
    - Battery Management: software/esp32/battery_management_docs.md
    - Network & Web System: software/esp32/network_web_system.md
-   - Safety & Monitoring: software/esp32/safety_monitoring.md
-   - Advanced Features: software/esp32/advanced_features.md
-   - Configuration: software/esp32/configuration.md
+   - Safety & Monitoring: software/esp32/safety_monitoring_docs.md
+   - Advanced Features: software/esp32/advanced_features_docs.md
+   - Configuration: software/esp32/configuration_docs.md
  - Software - Client:
    - Web Interface Overview: software/client/web-interface-overview.md
    - HTML Structure: software/client/html.md
