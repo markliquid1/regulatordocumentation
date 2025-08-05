@@ -148,30 +148,30 @@ ESP32_GPIO ──[13kΩ]──3.3V        |
 - **Input method**: Short to ground activation
 - **Temperature range**: -40°F to 180°F (-40°C to 82°C)
 - **Debouncing**: Hardware RC filter for switch bounce elimination
-- **Protection**: ESD protection and current limiting for exposed inputs
+- **Protection**: ESD protection for exposed inputs
 
 ## How Ground Style Inputs Work
 
-This design uses a voltage divider with current limiting and RC debounce filtering:
+This design uses RC debounce filtering:
 
 ### Normal Operation (Switch Open)
 1. Input Signal is not connected (floating or open)
-2. No current flows through R5 (500Ω)
-3. Pull-up resistor R57 (10kΩ) pulls Output Signal to 3.3V
+2. No current flows to Ground
+3. Pull-up resistor R57 (10kΩ) pulls GPIO pin to 3.3V
 4. ESP32 GPIO reads logic HIGH (3.3V)
 
 ### Activated Operation (Switch Closed to Ground)
 1. Input Signal is shorted to ground by external switch/contact
-2. Current flows from 3.3V through R57 (13kΩ) to ground via the switch
+2. Current flows from 3.3V through R57 (10kΩ) to ground via the switch
 3. Junction voltage: V_out = **0V** (direct connection to ground)
 4. ESP32 GPIO reads logic LOW (0V << 0.8V threshold)
 
 ## Component Analysis
 
-### Pull-up Resistor: R57 (13kΩ)
+### Pull-up Resistor: R57 (10kΩ)
 - **Function**: Pulls Output Signal HIGH when Input Signal is not grounded
-- **Power when input open**: P = 3.3V²/13kΩ = 0.84 mW
-- **Power when input grounded**: P = 3.3V²/13kΩ = 0.84 mW (continuous)
+- **Power when input open**: P = 3.3V²/10kΩ = 1.089 mW
+- **Power when input grounded**: P = 3.3V²/10kΩ = 1.089 mW (continuous)
 
 ### Debounce Capacitor: C51 (1µF)
 - **Function**: Filters switch bounce and electrical noise
@@ -193,10 +193,10 @@ This design uses a voltage divider with current limiting and RC debounce filteri
 
 ### Power Consumption
 
-| Condition | Current | Power | Power (mA@12V) |
-|-----------|---------|-------|----------------|
-| **Input Open** | 0.25 mA | 0.84 mW | 0.07 mA |
-| **Input Grounded** | 0.25 mA | 0.84 mW | 0.07 mA |
+| Condition           | Current | Power    | Power (mA@12V) |
+|--------------------|---------|----------|----------------|
+| **Input Open**     | 0.33 mA | 1.089 mW | 0.09 mA        |
+| **Input Grounded** | 0.33 mA | 1.089 mW | 0.09 mA        |
 
 **Power consumption notes**:
 - **Continuous power draw** regardless of input state (due to pull-up resistor)
@@ -242,7 +242,6 @@ From the ESP32-S3 datasheet:
 
 **Espressif's official position** (from ESP32 forum): "The ESP32 has internal snapback devices in order to handle ESD on all pins. The external ESD protector is simply a belts-and-braces approach to make sure someone doesn't accidentally zap through the internal protections."
 
-
 ### Design Validation for ESD Protection
 
 **IEC 61000-4-2 Contact Discharge Test** (typical requirement):
@@ -261,24 +260,23 @@ The design provides robust ESD protection through the combination of external TV
 - **Noise immunity**: 1µF capacitor filters electrical noise effectively
 - **ESD protection**: 25V clamp diode protects against static discharge
 - **Current limiting**: No current limiting resistor - relies on ESP32 internal protection
-- **Low power**: <1mW continuous power consumption
+- **Low power**: <1.1mW continuous power consumption
 - **Reliable switching**: Large noise margins ensure reliable operation
 
-
 ## Bill of Materials (Ground Style)
-- **R57**: 13kΩ ±5%, 1/8W, 0603 SMD pull-up resistor  
+- **R57**: 10kΩ ±5%, 1/8W, 0603 SMD pull-up resistor  
 - **C51**: 1µF ±10%, X7R, 0603 SMD capacitor
 - **D32**: ESD5Z25.0T1G TVS diode, SOD-523 SMD
 
 ## Comparison: Optocoupler vs Ground Style
 
-| Feature | Optocoupler Style | Ground Style |
-|---------|------------------|--------------|
-| **Input Range** | 5V to 54V | Ground short only |
-| **Power (Active)** | 1.4-33.7 mA@12V | 0.085 mA@12V |
-| **Power (Inactive)** | 0.07 mA@12V | 0.091 mA@12V |
-| **Component Count** | 4 components | 4 components |
-| **Cost** | Higher (optocoupler) | Lower (passive components) |
-| **Complexity** | Medium | Low |
-| **Noise Immunity** | Excellent | Good |
-| **Applications** | High voltage, isolation required | Simple switches, low voltage |
+| Feature             | Optocoupler Style     | Ground Style        |
+|---------------------|-----------------------|---------------------|
+| **Input Range**     | 5V to 54V             | Ground short only   |
+| **Power (Active)**  | 1.4–33.7 mA @ 12V     | 0.09 mA @ 12V       |
+| **Power (Inactive)**| 0.07 mA @ 12V         | 0.09 mA @ 12V       |
+| **Component Count** | 4 components          | 4 components        |
+| **Cost**            | Higher (optocoupler)  | Lower (passive)     |
+| **Complexity**      | Medium                | Low                 |
+| **Noise Immunity**  | Excellent             | Good                |
+| **Applications**    | High voltage, isolation | Simple switches, low voltage |
