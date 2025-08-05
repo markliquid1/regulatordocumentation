@@ -12,13 +12,9 @@
         <meta name="author" content="Xengineering">
       
       
-        <link rel="canonical" href="https://docs.xengineering.net/hardware/digital-inputs/">
+        <link rel="canonical" href="https://docs.xengineering.net/hardware/field%20output%20/">
       
       
-        <link rel="prev" href="../../basic-use/troubleshooting/">
-      
-      
-        <link rel="next" href="../digital-outputs/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -26,7 +22,7 @@
     
     
       
-        <title>Digital Inputs - Xengineering Alternator Regulator Documentation</title>
+        <title>Alternator Field Drive - Xengineering Alternator Regulator Documentation</title>
       
     
     
@@ -70,7 +66,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#digital-inputs" class="md-skip">
+        <a href="#alternator-field-drive" class="md-skip">
           Skip to content
         </a>
       
@@ -106,7 +102,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Digital Inputs
+              Alternator Field Drive
             
           </span>
         </div>
@@ -389,8 +385,6 @@
       
   
   
-    
-  
   
   
     
@@ -403,11 +397,13 @@
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
         
           
           <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
@@ -423,7 +419,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             Hardware
@@ -457,19 +453,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../digital-inputs/" class="md-nav__link">
         
   
   
@@ -480,7 +467,6 @@
   
 
       </a>
-      
     </li>
   
 
@@ -1244,6 +1230,137 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#purpose" class="md-nav__link">
+    <span class="md-ellipsis">
+      Purpose
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#source-signal" class="md-nav__link">
+    <span class="md-ellipsis">
+      Source Signal
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#main-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      Main Components
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#operating-voltages" class="md-nav__link">
+    <span class="md-ellipsis">
+      Operating Voltages
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#power-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      Power Management
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#performance-goals" class="md-nav__link">
+    <span class="md-ellipsis">
+      Performance Goals
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Notes
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mosfet-thermal-and-current-limit-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      MOSFET Thermal and Current Limit Analysis
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="MOSFET Thermal and Current Limit Analysis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#key-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key Parameters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#max-power-dissipation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Max Power Dissipation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#max-continuous-current" class="md-nav__link">
+    <span class="md-ellipsis">
+      Max Continuous Current
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#practical-limits" class="md-nav__link">
+    <span class="md-ellipsis">
+      Practical Limits
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#revision-info" class="md-nav__link">
+    <span class="md-ellipsis">
+      Revision Info
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -1261,402 +1378,134 @@
   
 
 
-<h1 id="digital-inputs">Digital Inputs<a class="headerlink" href="#digital-inputs" title="Permanent link">&para;</a></h1>
-<p>The regulator has two different styles of digital input architectures, depending on the pin in question. They are all exposed in the Ethernet Connectors (see wiring diagrams).</p>
-<ol>
-<li><strong>Optocoupler Style</strong>: Activated by voltage input (5-54V) </li>
-<li><strong>Ground Style</strong>: Activated by shorting input to ground </li>
-</ol>
-<hr />
-<h1 id="optocoupler-style-digital-inputs">Optocoupler Style Digital Inputs<a class="headerlink" href="#optocoupler-style-digital-inputs" title="Permanent link">&para;</a></h1>
-<p><img src="/images/opto_schematic.png" alt="Optocoupler Schematic" style="max-width: 600px; display: block; margin: 1em auto;" /></p>
-<h2 id="design-requirements">Design Requirements<a class="headerlink" href="#design-requirements" title="Permanent link">&para;</a></h2>
+<h1 id="alternator-field-drive">Alternator Field Drive<a class="headerlink" href="#alternator-field-drive" title="Permanent link">&para;</a></h1>
+<h2 id="purpose">Purpose<a class="headerlink" href="#purpose" title="Permanent link">&para;</a></h2>
+<p>This circuit provides a high-side PWM drive to the gate of the N-channel MOSFET controlling the alternator field coil. The goal is to achieve efficient, reliable operation up to 100kHz PWM while minimizing quiescent current when the circuit is inactive.</p>
+<h2 id="source-signal">Source Signal<a class="headerlink" href="#source-signal" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong>Input voltage range</strong>: 5V to 54V on any of 6 digital input channels that use optical isolators</li>
-<li><strong>Temperature range</strong>: -40°F to 180°F (-40°C to 82°C)</li>
-<li><strong>Lifetime target</strong>: 10+ years at typical voltages (~12V), 3-6 years at maximum voltage (54V)</li>
+<li><strong>Origin</strong>: ESP32 PWM-capable GPIO</li>
+<li><strong>Voltage</strong>: 3.3V logic level</li>
 </ul>
-<h2 id="how-an-optocoupler-works">How an Optocoupler Works<a class="headerlink" href="#how-an-optocoupler-works" title="Permanent link">&para;</a></h2>
-<p>The VO615A optocoupler provides electrical isolation between input circuit and ESP32 GPIO using light transmission:</p>
-<h3 id="input-side-led">Input Side (LED)<a class="headerlink" href="#input-side-led" title="Permanent link">&para;</a></h3>
-<ol>
-<li>Input voltage applied across current limiting resistor and IR LED</li>
-<li>Forward current flows through LED, producing infrared light</li>
-<li>Light intensity proportional to forward current</li>
-</ol>
-<h3 id="output-esp32-gpio-side-phototransistor">Output (ESP32 GPIO) Side (Phototransistor)<a class="headerlink" href="#output-esp32-gpio-side-phototransistor" title="Permanent link">&para;</a></h3>
-<ol>
-<li>IR light strikes phototransistor base region</li>
-<li>Light creates electron-hole pairs, acting as base current</li>
-<li>Transistor turns on, allowing collector current to flow</li>
-<li>Collector current = LED current × CTR (Current Transfer Ratio)</li>
-<li>When sufficient collector current flows, voltage at collector drops low enough to register as logic LOW on ESP32</li>
-<li>Voltage otherwise pulled high (3.3V) by pull up resistor to 3.3V Supply</li>
-</ol>
-<h3 id="isolation-benefits">Isolation Benefits<a class="headerlink" href="#isolation-benefits" title="Permanent link">&para;</a></h3>
-<ul>
-<li><strong>Protection</strong>: High voltage transients on input side cannot damage ESP32</li>
-<li><strong>Flexibility</strong>: Can accept input signals from 5V to 60V (lower life at higher voltages)</li>
-</ul>
-<h2 id="component-selection">Component Selection<a class="headerlink" href="#component-selection" title="Permanent link">&para;</a></h2>
-<h3 id="optocoupler-vo615a-9">Optocoupler: VO615A-9<a class="headerlink" href="#optocoupler-vo615a-9" title="Permanent link">&para;</a></h3>
-<ul>
-<li><strong>CTR</strong>: 200-400% minimum (vs 50-600% for base VO615A)</li>
-<li><strong>Reason</strong>: Higher CTR enables reliable switching at low input voltages (5V), minimal extra cost</li>
-</ul>
-<h3 id="current-limiting-resistor-68k-1w-2512-smd">Current Limiting Resistor: 6.8kΩ, 1W, 2512 SMD<a class="headerlink" href="#current-limiting-resistor-68k-1w-2512-smd" title="Permanent link">&para;</a></h3>
-<ul>
-<li><strong>Calculation basis</strong>:</li>
-<li>At 5V: IF = (5V - 1.43V) / 6.8kΩ = 0.53 mA</li>
-<li>At 54V: IF = (54V - 1.43V) / 6.8kΩ = 7.7 mA</li>
-<li><strong>Power rating</strong>: 404mW at 54V requires 1W resistor for safety margin</li>
-</ul>
-<h3 id="pull-up-resistor-13k-0603-smd">Pull-up Resistor: 13kΩ, 0603 SMD<a class="headerlink" href="#pull-up-resistor-13k-0603-smd" title="Permanent link">&para;</a></h3>
-<ul>
-<li><strong>Logic HIGH</strong>: When LED is OFF, phototransistor is OFF, collector pulled to 3.3V through 13kΩ</li>
-<li><strong>Logic LOW</strong>: When LED is ON, phototransistor conducts, pulling collector toward ground</li>
-<li><strong>Switching threshold</strong>: ESP32 typically switches at ~1.65V (50% of 3.3V)</li>
-</ul>
-<h2 id="performance-analysis">Performance Analysis<a class="headerlink" href="#performance-analysis" title="Permanent link">&para;</a></h2>
+<h2 id="main-components">Main Components<a class="headerlink" href="#main-components" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
-<th>Input Voltage</th>
-<th>LED Current</th>
-<th>vs Min (1mA)</th>
-<th>Lifetime</th>
-<th>Power (Watts)</th>
-<th>Power (mA@12V)</th>
+<th>Component</th>
+<th>Function</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>5V</td>
-<td>0.53 mA</td>
-<td>53% of min</td>
-<td>20+ years</td>
-<td>1.9 mW</td>
-<td>0.16 mA</td>
+<td>LM5109A</td>
+<td>High-speed high-side gate driver (10-12V VDD)</td>
 </tr>
 <tr>
-<td>12V</td>
-<td>1.57 mA</td>
-<td>157% of min</td>
-<td>20+ years</td>
-<td>17 mW</td>
-<td>1.4 mA</td>
+<td>MT3608</td>
+<td>Boost converter from 5V to 12V for gate driver</td>
 </tr>
 <tr>
-<td>28V</td>
-<td>3.91 mA</td>
-<td>391% of min</td>
-<td>10+ years</td>
-<td>104 mW</td>
-<td>8.7 mA</td>
+<td>BSC072N08NS5</td>
+<td>N-channel MOSFET to switch field coil</td>
 </tr>
 <tr>
-<td>54V</td>
-<td>7.7 mA</td>
-<td>770% of min</td>
-<td>3-6 years</td>
-<td>404 mW</td>
-<td>33.7 mA</td>
+<td>74LVC1G04</td>
+<td>Inverter to enable/disable the 5V rail via logic</td>
+</tr>
+<tr>
+<td>BSS84</td>
+<td>P-MOSFET to gate 74LVC1G04 enable logic</td>
+</tr>
+<tr>
+<td>Bootstrap Diode (BAS16LT1G)</td>
+<td>Charges bootstrap cap during low-side on</td>
+</tr>
+<tr>
+<td>Bootstrap Cap (100nF–1uF, 100V)</td>
+<td>Supplies transient gate drive voltage</td>
+</tr>
+<tr>
+<td>Gate Resistor (~10Ω)</td>
+<td>Limits gate inrush and dampens ringing</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Power consumption notes</strong>:
-- Power is consumed <strong>only when Input Signal is active</strong> (ie external switch is ON)
-- <strong>No power consumption when Input Signal = 0V</strong> (ie external switch OFF)
-- LED power = Forward current × 1.43V (LED forward voltage)
-- Resistor power = Forward current² × 6.8kΩ</p>
-<h2 id="protection-diode-1n4148wsx">Protection Diode: 1N4148WSX<a class="headerlink" href="#protection-diode-1n4148wsx" title="Permanent link">&para;</a></h2>
-<h3 id="function-reverse-voltage-protection">Function: Reverse Voltage Protection<a class="headerlink" href="#function-reverse-voltage-protection" title="Permanent link">&para;</a></h3>
-<p>The 1N4148WSX diode provides critical protection for the optocoupler LED:</p>
+<h2 id="operating-voltages">Operating Voltages<a class="headerlink" href="#operating-voltages" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong>Normal operation</strong>: Diode is reverse biased across LED, no current flows</li>
-<li><strong>Reverse voltage protection</strong>: If Input Signal goes negative, diode conducts and clamps reverse voltage to ~0.7V</li>
-<li><strong>Prevents LED damage</strong>: VO615A LED can only handle 6V reverse voltage maximum</li>
+<li><strong>Logic Source</strong>: 3.3V from ESP32</li>
+<li><strong>Driver Supply (VDD)</strong>: 10–12V from MT3608</li>
+<li><strong>PWM Frequency Target</strong>: Up to 100kHz</li>
 </ul>
-<h3 id="why-critical">Why Critical<a class="headerlink" href="#why-critical" title="Permanent link">&para;</a></h3>
+<h2 id="power-management">Power Management<a class="headerlink" href="#power-management" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong>Load dump transients</strong>: Long wires / disconnection can create voltage spikes</li>
-<li><strong>Electrical noise</strong>: Marine electrical systems are electrically noisy environments</li>
+<li>5V supply is software-controlled via Field Enable + ON/OFF + Alert! logic</li>
+<li>If 5V is off, MT3608 also ceases operation (since input is cut), minimizing idle current</li>
+<li>No TVS or gate clamp added (assumes clean layout and short traces)</li>
 </ul>
-<h3 id="specifications-failure-limits">Specifications &amp; Failure Limits<a class="headerlink" href="#specifications-failure-limits" title="Permanent link">&para;</a></h3>
+<h2 id="performance-goals">Performance Goals<a class="headerlink" href="#performance-goals" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong>Forward voltage</strong>: 0.7V typical, 1.25V maximum at 10mA</li>
-<li><strong>Reverse voltage rating</strong>: 75V maximum</li>
-<li><strong>Forward current rating</strong>: 300mA continuous, 2A peak (1µs pulse)</li>
-<li><strong>Power dissipation</strong>: 350mW at 25°C</li>
+<li>Reliable switching with &gt;10V Vgs</li>
+<li>Minimal idle current draw when disabled</li>
+<li>Efficient field coil control with minimal MOSFET dissipation</li>
 </ul>
-<h3 id="failure-analysis">Failure Analysis<a class="headerlink" href="#failure-analysis" title="Permanent link">&para;</a></h3>
-<p><strong>The diode will fail if:</strong>
-- <strong>Forward current &gt; 300mA continuous</strong>: At maximum negative transient
-- <strong>Reverse voltage &gt; 75V</strong>: If positive Input Signal exceeds 75V (well above our 54-60V max)
-- <strong>Power dissipation &gt; 350mW</strong>: P = If × 0.7V, so fails at If &gt; 500mA</p>
-<p>The 1N4148WSX provides robust protection for all expected marine transient conditions.</p>
-<h2 id="system-power-consumption">System Power Consumption<a class="headerlink" href="#system-power-consumption" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th>Condition</th>
-<th>LED Side</th>
-<th>ESP32 Side</th>
-<th>Total Power</th>
-<th>Total (mA@12V)</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Input OFF</strong></td>
-<td>0 mW</td>
-<td>0.83 mW</td>
-<td>0.83 mW</td>
-<td>0.07 mA</td>
-</tr>
-<tr>
-<td><strong>Input ON (12V)</strong></td>
-<td>17 mW</td>
-<td>~0 mW</td>
-<td>17 mW</td>
-<td>1.4 mA</td>
-</tr>
-<tr>
-<td><strong>Input ON (54V)</strong></td>
-<td>404 mW</td>
-<td>~0 mW</td>
-<td>404 mW</td>
-<td>33.7 mA</td>
-</tr>
-</tbody>
-</table>
-<h2 id="led-current-guidelines">LED Current Guidelines<a class="headerlink" href="#led-current-guidelines" title="Permanent link">&para;</a></h2>
+<h2 id="notes">Notes<a class="headerlink" href="#notes" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong>1-3mA</strong>: Conservative operation (20+ year lifetime)</li>
-<li><strong>3-8mA</strong>: Moderate operation (5-10 year lifetime)  </li>
-<li><strong>8-15mA</strong>: Aggressive operation (1-5 year lifetime)</li>
+<li>Bootstrap capacitor sizing must support fast switching without voltage sag</li>
 </ul>
-<h2 id="design-validation">Design Validation<a class="headerlink" href="#design-validation" title="Permanent link">&para;</a></h2>
+<h2 id="mosfet-thermal-and-current-limit-analysis">MOSFET Thermal and Current Limit Analysis<a class="headerlink" href="#mosfet-thermal-and-current-limit-analysis" title="Permanent link">&para;</a></h2>
+<h3 id="key-parameters">Key Parameters<a class="headerlink" href="#key-parameters" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong>5V switching</strong>: 0.53mA with 200% CTR provides reliable switching despite being below 1mA datasheet specification</li>
-<li><strong>54V survival</strong>: 7.7mA current provides marginal 3-6 year life if 100% duty cycle</li>
-<li><strong>Temperature performance</strong>: VO615A-9's high CTR provides margin for temperature derating across -40°F to 180°F range</li>
-</ul>
-<h2 id="schematic-implementation">Schematic Implementation<a class="headerlink" href="#schematic-implementation" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code>Input Signal ──[6.8kΩ, 1W]──[LED|──── GND
-                                 |
-                                 |  (Optical coupling)
-                                 |
-ESP32_GPIO ──[13kΩ]──3.3V        |
-        └─────────────[Collector|Emitter]──── GND
-</code></pre></div>
-<h2 id="bill-of-materials-optocoupler-style">Bill of Materials (Optocoupler Style)<a class="headerlink" href="#bill-of-materials-optocoupler-style" title="Permanent link">&para;</a></h2>
-<ul>
-<li><strong>U1</strong>: VO615A-9 optocoupler</li>
-<li><strong>R1</strong>: 6.8kΩ ±1%, 1W, 2512 SMD resistor  </li>
-<li><strong>R2</strong>: 13kΩ ±5%, 1/8W, 0603 SMD pull-up resistor</li>
-<li><strong>D1</strong>: 1N4148WSX fast switching diode, SOD-323 SMD</li>
+<li><strong>Gate drive voltage (V<sub>GS</sub>)</strong>: 12 V</li>
+<li><strong>Estimated R<sub>DS(on)</sub> at 12 V</strong>: ≈ 5.5 mΩ (conservative extrapolation from datasheet graph)</li>
+<li><strong>PCB configuration</strong>: 4-layer board with good copper and via stitching</li>
+<li><strong>No external heatsink</strong></li>
+<li><strong>Max junction temperature (T<sub>J,max</sub>)</strong>: 100 °C</li>
+<li><strong>Ambient temperature (T<sub>A</sub>)</strong>: 25 °C</li>
+<li><strong>Estimated thermal resistance (R<sub>θJA</sub>)</strong>: ~25 °C/W (based on good PCB design for SON-8 package)</li>
 </ul>
 <hr />
-<h1 id="ground-style-digital-inputs">Ground Style Digital Inputs<a class="headerlink" href="#ground-style-digital-inputs" title="Permanent link">&para;</a></h1>
-<h2 id="schematic">Schematic<a class="headerlink" href="#schematic" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code>3.3V ──[10kΩ]──┬──[C51:1µF]──GND
-               │
-               ├──[D32:ESD]──GND
-               │
-               ├── Output Signal to ESP32 GPIO
-               │
-               └──[R5:500Ω]── Input Signal
-</code></pre></div>
-<h2 id="design-requirements_1">Design Requirements<a class="headerlink" href="#design-requirements_1" title="Permanent link">&para;</a></h2>
-<ul>
-<li><strong>Input method</strong>: Short to ground activation</li>
-<li><strong>Temperature range</strong>: -40°F to 180°F (-40°C to 82°C)</li>
-<li><strong>Debouncing</strong>: Hardware RC filter for switch bounce elimination</li>
-<li><strong>Protection</strong>: ESD protection and current limiting for exposed inputs</li>
-</ul>
-<h2 id="how-ground-style-inputs-work">How Ground Style Inputs Work<a class="headerlink" href="#how-ground-style-inputs-work" title="Permanent link">&para;</a></h2>
-<p>This design uses a voltage divider with current limiting and RC debounce filtering:</p>
-<h3 id="normal-operation-switch-open">Normal Operation (Switch Open)<a class="headerlink" href="#normal-operation-switch-open" title="Permanent link">&para;</a></h3>
-<ol>
-<li>Input Signal is not connected (floating or open)</li>
-<li>No current flows through R5 (500Ω)</li>
-<li>Pull-up resistor R57 (10kΩ) pulls Output Signal to 3.3V</li>
-<li>ESP32 GPIO reads logic HIGH (3.3V)</li>
-</ol>
-<h3 id="activated-operation-switch-closed-to-ground">Activated Operation (Switch Closed to Ground)<a class="headerlink" href="#activated-operation-switch-closed-to-ground" title="Permanent link">&para;</a></h3>
-<ol>
-<li>Input Signal is shorted to ground by external switch/contact</li>
-<li>Current flows from 3.3V through R57 (13kΩ) to ground via the switch</li>
-<li>Junction voltage: V_out = <strong>0V</strong> (direct connection to ground)</li>
-<li>ESP32 GPIO reads logic LOW (0V &lt;&lt; 0.8V threshold)</li>
-</ol>
-<h2 id="component-analysis">Component Analysis<a class="headerlink" href="#component-analysis" title="Permanent link">&para;</a></h2>
-<h3 id="pull-up-resistor-r57-13k">Pull-up Resistor: R57 (13kΩ)<a class="headerlink" href="#pull-up-resistor-r57-13k" title="Permanent link">&para;</a></h3>
-<ul>
-<li><strong>Function</strong>: Pulls Output Signal HIGH when Input Signal is not grounded</li>
-<li><strong>Power when input open</strong>: P = 3.3V²/13kΩ = 0.84 mW</li>
-<li><strong>Power when input grounded</strong>: P = 3.3V²/13kΩ = 0.84 mW (continuous)</li>
-</ul>
-<h3 id="debounce-capacitor-c51-1f">Debounce Capacitor: C51 (1µF)<a class="headerlink" href="#debounce-capacitor-c51-1f" title="Permanent link">&para;</a></h3>
-<ul>
-<li><strong>Function</strong>: Filters switch bounce and electrical noise</li>
-<li><strong>Time constant</strong>: τ = R57 × C51 = 10kΩ × 1µF = 10ms</li>
-<li><strong>Settling time</strong>: ~3τ = 30ms for clean switching</li>
-<li><strong>Noise immunity</strong>: Filters high-frequency electrical noise</li>
-</ul>
-<h3 id="esd-protection-diode-d32-esd5z250t1g">ESD Protection Diode: D32 (ESD5Z25.0T1G)<a class="headerlink" href="#esd-protection-diode-d32-esd5z250t1g" title="Permanent link">&para;</a></h3>
-<ul>
-<li><strong>Function</strong>: Clamps overvoltage transients to protect ESP32 GPIO</li>
-<li><strong>Clamp voltage</strong>: 25V typical</li>
-<li><strong>Application</strong>: Protects against static discharge and voltage spikes on input wiring</li>
-</ul>
-<h2 id="performance-analysis_1">Performance Analysis<a class="headerlink" href="#performance-analysis_1" title="Permanent link">&para;</a></h2>
-<h3 id="switching-characteristics">Switching Characteristics<a class="headerlink" href="#switching-characteristics" title="Permanent link">&para;</a></h3>
-<ul>
-<li><strong>Rise time</strong>: Limited by RC time constant = 10ms</li>
-<li><strong>Fall time</strong>: Much faster, limited by R5 and ESP32 input capacitance</li>
-<li><strong>Debounce time</strong>: ~30ms eliminates typical switch bounce</li>
-</ul>
-<h3 id="power-consumption">Power Consumption<a class="headerlink" href="#power-consumption" title="Permanent link">&para;</a></h3>
+<h3 id="max-power-dissipation">Max Power Dissipation<a class="headerlink" href="#max-power-dissipation" title="Permanent link">&para;</a></h3>
+<p>[
+\Delta T = T_{J,max} - T_A = 100 - 25 = 75^\circ C
+]</p>
+<p>[
+P_{max} = \frac{75}{25} = 3\,W
+]</p>
+<hr />
+<h3 id="max-continuous-current">Max Continuous Current<a class="headerlink" href="#max-continuous-current" title="Permanent link">&para;</a></h3>
+<p>[
+P = I^2 \cdot R_{DS(on)} \Rightarrow
+I_{max} = \sqrt{\frac{3}{0.0055}} \approx 23.3\,A
+]</p>
+<hr />
+<h3 id="practical-limits">Practical Limits<a class="headerlink" href="#practical-limits" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
 <tr>
-<th>Condition</th>
-<th>Current</th>
-<th>Power</th>
-<th>Power (mA@12V)</th>
+<th>Limit Type</th>
+<th>Estimate</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><strong>Input Open</strong></td>
-<td>0.25 mA</td>
-<td>0.84 mW</td>
-<td>0.07 mA</td>
+<td>Power-limited current</td>
+<td>~23 A</td>
 </tr>
 <tr>
-<td><strong>Input Grounded</strong></td>
-<td>0.25 mA</td>
-<td>0.84 mW</td>
-<td>0.07 mA</td>
+<td>Safe continuous current</td>
+<td><strong>15–20 A</strong> (margin)</td>
+</tr>
+<tr>
+<td>Likely failure point</td>
+<td>&gt; 23 A (thermal)</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Power consumption notes</strong>:
-- <strong>Continuous power draw</strong> regardless of input state (due to pull-up resistor)
-- Very low power consumption suitable for battery applications
-- Power draw is essentially constant whether switch is open or closed</p>
-<h3 id="voltage-levels">Voltage Levels<a class="headerlink" href="#voltage-levels" title="Permanent link">&para;</a></h3>
+<p><strong>Note:</strong> Above 20 A, trace heating, solder joint fatigue, and junction rise make failure more likely without forced cooling or heatsinking.  Ambient temperature assumption of 25C is not worst case scenario.</p>
+<h2 id="revision-info">Revision Info<a class="headerlink" href="#revision-info" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong>Logic HIGH</strong>: 3.3V (input open/floating)</li>
-<li><strong>Logic LOW</strong>: 0.157V (input grounded via voltage divider)</li>
-<li><strong>Switching threshold</strong>: ESP32 switches at ~0.8V, providing excellent noise margin</li>
-<li><strong>Noise margin HIGH</strong>: 3.3V - 0.8V = 2.5V</li>
-<li><strong>Noise margin LOW</strong>: 0.8V - 0.157V = 0.64V</li>
+<li>Original driver (MAX15054) replaced due to low Vgs drive at 5V rail</li>
+<li>New system uses external 12V boost to properly saturate the MOSFET gate</li>
 </ul>
-<h2 id="esp32-s3-internal-esd-protection-and-real-esd-event-analysis">ESP32-S3 Internal ESD Protection and Real ESD Event Analysis<a class="headerlink" href="#esp32-s3-internal-esd-protection-and-real-esd-event-analysis" title="Permanent link">&para;</a></h2>
-<h3 id="esp32-s3-internal-protection-specifications">ESP32-S3 Internal Protection Specifications<a class="headerlink" href="#esp32-s3-internal-protection-specifications" title="Permanent link">&para;</a></h3>
-<p>From the ESP32-S3 datasheet:
-- <strong>Human Body Model (HBM) ESD tolerance</strong>: ±2000V
-- <strong>Charged Device Model (CDM) ESD tolerance</strong>: ±1000V<br />
-- <strong>Absolute maximum input voltage</strong>: 3.6V (VDD + 0.3V)
-- <strong>Internal protection</strong>: Snapback devices on all GPIO pins</p>
-<h3 id="what-actually-happens-during-an-esd-event">What Actually Happens During an ESD Event<a class="headerlink" href="#what-actually-happens-during-an-esd-event" title="Permanent link">&para;</a></h3>
-<p><strong>Scenario: 8kV HBM discharge to Input Signal wire</strong></p>
-<ol>
-<li><strong>Initial ESD pulse</strong>: 8000V spike with ~1.5kΩ source resistance (HBM model)</li>
-<li><strong>External TVS diode (D32) activates</strong>: </li>
-<li>Clamps voltage to ~25V within nanoseconds</li>
-<li>Current through D32: I = (8000V - 25V) / 1500Ω = ~5.3A initially</li>
-<li>D32 can handle 2A peak current for 1µs pulses - adequate for HBM discharge</li>
-<li><strong>ESP32 internal protection response</strong>:</li>
-<li>25V still exceeds the 3.6V absolute maximum</li>
-<li>Internal snapback devices activate at ~7-10V</li>
-<li>Snapback devices clamp GPIO voltage to ~5-7V</li>
-<li>Current flows through internal protection to chip ground</li>
-<li><strong>Current path</strong>: ESD energy → D32 → ESP32 internal snapback → chip ground</li>
-<li><strong>Result</strong>: GPIO survives due to dual protection layers</li>
-</ol>
-<h3 id="why-25v-tvs-clamp-voltage-works">Why 25V TVS Clamp Voltage Works<a class="headerlink" href="#why-25v-tvs-clamp-voltage-works" title="Permanent link">&para;</a></h3>
-<p><strong>The key insight</strong>: The ESP32's internal ESD protection is designed to handle exactly this scenario. The internal snapback devices are specifically designed for ESD events where voltage exceeds normal operating range.</p>
-<p><strong>Espressif's official position</strong> (from ESP32 forum): "The ESP32 has internal snapback devices in order to handle ESD on all pins. The external ESD protector is simply a belts-and-braces approach to make sure someone doesn't accidentally zap through the internal protections."</p>
-<h3 id="design-validation-for-esd-protection">Design Validation for ESD Protection<a class="headerlink" href="#design-validation-for-esd-protection" title="Permanent link">&para;</a></h3>
-<p><strong>IEC 61000-4-2 Contact Discharge Test</strong> (typical requirement):
-- Test voltage: ±8kV
-- With D32 + ESP32 internal protection: <strong>PASS</strong>
-- Reasoning: Dual protection layers handle energy dissipation effectively</p>
-<p><strong>Real-world ESD sources</strong>:
-- Human walking on carpet: 2-15kV
-- Handling in dry environment: 5-25kV<br />
-- <strong>Protection margin</strong>: Adequate for typical applications</p>
-<p>The design provides robust ESD protection through the combination of external TVS diode current limiting and ESP32's proven internal snapback protection, without requiring additional current limiting resistors that would compromise digital functionality.</p>
-<h2 id="design-validation_1">Design Validation<a class="headerlink" href="#design-validation_1" title="Permanent link">&para;</a></h2>
-<ul>
-<li><strong>Noise immunity</strong>: 1µF capacitor filters electrical noise effectively</li>
-<li><strong>ESD protection</strong>: 25V clamp diode protects against static discharge</li>
-<li><strong>Current limiting</strong>: No current limiting resistor - relies on ESP32 internal protection</li>
-<li><strong>Low power</strong>: &lt;1mW continuous power consumption</li>
-<li><strong>Reliable switching</strong>: Large noise margins ensure reliable operation</li>
-</ul>
-<h2 id="bill-of-materials-ground-style">Bill of Materials (Ground Style)<a class="headerlink" href="#bill-of-materials-ground-style" title="Permanent link">&para;</a></h2>
-<ul>
-<li><strong>R57</strong>: 13kΩ ±5%, 1/8W, 0603 SMD pull-up resistor  </li>
-<li><strong>C51</strong>: 1µF ±10%, X7R, 0603 SMD capacitor</li>
-<li><strong>D32</strong>: ESD5Z25.0T1G TVS diode, SOD-523 SMD</li>
-</ul>
-<h2 id="comparison-optocoupler-vs-ground-style">Comparison: Optocoupler vs Ground Style<a class="headerlink" href="#comparison-optocoupler-vs-ground-style" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th>Feature</th>
-<th>Optocoupler Style</th>
-<th>Ground Style</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Input Range</strong></td>
-<td>5V to 54V</td>
-<td>Ground short only</td>
-</tr>
-<tr>
-<td><strong>Power (Active)</strong></td>
-<td>1.4-33.7 mA@12V</td>
-<td>0.085 mA@12V</td>
-</tr>
-<tr>
-<td><strong>Power (Inactive)</strong></td>
-<td>0.07 mA@12V</td>
-<td>0.091 mA@12V</td>
-</tr>
-<tr>
-<td><strong>Component Count</strong></td>
-<td>4 components</td>
-<td>4 components</td>
-</tr>
-<tr>
-<td><strong>Cost</strong></td>
-<td>Higher (optocoupler)</td>
-<td>Lower (passive components)</td>
-</tr>
-<tr>
-<td><strong>Complexity</strong></td>
-<td>Medium</td>
-<td>Low</td>
-</tr>
-<tr>
-<td><strong>Noise Immunity</strong></td>
-<td>Excellent</td>
-<td>Good</td>
-</tr>
-<tr>
-<td><strong>Applications</strong></td>
-<td>High voltage, isolation required</td>
-<td>Simple switches, low voltage</td>
-</tr>
-</tbody>
-</table>
 
 
 

@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Technical documentation for Xengineering marine electrical regulator system">
+        <meta name="description" content="Technical documentation for Xengineering marine open-source alternator regulator system">
       
       
         <meta name="author" content="Xengineering">
@@ -15,10 +15,10 @@
         <link rel="canonical" href="https://docs.xengineering.net/hardware/connectors/">
       
       
-        <link rel="prev" href="../">
+        <link rel="prev" href="../analog-inputs/">
       
       
-        <link rel="next" href="../power-flow/">
+        <link rel="next" href="../../software/esp32/system_overview/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -26,7 +26,7 @@
     
     
       
-        <title>Connectors - Xengineering Documentation</title>
+        <title>Connectors & Wiring - Xengineering Alternator Regulator Documentation</title>
       
     
     
@@ -86,7 +86,7 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../.." title="Xengineering Documentation" class="md-header__button md-logo" aria-label="Xengineering Documentation" data-md-component="logo">
+    <a href="../.." title="Xengineering Alternator Regulator Documentation" class="md-header__button md-logo" aria-label="Xengineering Alternator Regulator Documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -100,13 +100,13 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            Xengineering Documentation
+            Xengineering Alternator Regulator Documentation
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Connectors
+              Connectors & Wiring
             
           </span>
         </div>
@@ -196,13 +196,13 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="Xengineering Documentation" class="md-nav__button md-logo" aria-label="Xengineering Documentation" data-md-component="logo">
+    <a href="../.." title="Xengineering Alternator Regulator Documentation" class="md-nav__button md-logo" aria-label="Xengineering Alternator Regulator Documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
 
     </a>
-    Xengineering Documentation
+    Xengineering Alternator Regulator Documentation
   </label>
   
     <div class="md-nav__source">
@@ -437,68 +437,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../" class="md-nav__link">
+      <a href="../system-architecture.md" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Overview
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-    
-  
-  
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
-        
-  
-  
-  <span class="md-ellipsis">
-    Connectors
-    
-  </span>
-  
-
-      </a>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../power-flow/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Main Power Flow
+    System Architecture
     
   </span>
   
@@ -562,58 +506,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../nmea0183/" class="md-nav__link">
+      <a href="../field-output.md" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    NMEA0183
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../victron-vedirect/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Victron VE.Direct
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../nmea2k/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    NMEA2K
+    Alternator Field Drive
     
   </span>
   
@@ -654,17 +552,73 @@
   
   
     <li class="md-nav__item">
-      <a href="../esp32-brain/" class="md-nav__link">
+      <a href="../power-supply.md" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    ESP32 Brain
+    Power Supply
     
   </span>
   
 
       </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../esp32-controller.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    ESP32 Controller
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Connectors & Wiring
+    
+  </span>
+  
+
+      </a>
+      
     </li>
   
 
@@ -707,7 +661,7 @@
   
   
   <span class="md-ellipsis">
-    Software
+    Software - ESP32
     
   </span>
   
@@ -718,7 +672,7 @@
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
-            Software
+            Software - ESP32
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -729,77 +683,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../../software/" class="md-nav__link">
+      <a href="../../software/esp32/system_overview/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Overview
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    
-    
-    
-    
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_2" >
-        
-          
-          <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    ESP32 Code
-    
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_4_2">
-            <span class="md-nav__icon md-icon"></span>
-            ESP32 Code
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../software/esp32/main-code/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Main Code
+    System Overview
     
   </span>
   
@@ -817,12 +706,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../../software/esp32/important-functions/" class="md-nav__link">
+      <a href="../../software/esp32/sensor_systems/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Important Functions
+    Sensor Systems
     
   </span>
   
@@ -840,12 +729,173 @@
   
   
     <li class="md-nav__item">
-      <a href="../../software/esp32/non-important-functions/" class="md-nav__link">
+      <a href="../../software/esp32/communication_interfaces/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Non-Important Functions
+    Communication Interfaces
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../software/esp32/field_control.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Field Control
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../software/esp32/learning_mode.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Learning Mode
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../software/esp32/battery_management.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Battery Management
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../software/esp32/network_web_system.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Network & Web System
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../software/esp32/safety_monitoring.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Safety & Monitoring
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../software/esp32/advanced_features.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Advanced Features
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../software/esp32/configuration.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Configuration
     
   </span>
   
@@ -862,10 +912,9 @@
     </li>
   
 
-              
-            
-              
-                
+    
+      
+      
   
   
   
@@ -875,23 +924,26 @@
     
     
       
+        
+        
+      
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
           
         
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_3" >
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
         
           
-          <label class="md-nav__link" for="__nav_4_3" id="__nav_4_3_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
             
   
   
   <span class="md-ellipsis">
-    Client Code
+    Software - Client
     
   </span>
   
@@ -899,12 +951,35 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_4_3">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
-            Client Code
+            Software - Client
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../software/client/web-interface-overview.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Web Interface Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -918,7 +993,7 @@
   
   
   <span class="md-ellipsis">
-    HTML
+    HTML Structure
     
   </span>
   
@@ -941,7 +1016,7 @@
   
   
   <span class="md-ellipsis">
-    JavaScript
+    JavaScript Logic
     
   </span>
   
@@ -964,7 +1039,30 @@
   
   
   <span class="md-ellipsis">
-    CSS
+    CSS Styling
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../software/client/realtime-data.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Real-time Data Flow
     
   </span>
   
@@ -978,6 +1076,142 @@
           </ul>
         </nav>
       
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Local Xengineering Ref Only
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Local Xengineering Ref Only
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../localstuff%20for%20Xengineering%20ref/esp32_partition_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Partitioning
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../localstuff%20for%20Xengineering%20ref/mkdocs_setup_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    MkDocs Guide
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../localstuff for Xengineering ref/updated_ota_docs V3.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    OTA
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../localstuff%20for%20Xengineering%20ref/updated_planning_doc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Planning
+    
+  </span>
+  
+
+      </a>
     </li>
   
 

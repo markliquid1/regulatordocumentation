@@ -1,0 +1,3119 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Technical documentation for Xengineering marine open-source alternator regulator system">
+      
+      
+        <meta name="author" content="Xengineering">
+      
+      
+        <link rel="canonical" href="https://docs.xengineering.net/localstuff%20for%20Xengineering%20ref/updated_planning_doc/">
+      
+      
+        <link rel="prev" href="../mkdocs_setup_guide/">
+      
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.16">
+    
+    
+      
+        <title>Planning - Xengineering Alternator Regulator Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.7e37652d.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#alternator-regulator-cloud-platform-system-planning-document" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Xengineering Alternator Regulator Documentation" class="md-header__button md-logo" aria-label="Xengineering Alternator Regulator Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Xengineering Alternator Regulator Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Planning
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/markliquid1/regulatordocumentation" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    markliquid1/regulatordocumentation
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Xengineering Alternator Regulator Documentation" class="md-nav__button md-logo" aria-label="Xengineering Alternator Regulator Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Xengineering Alternator Regulator Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/markliquid1/regulatordocumentation" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    markliquid1/regulatordocumentation
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Basic Use
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Basic Use
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../basic-use/getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Getting Started
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../basic-use/installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Installation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../basic-use/quick-start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quick Start Guide
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../basic-use/troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Troubleshooting
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Hardware
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Hardware
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hardware/system-architecture.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    System Architecture
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hardware/digital-inputs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Digital Inputs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hardware/digital-outputs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Digital Outputs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hardware/field-output.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Alternator Field Drive
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hardware/analog-inputs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Analog Inputs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hardware/power-supply.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Power Supply
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hardware/esp32-controller.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    ESP32 Controller
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hardware/connectors/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Connectors & Wiring
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Software - ESP32
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Software - ESP32
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../software/esp32/system_overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    System Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../software/esp32/sensor_systems/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Sensor Systems
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../software/esp32/communication_interfaces/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Communication Interfaces
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../software/esp32/field_control.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Field Control
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../software/esp32/learning_mode.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Learning Mode
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../software/esp32/battery_management.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Battery Management
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../software/esp32/network_web_system.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Network & Web System
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../software/esp32/safety_monitoring.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Safety & Monitoring
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../software/esp32/advanced_features.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Advanced Features
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../software/esp32/configuration.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Configuration
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Software - Client
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Software - Client
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../software/client/web-interface-overview.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Web Interface Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../software/client/html/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    HTML Structure
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../software/client/javascript/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    JavaScript Logic
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../software/client/css/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    CSS Styling
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../software/client/realtime-data.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Real-time Data Flow
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Local Xengineering Ref Only
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Local Xengineering Ref Only
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../esp32_partition_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Partitioning
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mkdocs_setup_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    MkDocs Guide
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../localstuff for Xengineering ref/updated_ota_docs V3.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    OTA
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Planning
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Planning
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#technology-platform-decision" class="md-nav__link">
+    <span class="md-ellipsis">
+      Technology Platform Decision
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Technology Platform Decision">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#platform-comparison-selection-rationale" class="md-nav__link">
+    <span class="md-ellipsis">
+      Platform Comparison &amp; Selection Rationale
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hosting-architecture-security" class="md-nav__link">
+    <span class="md-ellipsis">
+      Hosting Architecture &amp; Security
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ai-development-workflow-advantages" class="md-nav__link">
+    <span class="md-ellipsis">
+      AI Development Workflow Advantages
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-user-registration-profile-data-fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. User Registration &amp; Profile Data Fields
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-leaderboard-categories" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Leaderboard Categories
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-personal-data-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Personal Data Parameters
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-global-display-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Global Display Parameters
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Global Display Parameters">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#map-displays" class="md-nav__link">
+    <span class="md-ellipsis">
+      MAP DISPLAYS
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#numericalplotted-data-displays" class="md-nav__link">
+    <span class="md-ellipsis">
+      NUMERICAL/PLOTTED DATA DISPLAYS
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-data-architecture-payload-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Data Architecture &amp; Payload Structure
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Data Architecture &amp; Payload Structure">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#json-payload-organization" class="md-nav__link">
+    <span class="md-ellipsis">
+      JSON Payload Organization
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-6-hour-payload-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example 6-Hour Payload Structure
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#polar-data-collection-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Polar Data Collection Strategy
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-final-decisions-made" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. Final Decisions Made ✅
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Final Decisions Made ✅">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#data-sharing-privacy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Sharing &amp; Privacy
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Architecture
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#upload-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Upload Strategy
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#authentication-user-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      Authentication &amp; User Management
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hosting-infrastructure-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Hosting &amp; Infrastructure Strategy
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#server-side-processing-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      Server-Side Processing Requirements
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cost-scaling" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cost &amp; Scaling
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#admin-moderation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Admin &amp; Moderation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#email-messaging-future" class="md-nav__link">
+    <span class="md-ellipsis">
+      Email &amp; Messaging (Future)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#technical-implementation-decisions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Technical Implementation Decisions
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-cost-analysis-projections" class="md-nav__link">
+    <span class="md-ellipsis">
+      7. Cost Analysis &amp; Projections
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Cost Analysis &amp; Projections">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#service-requirements-by-scale" class="md-nav__link">
+    <span class="md-ellipsis">
+      Service Requirements by Scale
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#projected-usage-500-users" class="md-nav__link">
+    <span class="md-ellipsis">
+      Projected Usage (500 users)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#alternative-cost-comparison" class="md-nav__link">
+    <span class="md-ellipsis">
+      Alternative Cost Comparison
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-development-timeline-phases" class="md-nav__link">
+    <span class="md-ellipsis">
+      8. Development Timeline &amp; Phases
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Development Timeline &amp; Phases">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#phase-1-core-system-month-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phase 1: Core System (Month 1)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-2-analytics-dashboard-month-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phase 2: Analytics Dashboard (Month 2)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-3-enhanced-features-month-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phase 3: Enhanced Features (Month 3)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-4-social-features-future" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phase 4: Social Features (Future)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-system-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      9. System Architecture
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. System Architecture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#overall-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overall Flow
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#infrastructure-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      Infrastructure Architecture
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#personal-analytics-dashboard" class="md-nav__link">
+    <span class="md-ellipsis">
+      Personal Analytics Dashboard
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#loginauthentication-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      Login/Authentication System
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#user-experience-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      User Experience Flow
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#authentication-technical-details" class="md-nav__link">
+    <span class="md-ellipsis">
+      Authentication Technical Details
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-hardware-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      10. Hardware Architecture
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10. Hardware Architecture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#esp32-partition-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      ESP32 Partition Table
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-data-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      11. Data Management
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-future-expansion-capabilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      12. Future Expansion Capabilities
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="12. Future Expansion Capabilities">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#real-time-social-features-supabase-enables" class="md-nav__link">
+    <span class="md-ellipsis">
+      Real-time Social Features (Supabase Enables)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#advanced-analytics-postgresql-enables" class="md-nav__link">
+    <span class="md-ellipsis">
+      Advanced Analytics (PostgreSQL Enables)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#third-party-integrations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Third-party Integrations
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#global-scaling-vercel-enables" class="md-nav__link">
+    <span class="md-ellipsis">
+      Global Scaling (Vercel Enables)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#technology-platform-decision" class="md-nav__link">
+    <span class="md-ellipsis">
+      Technology Platform Decision
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Technology Platform Decision">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#platform-comparison-selection-rationale" class="md-nav__link">
+    <span class="md-ellipsis">
+      Platform Comparison &amp; Selection Rationale
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hosting-architecture-security" class="md-nav__link">
+    <span class="md-ellipsis">
+      Hosting Architecture &amp; Security
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ai-development-workflow-advantages" class="md-nav__link">
+    <span class="md-ellipsis">
+      AI Development Workflow Advantages
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-user-registration-profile-data-fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. User Registration &amp; Profile Data Fields
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-leaderboard-categories" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Leaderboard Categories
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-personal-data-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Personal Data Parameters
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-global-display-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Global Display Parameters
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Global Display Parameters">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#map-displays" class="md-nav__link">
+    <span class="md-ellipsis">
+      MAP DISPLAYS
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#numericalplotted-data-displays" class="md-nav__link">
+    <span class="md-ellipsis">
+      NUMERICAL/PLOTTED DATA DISPLAYS
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-data-architecture-payload-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Data Architecture &amp; Payload Structure
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Data Architecture &amp; Payload Structure">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#json-payload-organization" class="md-nav__link">
+    <span class="md-ellipsis">
+      JSON Payload Organization
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-6-hour-payload-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example 6-Hour Payload Structure
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#polar-data-collection-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Polar Data Collection Strategy
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-final-decisions-made" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. Final Decisions Made ✅
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Final Decisions Made ✅">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#data-sharing-privacy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Sharing &amp; Privacy
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Architecture
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#upload-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Upload Strategy
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#authentication-user-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      Authentication &amp; User Management
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hosting-infrastructure-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Hosting &amp; Infrastructure Strategy
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#server-side-processing-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      Server-Side Processing Requirements
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cost-scaling" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cost &amp; Scaling
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#admin-moderation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Admin &amp; Moderation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#email-messaging-future" class="md-nav__link">
+    <span class="md-ellipsis">
+      Email &amp; Messaging (Future)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#technical-implementation-decisions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Technical Implementation Decisions
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-cost-analysis-projections" class="md-nav__link">
+    <span class="md-ellipsis">
+      7. Cost Analysis &amp; Projections
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Cost Analysis &amp; Projections">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#service-requirements-by-scale" class="md-nav__link">
+    <span class="md-ellipsis">
+      Service Requirements by Scale
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#projected-usage-500-users" class="md-nav__link">
+    <span class="md-ellipsis">
+      Projected Usage (500 users)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#alternative-cost-comparison" class="md-nav__link">
+    <span class="md-ellipsis">
+      Alternative Cost Comparison
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-development-timeline-phases" class="md-nav__link">
+    <span class="md-ellipsis">
+      8. Development Timeline &amp; Phases
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Development Timeline &amp; Phases">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#phase-1-core-system-month-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phase 1: Core System (Month 1)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-2-analytics-dashboard-month-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phase 2: Analytics Dashboard (Month 2)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-3-enhanced-features-month-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phase 3: Enhanced Features (Month 3)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-4-social-features-future" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phase 4: Social Features (Future)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-system-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      9. System Architecture
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. System Architecture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#overall-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overall Flow
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#infrastructure-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      Infrastructure Architecture
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#personal-analytics-dashboard" class="md-nav__link">
+    <span class="md-ellipsis">
+      Personal Analytics Dashboard
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#loginauthentication-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      Login/Authentication System
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#user-experience-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      User Experience Flow
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#authentication-technical-details" class="md-nav__link">
+    <span class="md-ellipsis">
+      Authentication Technical Details
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-hardware-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      10. Hardware Architecture
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10. Hardware Architecture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#esp32-partition-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      ESP32 Partition Table
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-data-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      11. Data Management
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-future-expansion-capabilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      12. Future Expansion Capabilities
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="12. Future Expansion Capabilities">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#real-time-social-features-supabase-enables" class="md-nav__link">
+    <span class="md-ellipsis">
+      Real-time Social Features (Supabase Enables)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#advanced-analytics-postgresql-enables" class="md-nav__link">
+    <span class="md-ellipsis">
+      Advanced Analytics (PostgreSQL Enables)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#third-party-integrations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Third-party Integrations
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#global-scaling-vercel-enables" class="md-nav__link">
+    <span class="md-ellipsis">
+      Global Scaling (Vercel Enables)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="alternator-regulator-cloud-platform-system-planning-document">Alternator Regulator Cloud Platform - System Planning Document<a class="headerlink" href="#alternator-regulator-cloud-platform-system-planning-document" title="Permanent link">&para;</a></h1>
+<p>// https://supabase-nine-ashy.vercel.app/</p>
+<h2 id="technology-platform-decision">Technology Platform Decision<a class="headerlink" href="#technology-platform-decision" title="Permanent link">&para;</a></h2>
+<p><strong>Selected Platform: Supabase + Vercel</strong>
+- <strong>Backend</strong>: Supabase for PostgreSQL database, auto-generated APIs, and authentication
+- <strong>Frontend</strong>: Vercel for dashboard hosting and deployment
+- <strong>Security</strong>: True isolation - OTA server separate from dashboard infrastructure
+- <strong>AI-friendly development</strong> with extensive code generation capabilities for both platforms
+- Predictable costs starting free, scaling to ~$25-45/month for 500 users</p>
+<h3 id="platform-comparison-selection-rationale">Platform Comparison &amp; Selection Rationale<a class="headerlink" href="#platform-comparison-selection-rationale" title="Permanent link">&para;</a></h3>
+<p><strong>Firebase (Rejected):</strong>
+- NoSQL database cannot handle complex leaderboard queries (no JOINs, limited sorting)
+- Simple queries like "fastest 35ft sailboat" require complex workarounds
+- Real-time features good but terrible for analytics
+- Unpredictable costs with potential spikes</p>
+<p><strong>Traditional VPS + PostgreSQL (Considered):</strong>
+- Perfect for relational data and complex queries
+- Full control and predictable costs ($30/month)
+- More setup work and server management required
+- Less AI development assistance available</p>
+<p><strong>Supabase + Vercel (Selected):</strong>
+- <strong>Best of both worlds</strong>: PostgreSQL + modern real-time features + global hosting
+- <strong>Security isolation</strong>: Dashboard completely separate from OTA server
+- <strong>Auto-generated APIs</strong> reduce backend coding
+- <strong>Extensive AI training data</strong> for code generation on both platforms
+- <strong>Built-in authentication and security</strong>
+- <strong>Zero server management</strong> for dashboard
+- Can evolve from simple analytics to social platform</p>
+<h3 id="hosting-architecture-security">Hosting Architecture &amp; Security<a class="headerlink" href="#hosting-architecture-security" title="Permanent link">&para;</a></h3>
+<p><strong>Infrastructure Separation:</strong>
+- <code>ota.xengineering.net</code> → Existing VPS (firmware updates only, unchanged)
+- <code>dashboard.xengineering.net</code> → Vercel hosting (dashboard frontend)
+- <code>yourproject.supabase.co</code> → Supabase managed backend (data &amp; APIs)</p>
+<p><strong>Security Benefits:</strong>
+- <strong>True isolation</strong>: OTA server compromise cannot affect dashboard
+- <strong>Minimal attack surface</strong>: OTA server stays exactly as-is
+- <strong>Managed security</strong>: Supabase and Vercel handle security patches
+- <strong>Separate credentials</strong>: No shared access between systems</p>
+<h3 id="ai-development-workflow-advantages">AI Development Workflow Advantages<a class="headerlink" href="#ai-development-workflow-advantages" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>ChatGPT can generate complete Supabase + Vercel projects</strong></li>
+<li><strong>Vercel has massive AI training data</strong> due to popularity</li>
+<li>Standard PostgreSQL queries are well-known to AI</li>
+<li>React dashboard components easily generated</li>
+<li>Authentication flows follow standard patterns</li>
+<li><strong>Minimal learning curve</strong> for non-web developers</li>
+<li><strong>4-hour planning doc speed</strong> maintained through development</li>
+</ul>
+<h2 id="1-user-registration-profile-data-fields">1. User Registration &amp; Profile Data Fields<a class="headerlink" href="#1-user-registration-profile-data-fields" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Notes</th>
+<th>Public/Private</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>UserName</td>
+<td>Display name on leaderboards/maps</td>
+<td>Public</td>
+</tr>
+<tr>
+<td>Boat Name/UserID</td>
+<td>Must enforce uniqueness</td>
+<td>Private</td>
+</tr>
+<tr>
+<td>Boat Type</td>
+<td>Sailboat / Catamaran / Powerboat / Trawler</td>
+<td>Public</td>
+</tr>
+<tr>
+<td>Boat Length (ft)</td>
+<td>Rounded to nearest foot</td>
+<td>Public</td>
+</tr>
+<tr>
+<td>Boat Make/Model</td>
+<td></td>
+<td>Public</td>
+</tr>
+<tr>
+<td>Boat Year</td>
+<td></td>
+<td>Public</td>
+</tr>
+<tr>
+<td>Home Port</td>
+<td>City/state or general region</td>
+<td>Public</td>
+</tr>
+<tr>
+<td>Usage Type</td>
+<td>Liveaboard / Seasonal Cruiser / Weekend Warrior</td>
+<td>Public</td>
+</tr>
+<tr>
+<td>Alternator Brand/Model</td>
+<td></td>
+<td>Public</td>
+</tr>
+<tr>
+<td>Solar System Watts</td>
+<td>Nominal system wattage</td>
+<td>Public</td>
+</tr>
+<tr>
+<td>Battery Bank Voltage</td>
+<td>12/24/48V</td>
+<td>Public</td>
+</tr>
+<tr>
+<td>Battery Capacity (Ah)</td>
+<td>User input</td>
+<td>Public</td>
+</tr>
+<tr>
+<td>Battery Type</td>
+<td>LiFePO4 / AGM / Lead Acid / Other</td>
+<td>Public</td>
+</tr>
+<tr>
+<td>Engine Make</td>
+<td></td>
+<td>TBD</td>
+</tr>
+<tr>
+<td>Engine Horsepower</td>
+<td></td>
+<td>TBD</td>
+</tr>
+<tr>
+<td>User Email</td>
+<td>For auth and support only</td>
+<td>Private</td>
+</tr>
+<tr>
+<td>Device UID</td>
+<td>ESP32 MAC address</td>
+<td>Private</td>
+</tr>
+</tbody>
+</table>
+<h2 id="2-leaderboard-categories">2. Leaderboard Categories<a class="headerlink" href="#2-leaderboard-categories" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Category</th>
+<th>Definition Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>🔥 Alternator kWh production (1 day, 1 week, lifetime)</td>
+<td>Top total kWh output</td>
+</tr>
+<tr>
+<td>🔥 Solar harvest (1 day, 1 week)</td>
+<td>Max solar watts * hours</td>
+</tr>
+<tr>
+<td>⚠️ Most efficient energy usage</td>
+<td>Ratio of solar to alternator kWh (lifetime) -- interpret carefully</td>
+</tr>
+<tr>
+<td>✅ Highest instantaneous alternator output</td>
+<td>Top amps recorded</td>
+</tr>
+<tr>
+<td>✅ Fastest boat (sustained avg over 5 miles)</td>
+<td>Requires GPS speed smoothing</td>
+</tr>
+<tr>
+<td>✅ Fastest boat by type/size (5ft categories)</td>
+<td>Sailboats have "motoring" vs "sailing" categories</td>
+</tr>
+<tr>
+<td>⚠️ Fastest over predefined routes</td>
+<td>New England to Bahamas, etc. - Needs route logic, MVP unlikely</td>
+</tr>
+<tr>
+<td>⚠️ Distance sailed upwind in 1 day</td>
+<td>Tough calculation, placeholder</td>
+</tr>
+<tr>
+<td>⚠️ Farthest from home</td>
+<td>Distance from home port</td>
+</tr>
+<tr>
+<td>⚠️ Most remote location</td>
+<td>Distance to nearest landmass</td>
+</tr>
+<tr>
+<td>⚠️ Days at sea without port entry</td>
+<td>Continuous at-sea days</td>
+</tr>
+<tr>
+<td>⚠️ Engine hours champion</td>
+<td>Total engine runtime</td>
+</tr>
+<tr>
+<td>⚠️ Longest trip</td>
+<td>Longest continuous GPS track between power cycles</td>
+</tr>
+<tr>
+<td>⚠️ Highest and Lowest Average SOC</td>
+<td>Battery state efficiency</td>
+</tr>
+<tr>
+<td>⚠️ Highest power harvest in 24hrs</td>
+<td>Solar + alternator combined</td>
+</tr>
+<tr>
+<td>⚠️ Highest power use in 24 hrs</td>
+<td>Total consumption</td>
+</tr>
+<tr>
+<td>⚠️ Ambient temp/pressure extremes</td>
+<td>BMP180/BMP280 data required</td>
+</tr>
+<tr>
+<td>⚠️ Highest wind gust / sustained avg wind</td>
+<td>Needs wind sensor integration</td>
+</tr>
+</tbody>
+</table>
+<h2 id="3-personal-data-parameters">3. Personal Data Parameters<a class="headerlink" href="#3-personal-data-parameters" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Aggregation Type</th>
+<th>Public/Private</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Miles traveled</td>
+<td>Daily, weekly, monthly, yearly</td>
+<td>Private</td>
+</tr>
+<tr>
+<td>Time motoring vs sailing</td>
+<td>Daily, weekly, monthly, yearly</td>
+<td>Private</td>
+</tr>
+<tr>
+<td>Solar kWh produced</td>
+<td>Daily, weekly, monthly, yearly</td>
+<td>Public summary</td>
+</tr>
+<tr>
+<td>Alternator kWh produced</td>
+<td>Daily, weekly, monthly, yearly</td>
+<td>Public summary</td>
+</tr>
+<tr>
+<td>Engine runtime</td>
+<td>Daily, weekly, monthly, yearly</td>
+<td>Private</td>
+</tr>
+<tr>
+<td>Alternator runtime</td>
+<td>Daily, weekly, monthly, yearly</td>
+<td>Private</td>
+</tr>
+<tr>
+<td>Fuel consumption</td>
+<td>Estimated from runtime</td>
+<td>Private</td>
+</tr>
+<tr>
+<td>Battery SOC %</td>
+<td>Daily avg, min, max</td>
+<td>Private</td>
+</tr>
+<tr>
+<td>Battery charge cycles</td>
+<td>Cumulative</td>
+<td>Private</td>
+</tr>
+<tr>
+<td>Max/min voltage/current/temperature</td>
+<td>Daily min/max</td>
+<td>Private</td>
+</tr>
+<tr>
+<td>GPS breadcrumb tracks</td>
+<td>Time series</td>
+<td>Private (aggregated public summaries)</td>
+</tr>
+<tr>
+<td>Speed averages</td>
+<td>Daily avg/max</td>
+<td>Public summary</td>
+</tr>
+<tr>
+<td>Sailing polar map data</td>
+<td>continuously adds new points to average boat speed vs. apparent wind map, using averages over last 10 minutes</td>
+<td>Private</td>
+</tr>
+<tr>
+<td>Maintenance reminders</td>
+<td>Based on engine hours (emailed)</td>
+<td>Private</td>
+</tr>
+<tr>
+<td>Messages / Interpersonal comms</td>
+<td>Future feature</td>
+<td>Private</td>
+</tr>
+<tr>
+<td>Monthly summaries</td>
+<td>Email with global and personal data</td>
+<td>Private</td>
+</tr>
+</tbody>
+</table>
+<h2 id="4-global-display-parameters">4. Global Display Parameters<a class="headerlink" href="#4-global-display-parameters" title="Permanent link">&para;</a></h2>
+<h3 id="map-displays">MAP DISPLAYS<a class="headerlink" href="#map-displays" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Displayed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Live user positions (last 24h)</td>
+<td>Map pins (green)</td>
+</tr>
+<tr>
+<td>Historical locations</td>
+<td>Heatmap overlay (blue)</td>
+</tr>
+<tr>
+<td>Popular cruising areas</td>
+<td>Aggregated heatmap</td>
+</tr>
+<tr>
+<td>User breadcrumb trails</td>
+<td>Per-user on request</td>
+</tr>
+<tr>
+<td>Max wind gust locations</td>
+<td>Map overlay (if implemented)</td>
+</tr>
+<tr>
+<td>Average wind maps (lifetime)</td>
+<td>Map overlay (if implemented)</td>
+</tr>
+<tr>
+<td>Average wind maps (today)</td>
+<td>Map overlay (if implemented)</td>
+</tr>
+<tr>
+<td>Average temperature maps (today)</td>
+<td>Map overlay (if implemented)</td>
+</tr>
+<tr>
+<td>Weather integration layer</td>
+<td>Weather overlay</td>
+</tr>
+<tr>
+<td>Clickable boat details</td>
+<td>If public profile</td>
+</tr>
+</tbody>
+</table>
+<h3 id="numericalplotted-data-displays">NUMERICAL/PLOTTED DATA DISPLAYS<a class="headerlink" href="#numericalplotted-data-displays" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Displayed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Total kWh produced (fleet)</td>
+<td>Dashboard stat</td>
+</tr>
+<tr>
+<td>Total devices sold / installed / active</td>
+<td>Dashboard stat</td>
+</tr>
+<tr>
+<td>Leaderboard rankings</td>
+<td>Numerical tables</td>
+</tr>
+<tr>
+<td>Personal performance plots</td>
+<td>User dashboard charts</td>
+</tr>
+<tr>
+<td>Fleet performance trends</td>
+<td>Graphs on global dashboard</td>
+</tr>
+<tr>
+<td>Environmental impact (CO2 saved etc)</td>
+<td>Marketing metrics</td>
+</tr>
+<tr>
+<td>Real-time device count</td>
+<td>Dashboard stat</td>
+</tr>
+<tr>
+<td>Geographic distribution</td>
+<td>Heat map</td>
+</tr>
+<tr>
+<td>Countries visited</td>
+<td>Count stat</td>
+</tr>
+<tr>
+<td>Currently online</td>
+<td>Real-time count</td>
+</tr>
+</tbody>
+</table>
+<h2 id="5-data-architecture-payload-structure">5. Data Architecture &amp; Payload Structure<a class="headerlink" href="#5-data-architecture-payload-structure" title="Permanent link">&para;</a></h2>
+<h3 id="json-payload-organization">JSON Payload Organization<a class="headerlink" href="#json-payload-organization" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Nested JSON objects</strong> for related data grouping</li>
+<li><strong>Integer storage strategy</strong> for decimal values to avoid floating point errors</li>
+<li><strong>Consistent scaling factors</strong>: voltage × 100, current × 10, GPS × 100000</li>
+</ul>
+<h3 id="example-6-hour-payload-structure">Example 6-Hour Payload Structure<a class="headerlink" href="#example-6-hour-payload-structure" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>{
+  &quot;timestamp&quot;: &quot;2024-01-15T12:00:00Z&quot;,
+  &quot;device_id&quot;: &quot;esp32_aabbccddee&quot;,
+  &quot;energy&quot;: {
+    &quot;solar_kwh&quot;: 25,          // 2.5 kWh × 10
+    &quot;alternator_kwh&quot;: 18,     // 1.8 kWh × 10  
+    &quot;consumed_kwh&quot;: 31        // 3.1 kWh × 10
+  },
+  &quot;battery&quot;: {
+    &quot;soc_min&quot;: 65, &quot;soc_max&quot;: 89, &quot;soc_avg&quot;: 78,
+    &quot;voltage_min&quot;: 1280,      // 12.80V × 100
+    &quot;voltage_max&quot;: 1420,      // 14.20V × 100
+    &quot;charge_cycles&quot;: 2
+  },
+  &quot;alternator&quot;: {
+    &quot;runtime_minutes&quot;: 67,
+    &quot;max_amps&quot;: 850,          // 85.0A × 10
+    &quot;avg_amps&quot;: 420           // 42.0A × 10
+  },
+  &quot;navigation&quot;: {
+    &quot;distance_miles&quot;: 125,    // 12.5 miles × 10
+    &quot;avg_speed&quot;: 52,          // 5.2 knots × 10  
+    &quot;start_lat&quot;: 4365900,     // 43.659° × 100000
+    &quot;start_lng&quot;: -7025700     // -70.257° × 100000
+  }
+}
+</code></pre></div>
+<h3 id="polar-data-collection-strategy">Polar Data Collection Strategy<a class="headerlink" href="#polar-data-collection-strategy" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Collection frequency</strong>: Every 10 minutes while sailing</li>
+<li><strong>Data volume impact</strong>: 6x more frequent than other metrics (36 points per 6-hour upload)</li>
+<li><strong>Storage strategy</strong>: Include in main 6-hour payload for simplicity</li>
+<li><strong>Future optimization</strong>: May require separate daily upload if payload becomes too large</li>
+</ul>
+<h2 id="6-final-decisions-made">6. Final Decisions Made ✅<a class="headerlink" href="#6-final-decisions-made" title="Permanent link">&para;</a></h2>
+<h3 id="data-sharing-privacy">Data Sharing &amp; Privacy<a class="headerlink" href="#data-sharing-privacy" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>All data is shared</strong> - requirement for having the product</li>
+<li><strong>GPS precision reduced</strong> - remove last digits for privacy</li>
+<li><strong>Pseudonym usernames</strong> - boat names encouraged</li>
+<li><strong>Global leaderboards</strong> - no regional divisions</li>
+<li><strong>All features free</strong> - no monetization strategy needed at this time</li>
+</ul>
+<h3 id="data-architecture">Data Architecture<a class="headerlink" href="#data-architecture" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Data format</strong>: JSON for easiest expansion later</li>
+<li><strong>GPS breadcrumb frequency</strong>: 1 point per hour (6 points per 6-hour upload batch. Need to make sure we have sufficient local space for 180 days)</li>
+<li><strong>Sailing vs motoring detection</strong>: Engine on/off status determined ESP32-side (splits certain data categories such as max speed becomes "max speed motoring" and "max speed sailing")</li>
+<li><strong>Local storage strategy</strong>: Use full userdata partition (3.9MB/0x3D0000 bytes) until cloud upload or 180 days is reached. After 180 days, I will try to overwrite oldest data first.</li>
+<li><strong>Offline storage capacity is a non issue</strong>: ~487 days at 4 uploads/day (~2KB per payload)</li>
+</ul>
+<h3 id="upload-strategy">Upload Strategy<a class="headerlink" href="#upload-strategy" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>6-hour upload frequency</strong> - major architectural decision</li>
+<li><strong>Max/min/average aggregation</strong> - not raw data streams</li>
+<li><strong>500 user target</strong> - stay in free tier initially</li>
+<li><strong>Server-side validation</strong> - sanity checks before public data</li>
+<li><strong>Retry logic</strong>: Don't even try uploading if internet is not detected. Exponential backoff (every 1 min for 1 hr. if failed, then 1x per 2 hours for 6 hours, then wait 24 hours)</li>
+<li><strong>Only upload new data</strong></li>
+<li><strong>Keep 180 days of data locally anyway, no reason not to, unless it's significantly easier to manage if we keep deleting it after confirmed successful upload</strong></li>
+</ul>
+<h3 id="authentication-user-management">Authentication &amp; User Management<a class="headerlink" href="#authentication-user-management" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Device-tied authentication</strong>: One-time pairing during initial setup</li>
+<li><strong>Auto-login from ESP32 app</strong>: Embedded auth tokens provide invisible access</li>
+<li><strong>External access</strong>: Standard username/password from any device/location</li>
+<li><strong>Multi-device support</strong>: Simultaneous access from ESP32 + phone + laptop</li>
+<li><strong>No re-authentication required</strong>: Persistent sessions with optional refresh</li>
+</ul>
+<h3 id="hosting-infrastructure-strategy">Hosting &amp; Infrastructure Strategy<a class="headerlink" href="#hosting-infrastructure-strategy" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>OTA server isolation</strong>: Keep <code>ota.xengineering.net</code> completely separate and unchanged</li>
+<li><strong>Dashboard hosting</strong>: <code>dashboard.xengineering.net</code> on Vercel for global performance</li>
+<li><strong>Backend services</strong>: Supabase for database, APIs, and authentication</li>
+<li><strong>Security architecture</strong>: True separation prevents cross-system compromise</li>
+<li><strong>AI development priority</strong>: Chose Vercel for superior AI assistance and documentation</li>
+</ul>
+<h3 id="server-side-processing-requirements">Server-Side Processing Requirements<a class="headerlink" href="#server-side-processing-requirements" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Route-based leaderboards</strong>: MUST be server-side (geo-fence start/finish line detection)</li>
+<li><strong>Sailing polar diagrams</strong>: Server-side aggregation of historical data</li>
+<li><strong>Complex calculations</strong>: "Farthest from home", "Most remote location", "Days at sea"</li>
+<li><strong>Fleet statistics aggregation</strong></li>
+</ul>
+<h3 id="cost-scaling">Cost &amp; Scaling<a class="headerlink" href="#cost-scaling" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Target users</strong>: 500 users maximum for initial scale</li>
+<li><strong>GPS storage cost</strong>: ~$0.18/month for GPS data (1GB over 5 years)</li>
+<li><strong>Hosting costs</strong>: $0-45/month total (Supabase + Vercel)</li>
+</ul>
+<h3 id="admin-moderation">Admin &amp; Moderation<a class="headerlink" href="#admin-moderation" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Data validation</strong>: Implement framework to discard data beyond hardcoded physical limits</li>
+<li><strong>Outlier handling</strong>: Delete bad data entirely. IE bad data becomes NAN or just not there</li>
+<li><strong>Admin privileges</strong>: Required for editing leaderboards and user management</li>
+</ul>
+<h3 id="email-messaging-future">Email &amp; Messaging (Future)<a class="headerlink" href="#email-messaging-future" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Monthly emails</strong>: Triggered 1st of month, requires unsubscribe mechanism</li>
+<li><strong>Future messaging</strong>: Can be added later without schema changes. Plan userID structure robustly now.</li>
+<li><strong>Messaging architecture</strong>: Will require server-mediated (not direct device-to-device due to NAT)</li>
+</ul>
+<h3 id="technical-implementation-decisions">Technical Implementation Decisions<a class="headerlink" href="#technical-implementation-decisions" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Sailing polar data frequency</strong>: Every 10 minutes while sailing</li>
+<li><strong>Multi-user support</strong>: ONE USER PER DEVICE</li>
+<li><strong>MVP complexity reduction</strong>: Drop "Fastest-Over-Route" and "Sailing Polar Plots" from initial release</li>
+<li><strong>Admin dashboard</strong>: Need separate admin interface for moderation and system management</li>
+<li><strong>Data retention</strong>: NO AGGREGATION NECESSARY, WE ALREADY SHOWED THAT, ON EITHER ESP32 OR SERVER SIDE. DATA SIZE IS TINY.</li>
+</ul>
+<h2 id="7-cost-analysis-projections">7. Cost Analysis &amp; Projections<a class="headerlink" href="#7-cost-analysis-projections" title="Permanent link">&para;</a></h2>
+<h3 id="service-requirements-by-scale">Service Requirements by Scale<a class="headerlink" href="#service-requirements-by-scale" title="Permanent link">&para;</a></h3>
+<p><strong>Getting Started (4-10 users) - $0/month:</strong>
+- <strong>Supabase</strong>: Free tier (500MB database, 2GB bandwidth, 500K API requests)
+- <strong>Vercel</strong>: Free tier (100GB bandwidth)
+- <strong>Runway</strong>: 6+ months completely free</p>
+<p><strong>Scale to 500 Users - $25-45/month:</strong>
+- <strong>Supabase Pro</strong>: $25/month (8GB database, 250GB bandwidth, 5M API requests)
+- <strong>Vercel Pro</strong>: $20/month (if bandwidth limits exceeded)
+- <strong>Total infrastructure cost</strong>: Predictable and manageable</p>
+<h3 id="projected-usage-500-users">Projected Usage (500 users)<a class="headerlink" href="#projected-usage-500-users" title="Permanent link">&para;</a></h3>
+<p><strong>Database Storage:</strong>
+- User profiles: ~500 × 2KB = 1MB
+- Performance data: ~500 users × 4 uploads/day × 2KB × 365 days = ~1.4GB/year
+- GPS tracks: ~500 users × 24 points/day × 50 bytes × 365 days = ~220MB/year
+- <strong>Total Year 1</strong>: ~1.6GB (fits Pro tier)</p>
+<p><strong>API Requests:</strong>
+- Data uploads: 500 users × 4 uploads/day × 30 days = 60,000/month
+- Dashboard access: 500 users × 10 sessions/month × 20 requests = 100,000/month
+- <strong>Total</strong>: ~160,000/month (fits Pro tier)</p>
+<p><strong>Cost Progression:</strong>
+- Months 1-6: Free tier
+- Year 1-2: $25/month Pro tier
+- Year 3+: $25-45/month depending on usage growth</p>
+<h3 id="alternative-cost-comparison">Alternative Cost Comparison<a class="headerlink" href="#alternative-cost-comparison" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>DigitalOcean VPS</strong>: $30/month (consistent, more management)</li>
+<li><strong>AWS/Google Cloud</strong>: $40-100/month (complex pricing, can spike)</li>
+<li><strong>Firebase</strong>: $20-80/month (unpredictable query costs)</li>
+<li><strong>Self-hosted</strong>: $100-300/month for proper 500-user infrastructure</li>
+</ul>
+<h2 id="8-development-timeline-phases">8. Development Timeline &amp; Phases<a class="headerlink" href="#8-development-timeline-phases" title="Permanent link">&para;</a></h2>
+<h3 id="phase-1-core-system-month-1">Phase 1: Core System (Month 1)<a class="headerlink" href="#phase-1-core-system-month-1" title="Permanent link">&para;</a></h3>
+<ul>
+<li>User registration and authentication</li>
+<li>Basic ESP32 data upload to Supabase</li>
+<li>Simple leaderboards (speed, energy production)</li>
+<li>Admin interface for user management</li>
+<li>Vercel deployment pipeline</li>
+</ul>
+<h3 id="phase-2-analytics-dashboard-month-2">Phase 2: Analytics Dashboard (Month 2)<a class="headerlink" href="#phase-2-analytics-dashboard-month-2" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Personal analytics charts</li>
+<li>Historical data visualization</li>
+<li>Advanced leaderboard categories</li>
+<li>Admin moderation tools</li>
+</ul>
+<h3 id="phase-3-enhanced-features-month-3">Phase 3: Enhanced Features (Month 3)<a class="headerlink" href="#phase-3-enhanced-features-month-3" title="Permanent link">&para;</a></h3>
+<ul>
+<li>GPS track visualization</li>
+<li>Fleet statistics</li>
+<li>Email summaries</li>
+<li>Performance optimizations</li>
+</ul>
+<h3 id="phase-4-social-features-future">Phase 4: Social Features (Future)<a class="headerlink" href="#phase-4-social-features-future" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Real-time notifications</li>
+<li>Basic messaging system</li>
+<li>Collaborative features</li>
+<li>Advanced analytics</li>
+</ul>
+<h2 id="9-system-architecture">9. System Architecture<a class="headerlink" href="#9-system-architecture" title="Permanent link">&para;</a></h2>
+<h3 id="overall-flow">Overall Flow<a class="headerlink" href="#overall-flow" title="Permanent link">&para;</a></h3>
+<p><strong>Proposed flow</strong>: ✅ ESP32 assembles 6-hour payload → Supabase REST API → PostgreSQL storage → Vercel-hosted dashboard with device-tied authentication</p>
+<h3 id="infrastructure-architecture">Infrastructure Architecture<a class="headerlink" href="#infrastructure-architecture" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>ESP32 Device → Supabase (Backend) → Vercel (Frontend) → User Browser
+     ↓              ↓                    ↓
+Data Upload    PostgreSQL DB      dashboard.xengineering.net
+Auth Tokens    Auto-generated     Global CDN
+               REST APIs          
+</code></pre></div>
+<h3 id="personal-analytics-dashboard">Personal Analytics Dashboard<a class="headerlink" href="#personal-analytics-dashboard" title="Permanent link">&para;</a></h3>
+<p>Historical analysis only, accessible via webapp tab, mobile + desktop compatible.</p>
+<h3 id="loginauthentication-system">Login/Authentication System<a class="headerlink" href="#loginauthentication-system" title="Permanent link">&para;</a></h3>
+<ol>
+<li>ESP32 generates unique device ID (MAC address)</li>
+<li>First-time setup: User connects to ESP32 hotspot for registration</li>
+<li>Registration webpage auto-populates device ID (invisible to user)</li>
+<li>User creates username/password → Supabase links account to device</li>
+<li>ESP32 stores auth token locally for embedded webpage access</li>
+<li>Daily usage: ESP32 app provides automatic login via embedded token</li>
+<li>External access: Username/password login from any device</li>
+<li>Recovery: Factory reset allows re-pairing to new account</li>
+</ol>
+<h3 id="user-experience-flow">User Experience Flow<a class="headerlink" href="#user-experience-flow" title="Permanent link">&para;</a></h3>
+<p><strong>First-Time Setup (5 minutes):</strong>
+- Connect to ESP32 WiFi → Registration page opens automatically
+- Enter: Username, Email, Password, Boat details
+- Device ID pre-filled (user doesn't see technical details)
+- Click "Create Account" → Done</p>
+<p><strong>Daily Usage (Invisible):</strong>
+- Open ESP32 app → Personal dashboard loads automatically
+- No login screens, no password prompts
+- Full access to personal data, leaderboards, global stats</p>
+<p><strong>Remote Access (Standard):</strong>
+- Visit dashboard.xengineering.net from phone/laptop anywhere
+- Username/password login (one-time per device)
+- Same dashboard, same data as ESP32 app</p>
+<h3 id="authentication-technical-details">Authentication Technical Details<a class="headerlink" href="#authentication-technical-details" title="Permanent link">&para;</a></h3>
+<p><strong>Supabase Authentication Strategy:</strong>
+- Row Level Security (RLS) ensures users only see their own data
+- Device-embedded auth tokens for seamless ESP32 app access
+- Standard web authentication for external access
+- Permanent device pairing (factory reset only way to unpair)
+- Admin override capability for account transfers/support</p>
+<p><strong>Security Considerations:</strong>
+- Auth tokens stored securely in ESP32 flash memory
+- Tokens can be refreshed/revoked if compromised
+- User data isolated via database-level security rules
+- Admin access for legitimate account transfers</p>
+<h2 id="10-hardware-architecture">10. Hardware Architecture<a class="headerlink" href="#10-hardware-architecture" title="Permanent link">&para;</a></h2>
+<h3 id="esp32-partition-table">ESP32 Partition Table<a class="headerlink" href="#esp32-partition-table" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Name</th>
+<th>Type</th>
+<th>SubType</th>
+<th>Offset</th>
+<th>Size</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>nvs</td>
+<td>data</td>
+<td>nvs</td>
+<td>0x9000</td>
+<td>0x5000</td>
+<td></td>
+</tr>
+<tr>
+<td>otadata</td>
+<td>data</td>
+<td>ota</td>
+<td>0xe000</td>
+<td>0x2000</td>
+<td></td>
+</tr>
+<tr>
+<td>factory</td>
+<td>app</td>
+<td>factory</td>
+<td>0x10000</td>
+<td>0x400000</td>
+<td></td>
+</tr>
+<tr>
+<td>ota_0</td>
+<td>app</td>
+<td>ota_0</td>
+<td>0x410000</td>
+<td>0x400000</td>
+<td></td>
+</tr>
+<tr>
+<td>factory_fs</td>
+<td>data</td>
+<td>spiffs</td>
+<td>0x810000</td>
+<td>0x200000</td>
+<td></td>
+</tr>
+<tr>
+<td>prod_fs</td>
+<td>data</td>
+<td>spiffs</td>
+<td>0xa10000</td>
+<td>0x200000</td>
+<td></td>
+</tr>
+<tr>
+<td>userdata</td>
+<td>data</td>
+<td>spiffs</td>
+<td>0xc10000</td>
+<td>0x3D0000</td>
+<td></td>
+</tr>
+<tr>
+<td>coredump</td>
+<td>data</td>
+<td>coredump</td>
+<td>0xFF0000</td>
+<td>0x10000</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="11-data-management">11. Data Management<a class="headerlink" href="#11-data-management" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Users need ability to delete all stored data from database</li>
+<li>GDPR compliance through Supabase data export/deletion features</li>
+</ul>
+<h2 id="12-future-expansion-capabilities">12. Future Expansion Capabilities<a class="headerlink" href="#12-future-expansion-capabilities" title="Permanent link">&para;</a></h2>
+<h3 id="real-time-social-features-supabase-enables">Real-time Social Features (Supabase Enables)<a class="headerlink" href="#real-time-social-features-supabase-enables" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Live position sharing between friends</li>
+<li>Real-time leaderboard updates</li>
+<li>Instant notifications for achievements</li>
+<li>Group voyage planning</li>
+<li>Weather alerts to nearby boats</li>
+</ul>
+<h3 id="advanced-analytics-postgresql-enables">Advanced Analytics (PostgreSQL Enables)<a class="headerlink" href="#advanced-analytics-postgresql-enables" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Complex multi-table queries for insights</li>
+<li>Historical trend analysis</li>
+<li>Predictive maintenance algorithms</li>
+<li>Fleet performance comparisons</li>
+<li>Equipment reliability statistics</li>
+</ul>
+<h3 id="third-party-integrations">Third-party Integrations<a class="headerlink" href="#third-party-integrations" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Weather service APIs</li>
+<li>Marina databases</li>
+<li>Parts supplier catalogs</li>
+<li>Insurance usage-based rates</li>
+<li>Navigation software integration</li>
+</ul>
+<h3 id="global-scaling-vercel-enables">Global Scaling (Vercel Enables)<a class="headerlink" href="#global-scaling-vercel-enables" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Automatic global CDN distribution</li>
+<li>Edge computing for regional optimizations</li>
+<li>A/B testing for feature rollouts</li>
+<li>Performance monitoring and optimization</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2025 Xengineering
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.sections", "navigation.expand", "search.highlight"], "search": "../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.50899def.min.js"></script>
+      
+    
+  </body>
+</html>

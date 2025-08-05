@@ -1,0 +1,2417 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Technical documentation for Xengineering marine open-source alternator regulator system">
+      
+      
+        <meta name="author" content="Xengineering">
+      
+      
+        <link rel="canonical" href="https://docs.xengineering.net/software/esp32/field_control_docs/">
+      
+      
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.16">
+    
+    
+      
+        <title>Alternator Field Control - Xengineering Alternator Regulator Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.7e37652d.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#alternator-field-control" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Xengineering Alternator Regulator Documentation" class="md-header__button md-logo" aria-label="Xengineering Alternator Regulator Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Xengineering Alternator Regulator Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Alternator Field Control
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/markliquid1/regulatordocumentation" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    markliquid1/regulatordocumentation
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Xengineering Alternator Regulator Documentation" class="md-nav__button md-logo" aria-label="Xengineering Alternator Regulator Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Xengineering Alternator Regulator Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/markliquid1/regulatordocumentation" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    markliquid1/regulatordocumentation
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Basic Use
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Basic Use
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../basic-use/getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Getting Started
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../basic-use/installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Installation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../basic-use/quick-start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quick Start Guide
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../basic-use/troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Troubleshooting
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Hardware
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Hardware
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hardware/system-architecture.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    System Architecture
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hardware/digital-inputs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Digital Inputs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hardware/digital-outputs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Digital Outputs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hardware/field-output.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Alternator Field Drive
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hardware/analog-inputs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Analog Inputs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hardware/power-supply.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Power Supply
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hardware/esp32-controller.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    ESP32 Controller
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hardware/connectors/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Connectors & Wiring
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Software - ESP32
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Software - ESP32
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../system_overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    System Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sensor_systems/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Sensor Systems
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../communication_interfaces/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Communication Interfaces
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../field_control.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Field Control
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../learning_mode.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Learning Mode
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../battery_management.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Battery Management
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../network_web_system.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Network & Web System
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../safety_monitoring.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Safety & Monitoring
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../advanced_features.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Advanced Features
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../configuration.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Configuration
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Software - Client
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Software - Client
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../client/web-interface-overview.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Web Interface Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../client/html/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    HTML Structure
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../client/javascript/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    JavaScript Logic
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../client/css/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    CSS Styling
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../client/realtime-data.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Real-time Data Flow
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Local Xengineering Ref Only
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Local Xengineering Ref Only
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../localstuff%20for%20Xengineering%20ref/esp32_partition_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Partitioning
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../localstuff%20for%20Xengineering%20ref/mkdocs_setup_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    MkDocs Guide
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../localstuff for Xengineering ref/updated_ota_docs V3.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    OTA
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../localstuff%20for%20Xengineering%20ref/updated_planning_doc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Planning
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#theory-of-operation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Theory of Operation
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Theory of Operation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#alternator-field-control-fundamentals" class="md-nav__link">
+    <span class="md-ellipsis">
+      Alternator Field Control Fundamentals
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#field-control-circuit" class="md-nav__link">
+    <span class="md-ellipsis">
+      Field Control Circuit
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pwm-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      PWM Configuration
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#standard-control-algorithm-adjustfield" class="md-nav__link">
+    <span class="md-ellipsis">
+      Standard Control Algorithm (AdjustField())
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Standard Control Algorithm (AdjustField())">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#control-flow-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Control Flow Overview
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#core-control-logic" class="md-nav__link">
+    <span class="md-ellipsis">
+      Core Control Logic
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#target-current-calculation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Target Current Calculation
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Target Current Calculation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hilow-mode-selection" class="md-nav__link">
+    <span class="md-ellipsis">
+      Hi/Low Mode Selection
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rpm-based-current-curves" class="md-nav__link">
+    <span class="md-ellipsis">
+      RPM-Based Current Curves
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#current-source-selection" class="md-nav__link">
+    <span class="md-ellipsis">
+      Current Source Selection
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#control-algorithm-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      Control Algorithm Analysis
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Control Algorithm Analysis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#proportional-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      Proportional Control
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#safety-override-hierarchy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Safety Override Hierarchy
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#emergency-protection-systems" class="md-nav__link">
+    <span class="md-ellipsis">
+      Emergency Protection Systems
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Emergency Protection Systems">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#field-collapse-protection" class="md-nav__link">
+    <span class="md-ellipsis">
+      Field Collapse Protection
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hardware-overvoltage-protection" class="md-nav__link">
+    <span class="md-ellipsis">
+      Hardware Overvoltage Protection
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#voltage-source-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Voltage Source Validation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#advanced-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      Advanced Features
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Advanced Features">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#charging-stage-logic" class="md-nav__link">
+    <span class="md-ellipsis">
+      Charging Stage Logic
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#force-float-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      Force Float Mode
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#weather-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Weather Integration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bms-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      BMS Integration
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#field-control-calculations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Field Control Calculations
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Field Control Calculations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#field-power-calculation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Field Power Calculation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#duty-cycle-limits" class="md-nav__link">
+    <span class="md-ellipsis">
+      Duty Cycle Limits
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#performance-characteristics" class="md-nav__link">
+    <span class="md-ellipsis">
+      Performance Characteristics
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Performance Characteristics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#response-time-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      Response Time Analysis
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#control-stability" class="md-nav__link">
+    <span class="md-ellipsis">
+      Control Stability
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resource-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      Resource Requirements
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration Parameters
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuration Parameters">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic Settings
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#advanced-settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      Advanced Settings
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rpm-curve-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      RPM Curve Configuration
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting-guide" class="md-nav__link">
+    <span class="md-ellipsis">
+      Troubleshooting Guide
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting Guide">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#common-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      Common Issues
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common Issues">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#no-field-output" class="md-nav__link">
+    <span class="md-ellipsis">
+      No Field Output
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#voltage-regulation-problems" class="md-nav__link">
+    <span class="md-ellipsis">
+      Voltage Regulation Problems
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#oscillation-or-instability" class="md-nav__link">
+    <span class="md-ellipsis">
+      Oscillation or Instability
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#overheating" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overheating
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#diagnostic-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      Diagnostic Tools
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Diagnostic Tools">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#real-time-monitoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      Real-time Monitoring
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-logging" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Logging
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="alternator-field-control">Alternator Field Control<a class="headerlink" href="#alternator-field-control" title="Permanent link">&para;</a></h1>
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
+<p>The alternator field control system is the core function of the regulator, responsible for precisely controlling alternator output by modulating the field current through PWM (Pulse Width Modulation). The system implements two distinct control algorithms: standard mode for basic operation and Learning Mode for adaptive thermal management.</p>
+<h2 id="theory-of-operation">Theory of Operation<a class="headerlink" href="#theory-of-operation" title="Permanent link">&para;</a></h2>
+<h3 id="alternator-field-control-fundamentals">Alternator Field Control Fundamentals<a class="headerlink" href="#alternator-field-control-fundamentals" title="Permanent link">&para;</a></h3>
+<p>An alternator generates electrical power through electromagnetic induction. The strength of the magnetic field (controlled by field current) directly determines the output voltage and current capacity. By varying the field current, the regulator controls:</p>
+<ul>
+<li><strong>Output voltage</strong>: Higher field current = higher output voltage</li>
+<li><strong>Current capability</strong>: Stronger field = ability to maintain voltage under load</li>
+<li><strong>Power output</strong>: Combined effect determines total alternator power delivery</li>
+</ul>
+<h3 id="field-control-circuit">Field Control Circuit<a class="headerlink" href="#field-control-circuit" title="Permanent link">&para;</a></h3>
+<p>The field control circuit uses a high-current MOSFET driver to switch the field coil:</p>
+<div class="highlight"><pre><span></span><code>Battery 12V → Field Coil → MOSFET (controlled by ESP32 PWM) → Ground
+                ↑
+            Flyback Diode
+</code></pre></div>
+<p><strong>Key Components</strong>:
+- <strong>Field Coil</strong>: Typically 2-6Ω resistance, inductance creates flyback voltage
+- <strong>MOSFET</strong>: High-current switch (GPIO pin 4 enable, PWM pin 32 control)
+- <strong>Flyback Diode</strong>: Protects MOSFET from inductive kickback
+- <strong>PWM Signal</strong>: 12-bit resolution (4096 steps), 15kHz switching frequency</p>
+<h3 id="pwm-configuration">PWM Configuration<a class="headerlink" href="#pwm-configuration" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1">// PWM setup parameters</span>
+<span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">pwmPin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">32</span><span class="p">;</span><span class="w">              </span><span class="c1">// Field PWM output pin</span>
+<span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">pwmResolution</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">12</span><span class="p">;</span><span class="w">       </span><span class="c1">// 12-bit resolution (0-4095)</span>
+<span class="kt">float</span><span class="w"> </span><span class="n">SwitchingFrequency</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">15000</span><span class="p">;</span><span class="w">   </span><span class="c1">// 15kHz - above audible range</span>
+
+<span class="c1">// Initialize PWM</span>
+<span class="n">ledcAttach</span><span class="p">(</span><span class="n">pwmPin</span><span class="p">,</span><span class="w"> </span><span class="n">SwitchingFrequency</span><span class="p">,</span><span class="w"> </span><span class="n">pwmResolution</span><span class="p">);</span>
+
+<span class="c1">// Set duty cycle</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">setDutyPercent</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">percent</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">percent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">constrain</span><span class="p">(</span><span class="n">percent</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">);</span>
+<span class="w">  </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">duty</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mi">4095UL</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">percent</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">100</span><span class="p">;</span>
+<span class="w">  </span><span class="n">ledcWrite</span><span class="p">(</span><span class="n">pwmPin</span><span class="p">,</span><span class="w"> </span><span class="n">duty</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Frequency Selection</strong>: 15kHz provides:
+- Above audible range (&gt;15kHz) to prevent noise
+- Below EMI concerns (&lt;25kHz)
+- Good magnetic efficiency for field coil inductance
+- Fast enough response for control stability</p>
+<h2 id="standard-control-algorithm-adjustfield">Standard Control Algorithm (<code>AdjustField()</code>)<a class="headerlink" href="#standard-control-algorithm-adjustfield" title="Permanent link">&para;</a></h2>
+<p>The standard algorithm implements traditional alternator regulation with multiple safety layers and override options.</p>
+<h3 id="control-flow-overview">Control Flow Overview<a class="headerlink" href="#control-flow-overview" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Sensor Inputs → Target Calculation → Field Adjustment → Safety Overrides → PWM Output
+     ↓               ↓                    ↓                  ↓               ↓
+Battery V,I → uTargetAmps (Hi/Low) → dutyCycle ± step → Temperature Limit → MOSFET
+Temperature → RPM Curve Override   → PID-like Control → Voltage Limit    → Field Coil
+Engine RPM  → Manual Override      → Rate Limited    → Current Limit     → Alt Output
+</code></pre></div>
+<h3 id="core-control-logic">Core Control Logic<a class="headerlink" href="#core-control-logic" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="kt">void</span><span class="w"> </span><span class="nf">AdjustField</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">static</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">lastFieldAdjustment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">currentTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">millis</span><span class="p">();</span>
+
+<span class="w">  </span><span class="c1">// Timing control - update every FieldAdjustmentInterval (50ms default)</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">currentTime</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">lastFieldAdjustment</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">FieldAdjustmentInterval</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="c1">// Enable conditions</span>
+<span class="w">  </span><span class="n">chargingEnabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">Ignition</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">OnOff</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// Emergency protection</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">currentBatteryVoltage</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="p">(</span><span class="n">ChargingVoltageTarget</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">0.2</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">digitalWrite</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w">              </span><span class="c1">// Immediate field disable</span>
+<span class="w">    </span><span class="n">dutyCycle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MinDuty</span><span class="p">;</span>
+<span class="w">    </span><span class="n">fieldCollapseTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">currentTime</span><span class="p">;</span>
+<span class="w">    </span><span class="n">queueConsoleMessage</span><span class="p">(</span><span class="s">&quot;EMERGENCY: Field collapsed - voltage spike&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">return</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">chargingEnabled</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">digitalWrite</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span><span class="w">              </span><span class="c1">// Enable field MOSFET</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ManualFieldToggle</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">    </span><span class="c1">// Automatic mode</span>
+<span class="w">      </span><span class="c1">// Step 1: Base target from Hi/Low setting</span>
+<span class="w">      </span><span class="n">uTargetAmps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">HiLow</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">TargetAmps</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">TargetAmpL</span><span class="p">;</span>
+
+<span class="w">      </span><span class="c1">// Step 2: RPM curve override</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">AmpControlByRPM</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">RPM</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">100</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">RPM</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">6000</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">rpmBasedAmps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">interpolateAmpsFromRPM</span><span class="p">(</span><span class="n">RPM</span><span class="p">);</span>
+<span class="w">        </span><span class="n">uTargetAmps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">HiLow</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">min</span><span class="p">(</span><span class="n">rpmBasedAmps</span><span class="p">,</span><span class="w"> </span><span class="n">TargetAmpL</span><span class="p">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">rpmBasedAmps</span><span class="p">;</span>
+<span class="w">      </span><span class="p">}</span>
+
+<span class="w">      </span><span class="c1">// Step 3: Force Float override</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ForceFloat</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">uTargetAmps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w">             </span><span class="c1">// Target zero amps for float charging</span>
+<span class="w">      </span><span class="p">}</span>
+
+<span class="w">      </span><span class="c1">// Step 4: Weather mode override</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">weatherModeEnabled</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">currentWeatherMode</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">uTargetAmps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">-99</span><span class="p">;</span><span class="w">           </span><span class="c1">// Disable charging in high solar</span>
+<span class="w">      </span><span class="p">}</span>
+
+<span class="w">      </span><span class="c1">// Step 5: Get current measurement</span>
+<span class="w">      </span><span class="n">targetCurrent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">ForceFloat</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">Bcur</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">getTargetAmps</span><span class="p">();</span>
+
+<span class="w">      </span><span class="c1">// Step 6: Proportional control</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">targetCurrent</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">uTargetAmps</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">dutyCycle</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="p">(</span><span class="n">MaxDuty</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">dutyStep</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">dutyCycle</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">dutyStep</span><span class="p">;</span><span class="w">       </span><span class="c1">// Increase field</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">targetCurrent</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">uTargetAmps</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">dutyCycle</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="p">(</span><span class="n">MinDuty</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">dutyStep</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">dutyCycle</span><span class="w"> </span><span class="o">-=</span><span class="w"> </span><span class="n">dutyStep</span><span class="p">;</span><span class="w">       </span><span class="c1">// Decrease field</span>
+<span class="w">      </span><span class="p">}</span>
+
+<span class="w">      </span><span class="c1">// Step 7: Safety overrides (progressively aggressive)</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">TempToUse</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">TemperatureLimitF</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">dutyCycle</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="p">(</span><span class="n">MinDuty</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">2</span><span class="o">*</span><span class="n">dutyStep</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">dutyCycle</span><span class="w"> </span><span class="o">-=</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">dutyStep</span><span class="p">;</span><span class="w">   </span><span class="c1">// Temperature protection</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">currentBatteryVoltage</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">ChargingVoltageTarget</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">dutyCycle</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="p">(</span><span class="n">MinDuty</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">3</span><span class="o">*</span><span class="n">dutyStep</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">dutyCycle</span><span class="w"> </span><span class="o">-=</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">dutyStep</span><span class="p">;</span><span class="w">   </span><span class="c1">// Voltage protection</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Bcur</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">MaximumAllowedBatteryAmps</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">dutyCycle</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="p">(</span><span class="n">MinDuty</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">dutyStep</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">dutyCycle</span><span class="w"> </span><span class="o">-=</span><span class="w"> </span><span class="n">dutyStep</span><span class="p">;</span><span class="w">       </span><span class="c1">// Battery current protection</span>
+<span class="w">      </span><span class="p">}</span>
+
+<span class="w">      </span><span class="n">dutyCycle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">constrain</span><span class="p">(</span><span class="n">dutyCycle</span><span class="p">,</span><span class="w"> </span><span class="n">MinDuty</span><span class="p">,</span><span class="w"> </span><span class="n">MaxDuty</span><span class="p">);</span>
+
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="c1">// Manual override mode</span>
+<span class="w">      </span><span class="n">dutyCycle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ManualDutyTarget</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Charging disabled</span>
+<span class="w">    </span><span class="n">digitalWrite</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="w">    </span><span class="n">dutyCycle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MinDuty</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="c1">// Apply calculated duty cycle</span>
+<span class="w">  </span><span class="n">setDutyPercent</span><span class="p">((</span><span class="kt">int</span><span class="p">)</span><span class="n">dutyCycle</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// Calculate field parameters for display</span>
+<span class="w">  </span><span class="n">vvout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dutyCycle</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">100</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">currentBatteryVoltage</span><span class="p">;</span>
+<span class="w">  </span><span class="n">iiout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vvout</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">FieldResistance</span><span class="p">;</span>
+
+<span class="w">  </span><span class="n">lastFieldAdjustment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">currentTime</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="target-current-calculation">Target Current Calculation<a class="headerlink" href="#target-current-calculation" title="Permanent link">&para;</a></h3>
+<h4 id="hilow-mode-selection">Hi/Low Mode Selection<a class="headerlink" href="#hilow-mode-selection" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1">// Basic target selection</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">HiLow</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">uTargetAmps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TargetAmps</span><span class="p">;</span><span class="w">     </span><span class="c1">// Normal mode (typically 40A)</span>
+<span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">uTargetAmps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TargetAmpL</span><span class="p">;</span><span class="w">     </span><span class="c1">// Low mode (typically 25A)</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Usage</strong>:
+- <strong>Normal mode</strong>: Maximum alternator output for fast charging
+- <strong>Low mode</strong>: Reduced output for extended operation or hot conditions</p>
+<h4 id="rpm-based-current-curves">RPM-Based Current Curves<a class="headerlink" href="#rpm-based-current-curves" title="Permanent link">&para;</a></h4>
+<p>The system supports a 20-point RPM vs current curve for engine-specific optimization:</p>
+<div class="highlight"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="nf">interpolateAmpsFromRPM</span><span class="p">(</span><span class="kt">float</span><span class="w"> </span><span class="n">currentRPM</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// Arrays from global variables RPM1-RPM20, Amps1-Amps20</span>
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">rpmPoints</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">RPM1</span><span class="p">,</span><span class="w"> </span><span class="n">RPM2</span><span class="p">,</span><span class="w"> </span><span class="n">RPM3</span><span class="p">,</span><span class="w"> </span><span class="p">...};</span>
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">ampPoints</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">Amps1</span><span class="p">,</span><span class="w"> </span><span class="n">Amps2</span><span class="p">,</span><span class="w"> </span><span class="n">Amps3</span><span class="p">,</span><span class="w"> </span><span class="p">...};</span>
+
+<span class="w">  </span><span class="c1">// Find valid entries (non-zero RPM values)</span>
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">validPoints</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">20</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">rpmPoints</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="n">validPoints</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="c1">// Handle edge cases</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">currentRPM</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">rpmPoints</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">ampPoints</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">currentRPM</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">rpmPoints</span><span class="p">[</span><span class="n">validPoints</span><span class="mi">-1</span><span class="p">])</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">ampPoints</span><span class="p">[</span><span class="n">validPoints</span><span class="mi">-1</span><span class="p">];</span>
+
+<span class="w">  </span><span class="c1">// Linear interpolation between points</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">validPoints</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">currentRPM</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">rpmPoints</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">currentRPM</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">rpmPoints</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="kt">float</span><span class="w"> </span><span class="n">ratio</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">currentRPM</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">rpmPoints</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="kt">float</span><span class="p">)(</span><span class="n">rpmPoints</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">rpmPoints</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+<span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="n">ampPoints</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">ratio</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">ampPoints</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">ampPoints</span><span class="p">[</span><span class="n">i</span><span class="p">]));</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">TargetAmps</span><span class="p">;</span><span class="w">  </span><span class="c1">// Fallback</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Example RPM Curve</strong>:
+<div class="highlight"><pre><span></span><code>RPM:   0   500  800  1000 1200 1500 4000
+Amps:  0   20   30   40   40   50   30
+</code></pre></div></p>
+<p><strong>Benefits</strong>:
+- <strong>Low RPM protection</strong>: Reduced load when engine can't handle full power
+- <strong>High RPM protection</strong>: Reduced field at excessive speeds
+- <strong>Optimal power</strong>: Maximum safe output at engine's power band
+- <strong>Smooth transitions</strong>: Linear interpolation prevents sudden changes</p>
+<h4 id="current-source-selection">Current Source Selection<a class="headerlink" href="#current-source-selection" title="Permanent link">&para;</a></h4>
+<p>The <code>getTargetAmps()</code> function implements sensor source selection with fallback:</p>
+<div class="highlight"><pre><span></span><code><span class="kt">float</span><span class="w"> </span><span class="nf">getTargetAmps</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">switch</span><span class="w"> </span><span class="p">(</span><span class="n">AmpSrc</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="mi">0</span><span class="p">:</span><span class="w">  </span><span class="c1">// Alternator Hall Effect Sensor (default)</span>
+<span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="n">MeasuredAmps</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="w">  </span><span class="c1">// Battery Shunt (INA228)</span>
+<span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="n">Bcur</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="mi">6</span><span class="p">:</span><span class="w">  </span><span class="c1">// Victron VE.Direct</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">abs</span><span class="p">(</span><span class="n">VictronCurrent</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mf">0.1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">VictronCurrent</span><span class="p">;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">      </span><span class="c1">// Fallback to battery shunt</span>
+<span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="n">Bcur</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">default</span><span class="o">:</span>
+<span class="w">      </span><span class="n">queueConsoleMessage</span><span class="p">(</span><span class="s">&quot;Invalid AmpSrc, using Alt Hall Sensor&quot;</span><span class="p">);</span>
+<span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="n">MeasuredAmps</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Source Selection Strategy</strong>:
+- <strong>Alternator current</strong>: Direct measurement of alternator output
+- <strong>Battery current</strong>: Net battery charging rate (accounts for loads)
+- <strong>External sources</strong>: NMEA2K, NMEA0183, VE.Direct integration</p>
+<h3 id="control-algorithm-analysis">Control Algorithm Analysis<a class="headerlink" href="#control-algorithm-analysis" title="Permanent link">&para;</a></h3>
+<h4 id="proportional-control">Proportional Control<a class="headerlink" href="#proportional-control" title="Permanent link">&para;</a></h4>
+<p>The standard algorithm implements simple proportional control:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Increase field if below target</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">targetCurrent</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">uTargetAmps</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">dutyCycle</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="p">(</span><span class="n">MaxDuty</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">dutyStep</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">dutyCycle</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">dutyStep</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// Decrease field if above target  </span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">targetCurrent</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">uTargetAmps</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">dutyCycle</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="p">(</span><span class="n">MinDuty</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">dutyStep</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">dutyCycle</span><span class="w"> </span><span class="o">-=</span><span class="w"> </span><span class="n">dutyStep</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Parameters</strong>:
+- <code>dutyStep</code>: Adjustment increment per cycle (default 0.8%)
+- <code>FieldAdjustmentInterval</code>: Update rate (default 50ms)
+- Result: ~1.6%/second maximum change rate</p>
+<p><strong>Characteristics</strong>:
+- <strong>Stable</strong>: No overshoot or oscillation
+- <strong>Responsive</strong>: 50ms update rate
+- <strong>Predictable</strong>: Linear response to error</p>
+<h4 id="safety-override-hierarchy">Safety Override Hierarchy<a class="headerlink" href="#safety-override-hierarchy" title="Permanent link">&para;</a></h4>
+<p>Safety overrides apply with increasing aggressiveness:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Level 1: Temperature (2x step reduction)</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">TempToUse</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">TemperatureLimitF</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">dutyCycle</span><span class="w"> </span><span class="o">-=</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">dutyStep</span><span class="p">;</span><span class="w">  </span><span class="c1">// 1.6% reduction</span>
+<span class="p">}</span>
+
+<span class="c1">// Level 2: Voltage (3x step reduction)  </span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">currentBatteryVoltage</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">ChargingVoltageTarget</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">dutyCycle</span><span class="w"> </span><span class="o">-=</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">dutyStep</span><span class="p">;</span><span class="w">  </span><span class="c1">// 2.4% reduction</span>
+<span class="p">}</span>
+
+<span class="c1">// Level 3: Battery current (1x step reduction)</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Bcur</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">MaximumAllowedBatteryAmps</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">dutyCycle</span><span class="w"> </span><span class="o">-=</span><span class="w"> </span><span class="n">dutyStep</span><span class="p">;</span><span class="w">      </span><span class="c1">// 0.8% reduction</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Priority Logic</strong>:
+1. <strong>Voltage protection</strong>: Most aggressive (prevents alternator runaway)
+2. <strong>Temperature protection</strong>: Highly aggressive (prevents thermal damage)
+3. <strong>Current protection</strong>: Standard rate (protects battery and wiring)</p>
+<h2 id="emergency-protection-systems">Emergency Protection Systems<a class="headerlink" href="#emergency-protection-systems" title="Permanent link">&para;</a></h2>
+<h3 id="field-collapse-protection">Field Collapse Protection<a class="headerlink" href="#field-collapse-protection" title="Permanent link">&para;</a></h3>
+<p>Immediate field shutdown on dangerous voltage spikes:</p>
+<div class="highlight"><pre><span></span><code><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">currentBatteryVoltage</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="p">(</span><span class="n">ChargingVoltageTarget</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">0.2</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">digitalWrite</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w">              </span><span class="c1">// Emergency MOSFET disable</span>
+<span class="w">  </span><span class="n">dutyCycle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MinDuty</span><span class="p">;</span>
+<span class="w">  </span><span class="n">setDutyPercent</span><span class="p">((</span><span class="kt">int</span><span class="p">)</span><span class="n">dutyCycle</span><span class="p">);</span>
+<span class="w">  </span><span class="n">fieldCollapseTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">currentTime</span><span class="p">;</span>
+<span class="w">  </span><span class="n">queueConsoleMessage</span><span class="p">(</span><span class="s">&quot;EMERGENCY: Field collapsed - voltage spike&quot;</span><span class="p">);</span>
+<span class="w">  </span><span class="k">return</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Recovery Logic</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1">// Stay disabled for 10 seconds</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">fieldCollapseTime</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="p">(</span><span class="n">currentTime</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">fieldCollapseTime</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">FIELD_COLLAPSE_DELAY</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">digitalWrite</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="w">  </span><span class="n">dutyCycle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MinDuty</span><span class="p">;</span>
+<span class="w">  </span><span class="k">return</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// Clear flag after delay</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">fieldCollapseTime</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="p">(</span><span class="n">currentTime</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">fieldCollapseTime</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">FIELD_COLLAPSE_DELAY</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">fieldCollapseTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">  </span><span class="n">queueConsoleMessage</span><span class="p">(</span><span class="s">&quot;Field collapse delay expired - normal operation resumed&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<p><strong>Benefits</strong>:
+- <strong>Immediate response</strong>: Hardware-level protection
+- <strong>Prevents runaway</strong>: Stops voltage from climbing further
+- <strong>Automatic recovery</strong>: Resumes operation when safe
+- <strong>User notification</strong>: Clear indication of protective action</p>
+<h3 id="hardware-overvoltage-protection">Hardware Overvoltage Protection<a class="headerlink" href="#hardware-overvoltage-protection" title="Permanent link">&para;</a></h3>
+<p>The INA228 provides independent hardware protection:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Configure hardware threshold</span>
+<span class="kt">uint16_t</span><span class="w"> </span><span class="n">thresholdLSB</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">uint16_t</span><span class="p">)(</span><span class="n">VoltageHardwareLimit</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">0.003125</span><span class="p">);</span>
+<span class="n">INA</span><span class="p">.</span><span class="n">setBusOvervoltageTH</span><span class="p">(</span><span class="n">thresholdLSB</span><span class="p">);</span>
+<span class="n">INA</span><span class="p">.</span><span class="n">setDiagnoseAlertBit</span><span class="p">(</span><span class="n">INA228_DIAG_BUS_OVER_LIMIT</span><span class="p">);</span>
+
+<span class="c1">// Direct hardware write for latching alert</span>
+<span class="n">Wire</span><span class="p">.</span><span class="n">beginTransmission</span><span class="p">(</span><span class="n">INA</span><span class="p">.</span><span class="n">getAddress</span><span class="p">());</span>
+<span class="n">Wire</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="mh">0x0F</span><span class="p">);</span><span class="w">  </span><span class="c1">// ALERT_MASK_ENABLE register</span>
+<span class="n">Wire</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="mh">0x98</span><span class="p">);</span><span class="w">  </span><span class="c1">// Enable ALERT pin + latch + bus overvoltage</span>
+<span class="n">Wire</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="mh">0x00</span><span class="p">);</span>
+<span class="n">Wire</span><span class="p">.</span><span class="n">endTransmission</span><span class="p">();</span>
+</code></pre></div>
+<p><strong>Operation</strong>:
+- <strong>Independent</strong>: Functions regardless of ESP32 software state
+- <strong>Fast response</strong>: Hardware detection and response
+- <strong>Latching</strong>: Maintains alert until manually cleared
+- <strong>Automatic recovery</strong>: Software monitors and clears when voltage drops</p>
+<h3 id="voltage-source-validation">Voltage Source Validation<a class="headerlink" href="#voltage-source-validation" title="Permanent link">&para;</a></h3>
+<p>Battery voltage measurement includes redundancy checking:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Cross-validation between sensors</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">abs</span><span class="p">(</span><span class="n">BatteryV</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">IBV</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mf">0.1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">queueConsoleMessage</span><span class="p">(</span><span class="s">&quot;Disagreement in measured Battery Voltage - Field Shut Off for safety!&quot;</span><span class="p">);</span>
+<span class="w">  </span><span class="n">digitalWrite</span><span class="p">(</span><span class="mi">33</span><span class="p">,</span><span class="w"> </span><span class="n">HIGH</span><span class="p">);</span><span class="w">  </span><span class="c1">// Sound alarm</span>
+<span class="w">  </span><span class="n">digitalWrite</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w">      </span><span class="c1">// Disable field</span>
+<span class="w">  </span><span class="n">dutyCycle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MinDuty</span><span class="p">;</span>
+<span class="w">  </span><span class="k">return</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Sensors Compared</strong>:
+- <code>BatteryV</code>: ADS1115 measurement via voltage divider
+- <code>IBV</code>: INA228 high-precision measurement
+- <strong>Tolerance</strong>: 0.1V maximum difference allowed</p>
+<h2 id="advanced-features">Advanced Features<a class="headerlink" href="#advanced-features" title="Permanent link">&para;</a></h2>
+<h3 id="charging-stage-logic">Charging Stage Logic<a class="headerlink" href="#charging-stage-logic" title="Permanent link">&para;</a></h3>
+<p>The system implements bulk/float charging stages:</p>
+<div class="highlight"><pre><span></span><code><span class="kt">void</span><span class="w"> </span><span class="nf">updateChargingStage</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kt">float</span><span class="w"> </span><span class="n">currentVoltage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getBatteryVoltage</span><span class="p">();</span>
+
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">inBulkStage</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">ChargingVoltageTarget</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">BulkVoltage</span><span class="p">;</span><span class="w">  </span><span class="c1">// Typically 13.9V</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">currentVoltage</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">ChargingVoltageTarget</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">bulkCompleteTimer</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">bulkCompleteTimer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">millis</span><span class="p">();</span>
+<span class="w">      </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">millis</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">bulkCompleteTimer</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">bulkCompleteTime</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">inBulkStage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<span class="w">        </span><span class="n">floatStartTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">millis</span><span class="p">();</span>
+<span class="w">        </span><span class="n">queueConsoleMessage</span><span class="p">(</span><span class="s">&quot;Bulk stage complete, switching to float&quot;</span><span class="p">);</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">bulkCompleteTimer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">ChargingVoltageTarget</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FloatVoltage</span><span class="p">;</span><span class="w">  </span><span class="c1">// Typically 13.4V</span>
+
+<span class="w">    </span><span class="c1">// Return to bulk after time expires or voltage drops</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">((</span><span class="n">millis</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">floatStartTime</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">FLOAT_DURATION</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">1000</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>
+<span class="w">        </span><span class="p">(</span><span class="n">currentVoltage</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">FloatVoltage</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">0.5</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">inBulkStage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="w">      </span><span class="n">queueConsoleMessage</span><span class="p">(</span><span class="s">&quot;Returning to bulk stage&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Stage Characteristics</strong>:
+- <strong>Bulk stage</strong>: Higher voltage for fast charging
+- <strong>Float stage</strong>: Lower voltage for maintenance
+- <strong>Automatic transitions</strong>: Based on voltage and time
+- <strong>Return logic</strong>: Drops back to bulk if voltage falls or time expires</p>
+<h3 id="force-float-mode">Force Float Mode<a class="headerlink" href="#force-float-mode" title="Permanent link">&para;</a></h3>
+<p>Special mode for precision float charging:</p>
+<div class="highlight"><pre><span></span><code><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ForceFloat</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">uTargetAmps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w">              </span><span class="c1">// Target zero net battery current</span>
+<span class="w">  </span><span class="n">targetCurrent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Bcur</span><span class="p">;</span><span class="w">         </span><span class="c1">// Use battery current, not alternator current</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Purpose</strong>:
+- <strong>Precision float</strong>: Maintains exact float voltage
+- <strong>Load compensation</strong>: Accounts for vessel loads
+- <strong>Battery protection</strong>: Prevents overcharging
+- <strong>Long-term storage</strong>: Ideal for seasonal storage</p>
+<h3 id="weather-integration">Weather Integration<a class="headerlink" href="#weather-integration" title="Permanent link">&para;</a></h3>
+<p>Solar panel integration for smart charging:</p>
+<div class="highlight"><pre><span></span><code><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">weatherModeEnabled</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">currentWeatherMode</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">uTargetAmps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">-99</span><span class="p">;</span><span class="w">  </span><span class="c1">// Disable alternator charging</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Logic</strong>:
+- Fetches solar forecast data
+- Disables alternator when sufficient solar available
+- Reduces engine runtime and fuel consumption
+- Integrates with solar charge controllers</p>
+<h3 id="bms-integration">BMS Integration<a class="headerlink" href="#bms-integration" title="Permanent link">&para;</a></h3>
+<p>Battery Management System override capability:</p>
+<div class="highlight"><pre><span></span><code><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">bmsLogic</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">bmsSignalActive</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">!</span><span class="n">digitalRead</span><span class="p">(</span><span class="mi">36</span><span class="p">);</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">bmsLogicLevelOff</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">chargingEnabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">chargingEnabled</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">bmsSignalActive</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">chargingEnabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">chargingEnabled</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">!</span><span class="n">bmsSignalActive</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Features</strong>:
+- Digital input from BMS
+- Configurable polarity (active high/low)
+- Override capability for LiFePO4 protection
+- Integration with external battery protection systems</p>
+<h2 id="field-control-calculations">Field Control Calculations<a class="headerlink" href="#field-control-calculations" title="Permanent link">&para;</a></h2>
+<h3 id="field-power-calculation">Field Power Calculation<a class="headerlink" href="#field-power-calculation" title="Permanent link">&para;</a></h3>
+<p>Real-time field power parameters:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Field voltage (approximate)</span>
+<span class="n">vvout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dutyCycle</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">100</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">currentBatteryVoltage</span><span class="p">;</span>
+
+<span class="c1">// Field current (approximate, assumes resistive load)</span>
+<span class="n">iiout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vvout</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">FieldResistance</span><span class="p">;</span>
+
+<span class="c1">// Field power</span>
+<span class="kt">float</span><span class="w"> </span><span class="n">fieldPower</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vvout</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">iiout</span><span class="p">;</span>
+</code></pre></div>
+<p><strong>Accuracy Limitations</strong>:
+- Assumes purely resistive field coil
+- Ignores inductive effects and temperature coefficient
+- Provides reasonable approximation for monitoring</p>
+<h3 id="duty-cycle-limits">Duty Cycle Limits<a class="headerlink" href="#duty-cycle-limits" title="Permanent link">&para;</a></h3>
+<p>Configurable limits protect alternator and electrical system:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Global limits</span>
+<span class="kt">float</span><span class="w"> </span><span class="n">MaxDuty</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">99.0</span><span class="p">;</span><span class="w">    </span><span class="c1">// Maximum field strength</span>
+<span class="kt">float</span><span class="w"> </span><span class="n">MinDuty</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0</span><span class="p">;</span><span class="w">     </span><span class="c1">// Minimum for reliable switching</span>
+
+<span class="c1">// Applied in control</span>
+<span class="n">dutyCycle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">constrain</span><span class="p">(</span><span class="n">dutyCycle</span><span class="p">,</span><span class="w"> </span><span class="n">MinDuty</span><span class="p">,</span><span class="w"> </span><span class="n">MaxDuty</span><span class="p">);</span>
+</code></pre></div>
+<p><strong>Considerations</strong>:
+- <strong>MinDuty &gt; 0</strong>: Ensures MOSFET switching reliability
+- <strong>MaxDuty &lt; 100</strong>: Prevents potential damage from 100% duty cycle
+- <strong>User configurable</strong>: Adjustable for different alternator types</p>
+<h2 id="performance-characteristics">Performance Characteristics<a class="headerlink" href="#performance-characteristics" title="Permanent link">&para;</a></h2>
+<h3 id="response-time-analysis">Response Time Analysis<a class="headerlink" href="#response-time-analysis" title="Permanent link">&para;</a></h3>
+<p>System response characteristics:</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Value</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Update Rate</td>
+<td>50ms</td>
+<td>FieldAdjustmentInterval</td>
+</tr>
+<tr>
+<td>Step Size</td>
+<td>0.8%</td>
+<td>dutyStep default</td>
+</tr>
+<tr>
+<td>Maximum Rate</td>
+<td>1.6%/second</td>
+<td>dutyCycle change rate</td>
+</tr>
+<tr>
+<td>0-50% Time</td>
+<td>~31 seconds</td>
+<td>Linear response</td>
+</tr>
+<tr>
+<td>Emergency Stop</td>
+<td>&lt;1ms</td>
+<td>Hardware GPIO response</td>
+</tr>
+</tbody>
+</table>
+<h3 id="control-stability">Control Stability<a class="headerlink" href="#control-stability" title="Permanent link">&para;</a></h3>
+<p>Stability analysis:</p>
+<div class="highlight"><pre><span></span><code>Plant: Alternator + Battery (slow thermal, fast electrical)
+Controller: Proportional with rate limiting
+Disturbances: Load changes, temperature, engine speed
+</code></pre></div>
+<p><strong>Stability Factors</strong>:
+- <strong>Slow thermal response</strong>: Field heating time constant ~10-30 seconds
+- <strong>Fast electrical response</strong>: Field current follows PWM within milliseconds<br />
+- <strong>Rate limiting</strong>: Prevents oscillation and overshoot
+- <strong>Multiple sensors</strong>: Redundancy prevents false triggering</p>
+<h3 id="resource-requirements">Resource Requirements<a class="headerlink" href="#resource-requirements" title="Permanent link">&para;</a></h3>
+<p>CPU and memory usage:</p>
+<ul>
+<li><strong>CPU time</strong>: ~5-15ms per 50ms cycle (10-30% of main loop)</li>
+<li><strong>Memory</strong>: ~50 bytes for control variables</li>
+<li><strong>Flash</strong>: ~8KB for control code</li>
+<li><strong>Real-time constraints</strong>: Must complete within watchdog timeout</li>
+</ul>
+<h2 id="configuration-parameters">Configuration Parameters<a class="headerlink" href="#configuration-parameters" title="Permanent link">&para;</a></h2>
+<h3 id="basic-settings">Basic Settings<a class="headerlink" href="#basic-settings" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Range</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TargetAmps</td>
+<td>40</td>
+<td>0-200</td>
+<td>Normal mode current target</td>
+</tr>
+<tr>
+<td>TargetAmpL</td>
+<td>25</td>
+<td>0-200</td>
+<td>Low mode current target</td>
+</tr>
+<tr>
+<td>BulkVoltage</td>
+<td>13.9</td>
+<td>12.0-16.0</td>
+<td>Bulk charging voltage</td>
+</tr>
+<tr>
+<td>FloatVoltage</td>
+<td>13.4</td>
+<td>12.0-16.0</td>
+<td>Float charging voltage</td>
+</tr>
+<tr>
+<td>TemperatureLimitF</td>
+<td>150</td>
+<td>100-250</td>
+<td>Temperature limit (°F)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="advanced-settings">Advanced Settings<a class="headerlink" href="#advanced-settings" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Range</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>dutyStep</td>
+<td>0.8</td>
+<td>0.1-5.0</td>
+<td>Field adjustment step size (%)</td>
+</tr>
+<tr>
+<td>FieldAdjustmentInterval</td>
+<td>50</td>
+<td>10-1000</td>
+<td>Control update rate (ms)</td>
+</tr>
+<tr>
+<td>SwitchingFrequency</td>
+<td>15000</td>
+<td>50-25000</td>
+<td>PWM frequency (Hz)</td>
+</tr>
+<tr>
+<td>MaxDuty</td>
+<td>99.0</td>
+<td>50-99</td>
+<td>Maximum duty cycle (%)</td>
+</tr>
+<tr>
+<td>MinDuty</td>
+<td>1.0</td>
+<td>0-10</td>
+<td>Minimum duty cycle (%)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="rpm-curve-configuration">RPM Curve Configuration<a class="headerlink" href="#rpm-curve-configuration" title="Permanent link">&para;</a></h3>
+<p>The 20-point RPM curve is fully user-configurable:</p>
+<div class="highlight"><pre><span></span><code>RPM Points:  RPM1, RPM2, ..., RPM20  (0-6000 RPM)
+Amp Points:  Amps1, Amps2, ..., Amps20  (0-200 A)
+</code></pre></div>
+<p><strong>Guidelines</strong>:
+- <strong>Start at 0</strong>: RPM1=0, Amps1=0 for idle protection
+- <strong>Engine range</strong>: Configure for actual engine operating range
+- <strong>Power band</strong>: Higher values in engine's optimal RPM range
+- <strong>High RPM limit</strong>: Reduce at excessive speeds</p>
+<h2 id="troubleshooting-guide">Troubleshooting Guide<a class="headerlink" href="#troubleshooting-guide" title="Permanent link">&para;</a></h2>
+<h3 id="common-issues">Common Issues<a class="headerlink" href="#common-issues" title="Permanent link">&para;</a></h3>
+<h4 id="no-field-output">No Field Output<a class="headerlink" href="#no-field-output" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>Check:
+1. GPIO pin 4 status (field enable)
+2. OnOff setting = 1
+3. Ignition signal active
+4. dutyCycle &gt; MinDuty
+5. No emergency field collapse active
+6. MOSFET driver functionality
+</code></pre></div>
+<h4 id="voltage-regulation-problems">Voltage Regulation Problems<a class="headerlink" href="#voltage-regulation-problems" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>Check:
+1. Battery voltage sensor accuracy
+2. Current sensor calibration
+3. ChargingVoltageTarget setting
+4. Field resistance value
+5. Alternator field coil condition
+</code></pre></div>
+<h4 id="oscillation-or-instability">Oscillation or Instability<a class="headerlink" href="#oscillation-or-instability" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>Check:
+1. dutyStep too large
+2. FieldAdjustmentInterval too fast
+3. Sensor noise or poor connections
+4. Multiple control loops fighting
+</code></pre></div>
+<h4 id="overheating">Overheating<a class="headerlink" href="#overheating" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>Check:
+1. TemperatureLimitF setting
+2. Temperature sensor operation
+3. Alternator cooling and mounting
+4. Current targets too high for conditions
+</code></pre></div>
+<h3 id="diagnostic-tools">Diagnostic Tools<a class="headerlink" href="#diagnostic-tools" title="Permanent link">&para;</a></h3>
+<h4 id="real-time-monitoring">Real-time Monitoring<a class="headerlink" href="#real-time-monitoring" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Web interface shows live field parameters</li>
+<li>Console messages for all protective actions</li>
+<li>Performance timing (loop time, control timing)</li>
+</ul>
+<h4 id="data-logging">Data Logging<a class="headerlink" href="#data-logging" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Field duty cycle history</li>
+<li>Temperature trends</li>
+<li>Voltage and current logging</li>
+<li>Emergency event logging</li>
+</ul>
+<p>This comprehensive field control system provides safe, efficient alternator regulation with extensive configurability and protection systems.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2025 Xengineering
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.sections", "navigation.expand", "search.highlight"], "search": "../../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.50899def.min.js"></script>
+      
+    
+  </body>
+</html>

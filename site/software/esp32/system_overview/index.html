@@ -1,0 +1,2261 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Technical documentation for Xengineering marine open-source alternator regulator system">
+      
+      
+        <meta name="author" content="Xengineering">
+      
+      
+        <link rel="canonical" href="https://docs.xengineering.net/software/esp32/system_overview/">
+      
+      
+        <link rel="prev" href="../../../hardware/connectors/">
+      
+      
+        <link rel="next" href="../sensor_systems/">
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.16">
+    
+    
+      
+        <title>System Overview - Xengineering Alternator Regulator Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.7e37652d.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#system-overview" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Xengineering Alternator Regulator Documentation" class="md-header__button md-logo" aria-label="Xengineering Alternator Regulator Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Xengineering Alternator Regulator Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              System Overview
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/markliquid1/regulatordocumentation" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    markliquid1/regulatordocumentation
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Xengineering Alternator Regulator Documentation" class="md-nav__button md-logo" aria-label="Xengineering Alternator Regulator Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Xengineering Alternator Regulator Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/markliquid1/regulatordocumentation" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    markliquid1/regulatordocumentation
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Basic Use
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Basic Use
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../basic-use/getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Getting Started
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../basic-use/installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Installation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../basic-use/quick-start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quick Start Guide
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../basic-use/troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Troubleshooting
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Hardware
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Hardware
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hardware/system-architecture.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    System Architecture
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hardware/digital-inputs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Digital Inputs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hardware/digital-outputs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Digital Outputs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hardware/field-output.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Alternator Field Drive
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hardware/analog-inputs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Analog Inputs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hardware/power-supply.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Power Supply
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hardware/esp32-controller.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    ESP32 Controller
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hardware/connectors/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Connectors & Wiring
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Software - ESP32
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Software - ESP32
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    System Overview
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    System Overview
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#purpose-design-philosophy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Purpose &amp; Design Philosophy
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Purpose &amp; Design Philosophy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#core-design-principles" class="md-nav__link">
+    <span class="md-ellipsis">
+      Core Design Principles
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#system-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      System Architecture
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="System Architecture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hardware-foundation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Hardware Foundation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#software-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      Software Architecture
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#main-loop-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Main Loop Structure
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Main Loop Structure">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#setup-phase-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      Setup Phase (setup())
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#main-loop-operation-loop" class="md-nav__link">
+    <span class="md-ellipsis">
+      Main Loop Operation (loop())
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-flow-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Flow Architecture
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data Flow Architecture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sensor-data-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sensor Data Pipeline
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#control-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      Control Flow
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-freshness-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Freshness System
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#memory-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      Memory Management
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Memory Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#partition-scheme-16mb-esp32-s3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Partition Scheme (16MB ESP32-S3)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#runtime-memory-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      Runtime Memory Management
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#safety-systems" class="md-nav__link">
+    <span class="md-ellipsis">
+      Safety Systems
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Safety Systems">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hardware-protection" class="md-nav__link">
+    <span class="md-ellipsis">
+      Hardware Protection
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#software-protection-layers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Software Protection Layers
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#alarm-conditions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Alarm Conditions
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration Management
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuration Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#settings-storage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Settings Storage
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#default-value-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      Default Value System
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#performance-characteristics" class="md-nav__link">
+    <span class="md-ellipsis">
+      Performance Characteristics
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Performance Characteristics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#timing-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      Timing Requirements
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resource-usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Resource Usage
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scalability-limits" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scalability Limits
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#development-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      Development Environment
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Development Environment">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#required-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      Required Tools
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#build-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      Build Process
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sensor_systems/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Sensor Systems
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../communication_interfaces/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Communication Interfaces
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../field_control.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Field Control
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../learning_mode.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Learning Mode
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../battery_management.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Battery Management
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../network_web_system.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Network & Web System
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../safety_monitoring.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Safety & Monitoring
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../advanced_features.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Advanced Features
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../configuration.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Configuration
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Software - Client
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Software - Client
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../client/web-interface-overview.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Web Interface Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../client/html/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    HTML Structure
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../client/javascript/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    JavaScript Logic
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../client/css/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    CSS Styling
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../client/realtime-data.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Real-time Data Flow
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Local Xengineering Ref Only
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Local Xengineering Ref Only
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../localstuff%20for%20Xengineering%20ref/esp32_partition_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Partitioning
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../localstuff%20for%20Xengineering%20ref/mkdocs_setup_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    MkDocs Guide
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../localstuff for Xengineering ref/updated_ota_docs V3.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    OTA
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../localstuff%20for%20Xengineering%20ref/updated_planning_doc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Planning
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#purpose-design-philosophy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Purpose &amp; Design Philosophy
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Purpose &amp; Design Philosophy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#core-design-principles" class="md-nav__link">
+    <span class="md-ellipsis">
+      Core Design Principles
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#system-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      System Architecture
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="System Architecture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hardware-foundation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Hardware Foundation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#software-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      Software Architecture
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#main-loop-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Main Loop Structure
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Main Loop Structure">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#setup-phase-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      Setup Phase (setup())
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#main-loop-operation-loop" class="md-nav__link">
+    <span class="md-ellipsis">
+      Main Loop Operation (loop())
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-flow-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Flow Architecture
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data Flow Architecture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sensor-data-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sensor Data Pipeline
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#control-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      Control Flow
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-freshness-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Freshness System
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#memory-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      Memory Management
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Memory Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#partition-scheme-16mb-esp32-s3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Partition Scheme (16MB ESP32-S3)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#runtime-memory-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      Runtime Memory Management
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#safety-systems" class="md-nav__link">
+    <span class="md-ellipsis">
+      Safety Systems
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Safety Systems">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hardware-protection" class="md-nav__link">
+    <span class="md-ellipsis">
+      Hardware Protection
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#software-protection-layers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Software Protection Layers
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#alarm-conditions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Alarm Conditions
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration Management
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuration Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#settings-storage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Settings Storage
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#default-value-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      Default Value System
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#performance-characteristics" class="md-nav__link">
+    <span class="md-ellipsis">
+      Performance Characteristics
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Performance Characteristics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#timing-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      Timing Requirements
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resource-usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Resource Usage
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scalability-limits" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scalability Limits
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#development-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      Development Environment
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Development Environment">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#required-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      Required Tools
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#build-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      Build Process
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="system-overview">System Overview<a class="headerlink" href="#system-overview" title="Permanent link">&para;</a></h1>
+<h2 id="purpose-design-philosophy">Purpose &amp; Design Philosophy<a class="headerlink" href="#purpose-design-philosophy" title="Permanent link">&para;</a></h2>
+<p>The Xengineering Alternator Regulator controls alternator field output using ESP32-based PWM control with multi-source sensor inputs. The system provides battery monitoring, web-based configuration, and adaptive learning algorithms for thermal management.</p>
+<h3 id="core-design-principles">Core Design Principles<a class="headerlink" href="#core-design-principles" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Safety</strong>: Multiple protection layers prevent alternator, battery, and electrical system damage</li>
+<li><strong>Learning Mode</strong>: Adaptive alternator control based on temperature feedback and overheat history</li>
+<li><strong>Real-time Interface</strong>: Web-based monitoring and control accessible from any device</li>
+<li><strong>Reliability</strong>: Watchdog protection, error handling, and automatic recovery systems</li>
+<li><strong>Open Source</strong>: Full transparency for modification and community development</li>
+</ul>
+<h2 id="system-architecture">System Architecture<a class="headerlink" href="#system-architecture" title="Permanent link">&para;</a></h2>
+<h3 id="hardware-foundation">Hardware Foundation<a class="headerlink" href="#hardware-foundation" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>ESP32-S3 (16MB Flash) ← Main Controller
+├── ADS1115 ← 4-channel analog input (battery V, alt current, RPM, temp)
+├── INA228 ← High-precision battery monitor with hardware overvoltage protection
+├── OneWire ← DS18B20 temperature sensors
+├── Field MOSFET Driver ← PWM control of alternator field
+├── Digital I/O ← Ignition, alarms, switches, BMS signals
+├── Communication Interfaces ← NMEA2K, NMEA0183, Victron VE.Direct
+└── WiFi ← Web interface and OTA updates
+</code></pre></div>
+<h3 id="software-architecture">Software Architecture<a class="headerlink" href="#software-architecture" title="Permanent link">&para;</a></h3>
+<p>The firmware is organized around a main control loop with specialized subsystems:</p>
+<p><strong>Core Control Loop</strong> (<code>loop()</code>):
+- Runs every ~50ms with watchdog protection
+- Sensor data acquisition
+- Field control calculations<br />
+- Safety monitoring
+- Web data transmission</p>
+<p><strong>Key Subsystems</strong>:
+- <strong>Sensor Management</strong>: Multi-source data with validation and fallback
+- <strong>Field Control</strong>: Normal mode vs Learning mode algorithms
+- <strong>Battery Monitoring</strong>: SOC tracking with Peukert correction
+- <strong>Web Interface</strong>: Real-time data streaming to browser clients
+- <strong>Safety Systems</strong>: Multiple protection layers and alarm conditions</p>
+<h2 id="main-loop-structure">Main Loop Structure<a class="headerlink" href="#main-loop-structure" title="Permanent link">&para;</a></h2>
+<h3 id="setup-phase-setup">Setup Phase (<code>setup()</code>)<a class="headerlink" href="#setup-phase-setup" title="Permanent link">&para;</a></h3>
+<p>The initialization sequence establishes all system components:</p>
+<div class="highlight"><pre><span></span><code><span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">115200</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// System initialization</span>
+<span class="w">  </span><span class="n">initializeNVS</span><span class="p">();</span><span class="w">                    </span><span class="c1">// Non-volatile storage for persistent data</span>
+<span class="w">  </span><span class="n">loadNVSData</span><span class="p">();</span><span class="w">                      </span><span class="c1">// Restore previous session data</span>
+<span class="w">  </span><span class="n">ensureLittleFS</span><span class="p">();</span><span class="w">                   </span><span class="c1">// File system for settings and web files</span>
+<span class="w">  </span><span class="n">InitSystemSettings</span><span class="p">();</span><span class="w">               </span><span class="c1">// Load all configuration from files</span>
+
+<span class="w">  </span><span class="c1">// Hardware initialization  </span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">hardwarePresent</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">initializeHardware</span><span class="p">();</span><span class="w">             </span><span class="c1">// Sensors, communication interfaces</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="c1">// Network and security</span>
+<span class="w">  </span><span class="n">loadPasswordHash</span><span class="p">();</span><span class="w">                 </span><span class="c1">// Web interface authentication</span>
+<span class="w">  </span><span class="n">setupWiFi</span><span class="p">();</span><span class="w">                        </span><span class="c1">// Network connectivity</span>
+
+<span class="w">  </span><span class="c1">// Safety systems</span>
+<span class="w">  </span><span class="n">esp_task_wdt_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">wdt_config</span><span class="p">);</span><span class="w">     </span><span class="c1">// 15-second watchdog protection</span>
+<span class="w">  </span><span class="n">esp_task_wdt_add</span><span class="p">(</span><span class="nb">NULL</span><span class="p">);</span>
+
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;=== SETUP COMPLETE ===&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Key Setup Functions</strong>:
+- <code>initializeNVS()</code>: Persistent data storage initialization
+- <code>initializeHardware()</code>: Sensor and communication interfaces<br />
+- <code>setupWiFi()</code>: Network configuration and connection
+- <code>InitSystemSettings()</code>: Load settings from LittleFS files</p>
+<h3 id="main-loop-operation-loop">Main Loop Operation (<code>loop()</code>)<a class="headerlink" href="#main-loop-operation-loop" title="Permanent link">&para;</a></h3>
+<p>The main control loop executes every 50-100ms with strict timing control:</p>
+<div class="highlight"><pre><span></span><code><span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">esp_task_wdt_reset</span><span class="p">();</span><span class="w">              </span><span class="c1">// Feed 15-second watchdog</span>
+<span class="w">  </span><span class="n">starttime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">esp_timer_get_time</span><span class="p">();</span><span class="w">  </span><span class="c1">// Performance timing</span>
+
+<span class="w">  </span><span class="c1">// Core sensor reading</span>
+<span class="w">  </span><span class="n">ReadAnalogInputs</span><span class="p">();</span><span class="w">                </span><span class="c1">// ADS1115 state machine</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">VeData</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="n">ReadVEData</span><span class="p">();</span><span class="w">     </span><span class="c1">// Victron VE.Direct</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">NMEA2KData</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="n">NMEA2000</span><span class="p">.</span><span class="n">ParseMessages</span><span class="p">();</span>
+
+<span class="w">  </span><span class="c1">// Battery and engine monitoring</span>
+<span class="w">  </span><span class="n">UpdateEngineRuntime</span><span class="p">(</span><span class="n">elapsedMillis</span><span class="p">);</span>
+<span class="w">  </span><span class="n">UpdateBatterySOC</span><span class="p">(</span><span class="n">elapsedMillis</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// Field control (main function)</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">LearningMode</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">AdjustFieldLearnMode</span><span class="p">();</span><span class="w">          </span><span class="c1">// Adaptive control algorithm</span>
+<span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">AdjustField</span><span class="p">();</span><span class="w">                   </span><span class="c1">// Standard control algorithm  </span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="c1">// Safety and health monitoring</span>
+<span class="w">  </span><span class="n">CheckAlarms</span><span class="p">();</span><span class="w">                     </span><span class="c1">// Temperature, voltage, current limits</span>
+<span class="w">  </span><span class="n">calculateThermalStress</span><span class="p">();</span><span class="w">          </span><span class="c1">// Alternator lifetime modeling</span>
+<span class="w">  </span><span class="n">updateSystemHealthMetrics</span><span class="p">();</span><span class="w">       </span><span class="c1">// CPU, memory, stack monitoring</span>
+
+<span class="w">  </span><span class="c1">// User interface and data logging</span>
+<span class="w">  </span><span class="n">SendWifiData</span><span class="p">();</span><span class="w">                    </span><span class="c1">// Real-time web interface updates</span>
+<span class="w">  </span><span class="n">UpdateDisplay</span><span class="p">();</span><span class="w">                   </span><span class="c1">// Local OLED display</span>
+
+<span class="w">  </span><span class="c1">// Periodic maintenance</span>
+<span class="w">  </span><span class="n">checkAndRestart</span><span class="p">();</span><span class="w">                 </span><span class="c1">// Scheduled system restart (2 hours)</span>
+
+<span class="w">  </span><span class="c1">// Performance monitoring</span>
+<span class="w">  </span><span class="n">endtime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">esp_timer_get_time</span><span class="p">();</span>
+<span class="w">  </span><span class="n">LoopTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">endtime</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">starttime</span><span class="p">);</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">LoopTime</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">MaxLoopTime</span><span class="p">)</span><span class="w"> </span><span class="n">MaxLoopTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LoopTime</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Loop Timing</strong>:
+- Target: 50-100ms per iteration
+- Watchdog timeout: 15 seconds
+- Performance monitoring: Track maximum loop time
+- Automatic restart: Every 2 hours for maintenance</p>
+<h2 id="data-flow-architecture">Data Flow Architecture<a class="headerlink" href="#data-flow-architecture" title="Permanent link">&para;</a></h2>
+<h3 id="sensor-data-pipeline">Sensor Data Pipeline<a class="headerlink" href="#sensor-data-pipeline" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Hardware Sensors → ESP32 GPIO/I2C → Data Validation → Global Variables → Web Interface
+     ↓                ↓                    ↓               ↓              ↓
+ADS1115/INA228 → ReadAnalogInputs() → Sanity Checks → MeasuredAmps → SendWifiData()
+OneWire Temp   → TempTask()         → Range Limits  → AlternatorTemperatureF
+NMEA2K/VE.Direct → Parse Functions → Protocol Valid → VictronVoltage
+</code></pre></div>
+<h3 id="control-flow">Control Flow<a class="headerlink" href="#control-flow" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Sensor Inputs → Target Calculation → Field Control → PWM Output → Alternator Response
+     ↓              ↓                    ↓              ↓              ↓
+Battery V,I → uTargetAmps (Hi/Low/RPM) → dutyCycle → setDutyPercent() → Field Current
+Temperature → Safety Overrides        → Constraints → MOSFET Driver → Heat Generation
+</code></pre></div>
+<h3 id="data-freshness-system">Data Freshness System<a class="headerlink" href="#data-freshness-system" title="Permanent link">&para;</a></h3>
+<p>The system tracks sensor data age to detect failed sensors:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Data timestamp tracking</span>
+<span class="k">enum</span><span class="w"> </span><span class="nc">DataIndex</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">IDX_ALTERNATOR_TEMP</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">  </span><span class="n">IDX_BATTERY_V</span><span class="p">,</span>
+<span class="w">  </span><span class="n">IDX_MEASURED_AMPS</span><span class="p">,</span>
+<span class="w">  </span><span class="c1">// ... 17 total indices</span>
+<span class="p">};</span>
+<span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">dataTimestamps</span><span class="p">[</span><span class="n">MAX_DATA_INDICES</span><span class="p">];</span>
+
+<span class="c1">// Mark data fresh when successfully read</span>
+<span class="cp">#define MARK_FRESH(index) dataTimestamps[index] = millis()</span>
+
+<span class="c1">// Check if data is stale (&gt;10 seconds old)</span>
+<span class="cp">#define IS_STALE(index) (millis() - dataTimestamps[index] &gt; DATA_TIMEOUT)</span>
+</code></pre></div>
+<p><strong>Benefits</strong>:
+- Web interface shows red indicators for stale data
+- Prevents control decisions based on old sensor readings
+- Enables automatic sensor fallback strategies</p>
+<h2 id="memory-management">Memory Management<a class="headerlink" href="#memory-management" title="Permanent link">&para;</a></h2>
+<h3 id="partition-scheme-16mb-esp32-s3">Partition Scheme (16MB ESP32-S3)<a class="headerlink" href="#partition-scheme-16mb-esp32-s3" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>nvs         : 20KB   - Non-volatile storage (persistent variables)
+otadata     : 8KB    - OTA boot selection
+factory     : 4MB    - Factory firmware (GPIO15 recovery)
+ota_0       : 4MB    - Production firmware (OTA updates)
+factory_fs  : 2MB    - Factory web files
+prod_fs     : 2MB    - Production web files (OTA updated)
+userdata    : 3.9MB  - Data logs and configuration
+coredump    : 64KB   - Debug crash dumps
+</code></pre></div>
+<h3 id="runtime-memory-management">Runtime Memory Management<a class="headerlink" href="#runtime-memory-management" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Heap monitoring</strong>: Continuous tracking with console warnings</li>
+<li><strong>Stack monitoring</strong>: FreeRTOS task stack usage analysis</li>
+<li><strong>Fragmentation tracking</strong>: Heap fragmentation percentage</li>
+<li><strong>Console message queue</strong>: Fixed-size circular buffer (10 messages)</li>
+</ul>
+<p><strong>Memory Safety</strong>:
+- Watchdog protection prevents hung tasks
+- Stack overflow detection for critical tasks
+- Automatic restart if heap falls below 20KB
+- Fixed-size buffers to prevent dynamic allocation issues</p>
+<h2 id="safety-systems">Safety Systems<a class="headerlink" href="#safety-systems" title="Permanent link">&para;</a></h2>
+<h3 id="hardware-protection">Hardware Protection<a class="headerlink" href="#hardware-protection" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>INA228 overvoltage protection</strong>: Hardware-level field shutdown at BulkVoltage + 0.1V</li>
+<li><strong>Emergency field collapse</strong>: Immediate MOSFET disable on voltage spikes</li>
+<li><strong>Watchdog timer</strong>: 15-second timeout with automatic restart</li>
+</ul>
+<h3 id="software-protection-layers">Software Protection Layers<a class="headerlink" href="#software-protection-layers" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1">// Multiple safety checks in field control</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">currentBatteryVoltage</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="p">(</span><span class="n">ChargingVoltageTarget</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">0.2</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">digitalWrite</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w">           </span><span class="c1">// Emergency field shutdown</span>
+<span class="w">  </span><span class="n">dutyCycle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MinDuty</span><span class="p">;</span>
+<span class="w">  </span><span class="n">fieldCollapseTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">millis</span><span class="p">();</span><span class="w"> </span><span class="c1">// 10-second lockout</span>
+<span class="w">  </span><span class="k">return</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// Temperature protection</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">TempToUse</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">TemperatureLimitF</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">dutyCycle</span><span class="w"> </span><span class="o">-=</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">dutyStep</span><span class="p">;</span><span class="w">    </span><span class="c1">// Aggressive reduction</span>
+<span class="p">}</span>
+
+<span class="c1">// Current limits</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Bcur</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">MaximumAllowedBatteryAmps</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">dutyCycle</span><span class="w"> </span><span class="o">-=</span><span class="w"> </span><span class="n">dutyStep</span><span class="p">;</span><span class="w">        </span><span class="c1">// Battery protection</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="alarm-conditions">Alarm Conditions<a class="headerlink" href="#alarm-conditions" title="Permanent link">&para;</a></h3>
+<ul>
+<li>High alternator temperature</li>
+<li>Battery voltage too high/low</li>
+<li>Excessive alternator or battery current</li>
+<li>Sensor failures (stale data detection)</li>
+<li>System health issues (low memory, stack overflow)</li>
+</ul>
+<h2 id="configuration-management">Configuration Management<a class="headerlink" href="#configuration-management" title="Permanent link">&para;</a></h2>
+<h3 id="settings-storage">Settings Storage<a class="headerlink" href="#settings-storage" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>LittleFS files</strong>: Human-readable text files for each setting</li>
+<li><strong>NVS storage</strong>: Binary data for runtime variables and statistics</li>
+<li><strong>Persistent variables</strong>: Battery SOC, energy totals, thermal damage accumulation</li>
+<li><strong>Session variables</strong>: Reset on each boot (current maximums, loop times)</li>
+</ul>
+<h3 id="default-value-system">Default Value System<a class="headerlink" href="#default-value-system" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1">// Example: Target current setting</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">LittleFS</span><span class="p">.</span><span class="n">exists</span><span class="p">(</span><span class="s">&quot;/TargetAmps.txt&quot;</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">writeFile</span><span class="p">(</span><span class="n">LittleFS</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;/TargetAmps.txt&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="p">(</span><span class="n">TargetAmps</span><span class="p">).</span><span class="n">c_str</span><span class="p">());</span>
+<span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">TargetAmps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">readFile</span><span class="p">(</span><span class="n">LittleFS</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;/TargetAmps.txt&quot;</span><span class="p">).</span><span class="n">toInt</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Benefits</strong>:
+- Settings survive firmware updates
+- Easy troubleshooting (readable files)
+- Factory reset capability
+- Individual setting modification without recompilation</p>
+<h2 id="performance-characteristics">Performance Characteristics<a class="headerlink" href="#performance-characteristics" title="Permanent link">&para;</a></h2>
+<h3 id="timing-requirements">Timing Requirements<a class="headerlink" href="#timing-requirements" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Main loop</strong>: 50-100ms typical, 5000ms maximum (watchdog limit)</li>
+<li><strong>Sensor reading</strong>: ADS1115 ~20ms per channel, INA228 ~5ms</li>
+<li><strong>Field adjustment</strong>: Every 50ms (configurable)</li>
+<li><strong>Web updates</strong>: Every 50ms (real-time data), 2-3 seconds (status data)</li>
+</ul>
+<h3 id="resource-usage">Resource Usage<a class="headerlink" href="#resource-usage" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Flash memory</strong>: ~1.4MB firmware (4MB available)</li>
+<li><strong>RAM usage</strong>: ~200KB typical (320KB available)</li>
+<li><strong>CPU utilization</strong>: ~15-25% average</li>
+<li><strong>Network bandwidth</strong>: ~2KB/second for real-time web interface</li>
+</ul>
+<h3 id="scalability-limits">Scalability Limits<a class="headerlink" href="#scalability-limits" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Maximum sensor channels</strong>: 4 analog (ADS1115), expandable via I2C</li>
+<li><strong>Web clients</strong>: 5-10 simultaneous connections tested</li>
+<li><strong>Data logging</strong>: 180 days local storage in userdata partition</li>
+<li><strong>Settings</strong>: 100+ individual parameters in LittleFS files</li>
+</ul>
+<h2 id="development-environment">Development Environment<a class="headerlink" href="#development-environment" title="Permanent link">&para;</a></h2>
+<h3 id="required-tools">Required Tools<a class="headerlink" href="#required-tools" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Arduino IDE 2.x</strong> with ESP32 board package</li>
+<li><strong>Custom partition scheme</strong>: <code>partitions.csv</code> in sketch folder</li>
+<li><strong>Libraries</strong>: 20+ external libraries for sensors and communication</li>
+<li><strong>Build configuration</strong>: ESP32-S3, 16MB flash, 240MHz CPU</li>
+</ul>
+<h3 id="build-process">Build Process<a class="headerlink" href="#build-process" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Board configuration</span>
+<span class="nv">FQBN</span><span class="o">=</span><span class="s2">&quot;esp32:esp32:esp32s3:FlashSize=16M,PartitionScheme=custom&quot;</span>
+
+<span class="c1"># Compilation</span>
+arduino-cli<span class="w"> </span>compile<span class="w"> </span>--fqbn<span class="w"> </span><span class="nv">$FQBN</span><span class="w"> </span>--output-dir<span class="w"> </span>./build<span class="w"> </span>.
+
+<span class="c1"># OTA package creation</span>
+tar<span class="w"> </span>--format<span class="o">=</span>ustar<span class="w"> </span>-cf<span class="w"> </span>firmware.tar<span class="w"> </span>-C<span class="w"> </span>build<span class="w"> </span>firmware.bin<span class="w"> </span>data/
+</code></pre></div>
+<p>This system overview provides the foundation for understanding the detailed subsystem documentation that follows.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2025 Xengineering
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.sections", "navigation.expand", "search.highlight"], "search": "../../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.50899def.min.js"></script>
+      
+    
+  </body>
+</html>

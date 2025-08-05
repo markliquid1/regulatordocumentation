@@ -1,0 +1,2417 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Technical documentation for Xengineering marine open-source alternator regulator system">
+      
+      
+        <meta name="author" content="Xengineering">
+      
+      
+        <link rel="canonical" href="https://docs.xengineering.net/software/esp32/communication_interfaces/">
+      
+      
+        <link rel="prev" href="../sensor_systems/">
+      
+      
+        <link rel="next" href="../../client/html/">
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.16">
+    
+    
+      
+        <title>Communication Interfaces - Xengineering Alternator Regulator Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.7e37652d.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#communication-interfaces" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Xengineering Alternator Regulator Documentation" class="md-header__button md-logo" aria-label="Xengineering Alternator Regulator Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Xengineering Alternator Regulator Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Communication Interfaces
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/markliquid1/regulatordocumentation" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    markliquid1/regulatordocumentation
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Xengineering Alternator Regulator Documentation" class="md-nav__button md-logo" aria-label="Xengineering Alternator Regulator Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Xengineering Alternator Regulator Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/markliquid1/regulatordocumentation" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    markliquid1/regulatordocumentation
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Basic Use
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Basic Use
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../basic-use/getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Getting Started
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../basic-use/installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Installation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../basic-use/quick-start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quick Start Guide
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../basic-use/troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Troubleshooting
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Hardware
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Hardware
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hardware/system-architecture.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    System Architecture
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hardware/digital-inputs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Digital Inputs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hardware/digital-outputs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Digital Outputs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hardware/field-output.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Alternator Field Drive
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hardware/analog-inputs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Analog Inputs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hardware/power-supply.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Power Supply
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hardware/esp32-controller.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    ESP32 Controller
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hardware/connectors/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Connectors & Wiring
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Software - ESP32
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Software - ESP32
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../system_overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    System Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sensor_systems/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Sensor Systems
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Communication Interfaces
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Communication Interfaces
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nmea-2000-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      NMEA 2000 Integration
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="NMEA 2000 Integration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose" class="md-nav__link">
+    <span class="md-ellipsis">
+      Purpose
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hardware-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Hardware Configuration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#message-handler-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      Message Handler System
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-message-handlers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key Message Handlers
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Key Message Handlers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gnss-position-data-pgn-129029" class="md-nav__link">
+    <span class="md-ellipsis">
+      GNSS Position Data (PGN 129029)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#heading-data-pgn-127250" class="md-nav__link">
+    <span class="md-ellipsis">
+      Heading Data (PGN 127250)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dc-status-pgn-127506" class="md-nav__link">
+    <span class="md-ellipsis">
+      DC Status (PGN 127506)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#performance-and-throttling" class="md-nav__link">
+    <span class="md-ellipsis">
+      Performance and Throttling
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nmea-0183-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      NMEA 0183 Integration
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="NMEA 0183 Integration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Purpose
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hardware-configuration_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Hardware Configuration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#message-parsing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Message Parsing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#current-implementation-status" class="md-nav__link">
+    <span class="md-ellipsis">
+      Current Implementation Status
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#victron-vedirect-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Victron VE.Direct Integration
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Victron VE.Direct Integration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Purpose
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hardware-configuration_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Hardware Configuration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Processing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vedirect-protocol-details" class="md-nav__link">
+    <span class="md-ellipsis">
+      VE.Direct Protocol Details
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#integration-with-control-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      Integration with Control System
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#communication-interface-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      Communication Interface Management
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Communication Interface Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#data-source-selection" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Source Selection
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#performance-monitoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      Performance Monitoring
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#error-handling-and-recovery" class="md-nav__link">
+    <span class="md-ellipsis">
+      Error Handling and Recovery
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration-and-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration and Control
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuration and Control">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#interface-enabledisable" class="md-nav__link">
+    <span class="md-ellipsis">
+      Interface Enable/Disable
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verbose-debug-output" class="md-nav__link">
+    <span class="md-ellipsis">
+      Verbose Debug Output
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resource-usage-and-performance" class="md-nav__link">
+    <span class="md-ellipsis">
+      Resource Usage and Performance
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Resource Usage and Performance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cpu-utilization" class="md-nav__link">
+    <span class="md-ellipsis">
+      CPU Utilization
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#memory-usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Memory Usage
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#communication-bandwidth" class="md-nav__link">
+    <span class="md-ellipsis">
+      Communication Bandwidth
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../field_control.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Field Control
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../learning_mode.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Learning Mode
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../battery_management.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Battery Management
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../network_web_system.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Network & Web System
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../safety_monitoring.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Safety & Monitoring
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../advanced_features.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Advanced Features
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../configuration.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Configuration
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Software - Client
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Software - Client
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../client/web-interface-overview.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Web Interface Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../client/html/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    HTML Structure
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../client/javascript/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    JavaScript Logic
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../client/css/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    CSS Styling
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../client/realtime-data.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Real-time Data Flow
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Local Xengineering Ref Only
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Local Xengineering Ref Only
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../localstuff%20for%20Xengineering%20ref/esp32_partition_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Partitioning
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../localstuff%20for%20Xengineering%20ref/mkdocs_setup_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    MkDocs Guide
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../localstuff for Xengineering ref/updated_ota_docs V3.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    OTA
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../localstuff%20for%20Xengineering%20ref/updated_planning_doc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Planning
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nmea-2000-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      NMEA 2000 Integration
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="NMEA 2000 Integration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose" class="md-nav__link">
+    <span class="md-ellipsis">
+      Purpose
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hardware-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Hardware Configuration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#message-handler-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      Message Handler System
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-message-handlers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key Message Handlers
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Key Message Handlers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gnss-position-data-pgn-129029" class="md-nav__link">
+    <span class="md-ellipsis">
+      GNSS Position Data (PGN 129029)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#heading-data-pgn-127250" class="md-nav__link">
+    <span class="md-ellipsis">
+      Heading Data (PGN 127250)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dc-status-pgn-127506" class="md-nav__link">
+    <span class="md-ellipsis">
+      DC Status (PGN 127506)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#performance-and-throttling" class="md-nav__link">
+    <span class="md-ellipsis">
+      Performance and Throttling
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nmea-0183-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      NMEA 0183 Integration
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="NMEA 0183 Integration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Purpose
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hardware-configuration_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Hardware Configuration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#message-parsing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Message Parsing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#current-implementation-status" class="md-nav__link">
+    <span class="md-ellipsis">
+      Current Implementation Status
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#victron-vedirect-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Victron VE.Direct Integration
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Victron VE.Direct Integration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Purpose
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hardware-configuration_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Hardware Configuration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Processing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vedirect-protocol-details" class="md-nav__link">
+    <span class="md-ellipsis">
+      VE.Direct Protocol Details
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#integration-with-control-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      Integration with Control System
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#communication-interface-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      Communication Interface Management
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Communication Interface Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#data-source-selection" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Source Selection
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#performance-monitoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      Performance Monitoring
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#error-handling-and-recovery" class="md-nav__link">
+    <span class="md-ellipsis">
+      Error Handling and Recovery
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration-and-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration and Control
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuration and Control">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#interface-enabledisable" class="md-nav__link">
+    <span class="md-ellipsis">
+      Interface Enable/Disable
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verbose-debug-output" class="md-nav__link">
+    <span class="md-ellipsis">
+      Verbose Debug Output
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resource-usage-and-performance" class="md-nav__link">
+    <span class="md-ellipsis">
+      Resource Usage and Performance
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Resource Usage and Performance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cpu-utilization" class="md-nav__link">
+    <span class="md-ellipsis">
+      CPU Utilization
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#memory-usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Memory Usage
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#communication-bandwidth" class="md-nav__link">
+    <span class="md-ellipsis">
+      Communication Bandwidth
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="communication-interfaces">Communication Interfaces<a class="headerlink" href="#communication-interfaces" title="Permanent link">&para;</a></h1>
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
+<p>The regulator integrates with marine communication protocols to access navigation data, battery monitoring information, and other vessel systems. Three primary interfaces provide comprehensive data integration:</p>
+<ul>
+<li><strong>NMEA 2000</strong>: CAN-based network for navigation and engine data</li>
+<li><strong>NMEA 0183</strong>: Serial ASCII protocol for legacy navigation equipment</li>
+<li><strong>Victron VE.Direct</strong>: Serial protocol for Victron energy system integration</li>
+</ul>
+<h2 id="nmea-2000-integration">NMEA 2000 Integration<a class="headerlink" href="#nmea-2000-integration" title="Permanent link">&para;</a></h2>
+<h3 id="purpose">Purpose<a class="headerlink" href="#purpose" title="Permanent link">&para;</a></h3>
+<p>NMEA 2000 provides access to vessel navigation data, engine parameters, and electrical system information via a CAN bus network.</p>
+<h3 id="hardware-configuration">Hardware Configuration<a class="headerlink" href="#hardware-configuration" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="cp">#define ESP32_CAN_RX_PIN GPIO_NUM_16</span>
+<span class="cp">#define ESP32_CAN_TX_PIN GPIO_NUM_17</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;NMEA2000_CAN.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;N2kMessages.h&gt;</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">initializeNMEA2000</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">NMEA2000</span><span class="p">.</span><span class="n">SetForwardType</span><span class="p">(</span><span class="n">tNMEA2000</span><span class="o">::</span><span class="n">fwdt_Text</span><span class="p">);</span>
+<span class="w">  </span><span class="n">NMEA2000</span><span class="p">.</span><span class="n">SetForwardStream</span><span class="p">(</span><span class="n">OutputStream</span><span class="p">);</span>
+<span class="w">  </span><span class="n">NMEA2000</span><span class="p">.</span><span class="n">EnableForward</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
+<span class="w">  </span><span class="n">NMEA2000</span><span class="p">.</span><span class="n">SetMsgHandler</span><span class="p">(</span><span class="n">HandleNMEA2000Msg</span><span class="p">);</span>
+<span class="w">  </span><span class="n">NMEA2000</span><span class="p">.</span><span class="n">Open</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Pin Configuration</strong>: GPIO 16/17 provide CAN transceiver interface
+<strong>Message Filtering</strong>: Selective message processing to reduce CPU load</p>
+<h3 id="message-handler-system">Message Handler System<a class="headerlink" href="#message-handler-system" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">PGN</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">Handler</span><span class="p">)(</span><span class="k">const</span><span class="w"> </span><span class="n">tN2kMsg</span><span class="w"> </span><span class="o">&amp;</span><span class="n">N2kMsg</span><span class="p">);</span>
+<span class="p">}</span><span class="w"> </span><span class="n">tNMEA2000Handler</span><span class="p">;</span>
+
+<span class="n">tNMEA2000Handler</span><span class="w"> </span><span class="n">NMEA2000Handlers</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="mf">126992L</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">SystemTime</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="mf">127245L</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">Rudder</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="mf">127250L</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">Heading</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="mf">127257L</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">Attitude</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="mf">127506L</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">DCStatus</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="mf">127513L</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">BatteryConfigurationStatus</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="mf">128259L</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">Speed</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="mf">128267L</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">WaterDepth</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="mf">129026L</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">COGSOG</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="mf">129029L</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">GNSS</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="mf">129540L</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">GNSSSatsInView</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">}</span>
+<span class="p">};</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">HandleNMEA2000Msg</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">tN2kMsg</span><span class="w"> </span><span class="o">&amp;</span><span class="n">N2kMsg</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">NMEA2000Handlers</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">PGN</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">N2kMsg</span><span class="p">.</span><span class="n">PGN</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">NMEA2000Handlers</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">PGN</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">NMEA2000Handlers</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">Handler</span><span class="p">(</span><span class="n">N2kMsg</span><span class="p">);</span>
+<span class="w">      </span><span class="k">break</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Message Processing</strong>: Table-driven handler dispatch for registered PGNs</p>
+<h3 id="key-message-handlers">Key Message Handlers<a class="headerlink" href="#key-message-handlers" title="Permanent link">&para;</a></h3>
+<h4 id="gnss-position-data-pgn-129029">GNSS Position Data (PGN 129029)<a class="headerlink" href="#gnss-position-data-pgn-129029" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="kt">void</span><span class="w"> </span><span class="nf">GNSS</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">tN2kMsg</span><span class="o">&amp;</span><span class="w"> </span><span class="n">N2kMsg</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">static</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">lastGNSSUpdate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">millis</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">lastGNSSUpdate</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">2000</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="p">;</span><span class="w">  </span><span class="c1">// Throttle to 2 seconds</span>
+<span class="w">  </span><span class="n">lastGNSSUpdate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">millis</span><span class="p">();</span>
+
+<span class="w">  </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="n">SID</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">uint16_t</span><span class="w"> </span><span class="n">DaysSince1970</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">double</span><span class="w"> </span><span class="n">SecondsSinceMidnight</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">double</span><span class="w"> </span><span class="n">Latitude</span><span class="p">,</span><span class="w"> </span><span class="n">Longitude</span><span class="p">,</span><span class="w"> </span><span class="n">Altitude</span><span class="p">;</span>
+<span class="w">  </span><span class="n">tN2kGNSStype</span><span class="w"> </span><span class="n">GNSStype</span><span class="p">;</span>
+<span class="w">  </span><span class="n">tN2kGNSSmethod</span><span class="w"> </span><span class="n">GNSSmethod</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="n">nSatellites</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">double</span><span class="w"> </span><span class="n">HDOP</span><span class="p">,</span><span class="w"> </span><span class="n">PDOP</span><span class="p">,</span><span class="w"> </span><span class="n">GeoidalSeparation</span><span class="p">;</span>
+
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ParseN2kGNSS</span><span class="p">(</span><span class="n">N2kMsg</span><span class="p">,</span><span class="w"> </span><span class="n">SID</span><span class="p">,</span><span class="w"> </span><span class="n">DaysSince1970</span><span class="p">,</span><span class="w"> </span><span class="n">SecondsSinceMidnight</span><span class="p">,</span>
+<span class="w">                   </span><span class="n">Latitude</span><span class="p">,</span><span class="w"> </span><span class="n">Longitude</span><span class="p">,</span><span class="w"> </span><span class="n">Altitude</span><span class="p">,</span><span class="w"> </span><span class="n">GNSStype</span><span class="p">,</span><span class="w"> </span><span class="n">GNSSmethod</span><span class="p">,</span>
+<span class="w">                   </span><span class="n">nSatellites</span><span class="p">,</span><span class="w"> </span><span class="n">HDOP</span><span class="p">,</span><span class="w"> </span><span class="n">PDOP</span><span class="p">,</span><span class="w"> </span><span class="n">GeoidalSeparation</span><span class="p">,</span><span class="w"> </span><span class="p">...))</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="c1">// Validate GPS data</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">isnan</span><span class="p">(</span><span class="n">Latitude</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">!</span><span class="n">isnan</span><span class="p">(</span><span class="n">Longitude</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>
+<span class="w">        </span><span class="n">Latitude</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mf">0.0</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">Longitude</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mf">0.0</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>
+<span class="w">        </span><span class="n">abs</span><span class="p">(</span><span class="n">Latitude</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mf">90.0</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">abs</span><span class="p">(</span><span class="n">Longitude</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mf">180.0</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>
+<span class="w">        </span><span class="n">nSatellites</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">      </span><span class="n">LatitudeNMEA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Latitude</span><span class="p">;</span>
+<span class="w">      </span><span class="n">LongitudeNMEA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Longitude</span><span class="p">;</span>
+<span class="w">      </span><span class="n">SatelliteCountNMEA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nSatellites</span><span class="p">;</span>
+
+<span class="w">      </span><span class="n">MARK_FRESH</span><span class="p">(</span><span class="n">IDX_LATITUDE_NMEA</span><span class="p">);</span>
+<span class="w">      </span><span class="n">MARK_FRESH</span><span class="p">(</span><span class="n">IDX_LONGITUDE_NMEA</span><span class="p">);</span>
+<span class="w">      </span><span class="n">MARK_FRESH</span><span class="p">(</span><span class="n">IDX_SATELLITE_COUNT</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Data Validation</strong>: Range checking and satellite count verification prevent invalid position data</p>
+<h4 id="heading-data-pgn-127250">Heading Data (PGN 127250)<a class="headerlink" href="#heading-data-pgn-127250" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="kt">void</span><span class="w"> </span><span class="nf">Heading</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">tN2kMsg</span><span class="o">&amp;</span><span class="w"> </span><span class="n">N2kMsg</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">static</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">lastHeadingUpdate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">millis</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">lastHeadingUpdate</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">2000</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="p">;</span>
+<span class="w">  </span><span class="n">lastHeadingUpdate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">millis</span><span class="p">();</span>
+
+<span class="w">  </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="n">SID</span><span class="p">;</span>
+<span class="w">  </span><span class="n">tN2kHeadingReference</span><span class="w"> </span><span class="n">HeadingReference</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">double</span><span class="w"> </span><span class="n">Heading</span><span class="p">,</span><span class="w"> </span><span class="n">Deviation</span><span class="p">,</span><span class="w"> </span><span class="n">Variation</span><span class="p">;</span>
+
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ParseN2kHeading</span><span class="p">(</span><span class="n">N2kMsg</span><span class="p">,</span><span class="w"> </span><span class="n">SID</span><span class="p">,</span><span class="w"> </span><span class="n">Heading</span><span class="p">,</span><span class="w"> </span><span class="n">Deviation</span><span class="p">,</span><span class="w"> </span><span class="n">Variation</span><span class="p">,</span><span class="w"> </span><span class="n">HeadingReference</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">HeadingNMEA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Heading</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">180.0</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">PI</span><span class="p">;</span><span class="w">  </span><span class="c1">// Convert radians to degrees</span>
+<span class="w">    </span><span class="n">MARK_FRESH</span><span class="p">(</span><span class="n">IDX_HEADING_NMEA</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<h4 id="dc-status-pgn-127506">DC Status (PGN 127506)<a class="headerlink" href="#dc-status-pgn-127506" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="kt">void</span><span class="w"> </span><span class="nf">DCStatus</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">tN2kMsg</span><span class="o">&amp;</span><span class="w"> </span><span class="n">N2kMsg</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="n">SID</span><span class="p">,</span><span class="w"> </span><span class="n">DCInstance</span><span class="p">;</span>
+<span class="w">  </span><span class="n">tN2kDCType</span><span class="w"> </span><span class="n">DCType</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="n">StateOfCharge</span><span class="p">,</span><span class="w"> </span><span class="n">StateOfHealth</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">double</span><span class="w"> </span><span class="n">TimeRemaining</span><span class="p">,</span><span class="w"> </span><span class="n">RippleVoltage</span><span class="p">,</span><span class="w"> </span><span class="n">Capacity</span><span class="p">;</span>
+
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ParseN2kDCStatus</span><span class="p">(</span><span class="n">N2kMsg</span><span class="p">,</span><span class="w"> </span><span class="n">SID</span><span class="p">,</span><span class="w"> </span><span class="n">DCInstance</span><span class="p">,</span><span class="w"> </span><span class="n">DCType</span><span class="p">,</span><span class="w"> </span><span class="n">StateOfCharge</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                       </span><span class="n">StateOfHealth</span><span class="p">,</span><span class="w"> </span><span class="n">TimeRemaining</span><span class="p">,</span><span class="w"> </span><span class="n">RippleVoltage</span><span class="p">,</span><span class="w"> </span><span class="n">Capacity</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Process battery monitoring data from NMEA 2000 network</span>
+<span class="w">    </span><span class="c1">// Can be used as alternative to local INA228 measurements</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="performance-and-throttling">Performance and Throttling<a class="headerlink" href="#performance-and-throttling" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1">// Message rate limiting prevents CPU overload</span>
+<span class="k">static</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">lastUpdate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">millis</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">lastUpdate</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">THROTTLE_INTERVAL</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="p">;</span>
+<span class="n">lastUpdate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">millis</span><span class="p">();</span>
+</code></pre></div>
+<p><strong>Throttling Strategy</strong>: 
+- GNSS updates: 2-second minimum interval
+- Heading updates: 2-second minimum interval
+- Other messages: Variable based on update rate requirements</p>
+<h2 id="nmea-0183-integration">NMEA 0183 Integration<a class="headerlink" href="#nmea-0183-integration" title="Permanent link">&para;</a></h2>
+<h3 id="purpose_1">Purpose<a class="headerlink" href="#purpose_1" title="Permanent link">&para;</a></h3>
+<p>NMEA 0183 provides ASCII sentence-based communication with legacy navigation equipment and GPS devices.</p>
+<h3 id="hardware-configuration_1">Hardware Configuration<a class="headerlink" href="#hardware-configuration_1" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="cp">#define NMEA0183_RX_PIN 25</span>
+<span class="cp">#define NMEA0183_TX_PIN -1  </span><span class="c1">// Receive only</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">initializeNMEA0183</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">Serial1</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">19200</span><span class="p">,</span><span class="w"> </span><span class="n">SERIAL_8N1</span><span class="p">,</span><span class="w"> </span><span class="n">NMEA0183_RX_PIN</span><span class="p">,</span><span class="w"> </span><span class="n">NMEA0183_TX_PIN</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="w">  </span><span class="n">Serial1</span><span class="p">.</span><span class="n">flush</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Baud Rate</strong>: Standard 19200 bps for NMEA 0183
+<strong>Configuration</strong>: Receive-only implementation (no transmission required)</p>
+<h3 id="message-parsing">Message Parsing<a class="headerlink" href="#message-parsing" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="kt">void</span><span class="w"> </span><span class="nf">readNMEA0183</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">Serial1</span><span class="p">.</span><span class="n">available</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">char</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Serial1</span><span class="p">.</span><span class="n">read</span><span class="p">();</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">c</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="sc">&#39;$&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="c1">// Start of new sentence</span>
+<span class="w">      </span><span class="n">nmeaBuffer</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">c</span><span class="p">;</span>
+<span class="w">      </span><span class="n">nmeaIndex</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">c</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="sc">&#39;\n&#39;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="sc">&#39;\r&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="c1">// End of sentence</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">nmeaIndex</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">nmeaBuffer</span><span class="p">[</span><span class="n">nmeaIndex</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="sc">&#39;\0&#39;</span><span class="p">;</span>
+<span class="w">        </span><span class="n">parseNMEASentence</span><span class="p">(</span><span class="n">nmeaBuffer</span><span class="p">);</span>
+<span class="w">        </span><span class="n">nmeaIndex</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">nmeaIndex</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">NMEA_BUFFER_SIZE</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">nmeaBuffer</span><span class="p">[</span><span class="n">nmeaIndex</span><span class="o">++</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">c</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">parseNMEASentence</span><span class="p">(</span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">sentence</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">strncmp</span><span class="p">(</span><span class="n">sentence</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;$GPGGA&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">parseGGA</span><span class="p">(</span><span class="n">sentence</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">strncmp</span><span class="p">(</span><span class="n">sentence</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;$GPRMC&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">parseRMC</span><span class="p">(</span><span class="n">sentence</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="c1">// Additional sentence types as needed</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Sentence Types</strong>:
+- <strong>GGA</strong>: Global positioning system fix data
+- <strong>RMC</strong>: Recommended minimum specific GPS/transit data
+- <strong>VTG</strong>: Track made good and ground speed</p>
+<h3 id="current-implementation-status">Current Implementation Status<a class="headerlink" href="#current-implementation-status" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="n">NMEA0183Data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w">  </span><span class="c1">// Set to 1 if NMEA serial data exists</span>
+</code></pre></div>
+<p><strong>Implementation Note</strong>: NMEA 0183 parsing framework exists but is not fully implemented. The hardware interface and basic parsing structure are in place for future development.</p>
+<h2 id="victron-vedirect-integration">Victron VE.Direct Integration<a class="headerlink" href="#victron-vedirect-integration" title="Permanent link">&para;</a></h2>
+<h3 id="purpose_2">Purpose<a class="headerlink" href="#purpose_2" title="Permanent link">&para;</a></h3>
+<p>VE.Direct provides access to Victron energy system data including battery monitors (BMV-712), solar charge controllers, and inverters.</p>
+<h3 id="hardware-configuration_2">Hardware Configuration<a class="headerlink" href="#hardware-configuration_2" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="cp">#define VEDIRECT_RX_PIN 26</span>
+<span class="cp">#define VEDIRECT_TX_PIN -1  </span><span class="c1">// Receive only</span>
+
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;VeDirectFrameHandler.h&quot;</span>
+<span class="n">VeDirectFrameHandler</span><span class="w"> </span><span class="n">myve</span><span class="p">;</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">initializeVEDirect</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">Serial2</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">19200</span><span class="p">,</span><span class="w"> </span><span class="n">SERIAL_8N1</span><span class="p">,</span><span class="w"> </span><span class="n">VEDIRECT_RX_PIN</span><span class="p">,</span><span class="w"> </span><span class="n">VEDIRECT_TX_PIN</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="w">  </span><span class="n">Serial2</span><span class="p">.</span><span class="n">flush</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Baud Rate</strong>: 19200 bps standard for VE.Direct
+<strong>Protocol</strong>: Text-based label/value pairs with checksum validation</p>
+<h3 id="data-processing">Data Processing<a class="headerlink" href="#data-processing" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="kt">void</span><span class="w"> </span><span class="nf">ReadVEData</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">VeData</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="p">;</span>
+
+<span class="w">  </span><span class="k">static</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">lastVEDataRead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">VE_DATA_INTERVAL</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2000</span><span class="p">;</span><span class="w">  </span><span class="c1">// 2 seconds</span>
+
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">millis</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">lastVEDataRead</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">VE_DATA_INTERVAL</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="p">;</span>
+
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">start1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">micros</span><span class="p">();</span>
+<span class="w">  </span><span class="kt">bool</span><span class="w"> </span><span class="n">dataReceived</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+
+<span class="w">  </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">Serial2</span><span class="p">.</span><span class="n">available</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">myve</span><span class="p">.</span><span class="n">rxData</span><span class="p">(</span><span class="n">Serial2</span><span class="p">.</span><span class="n">read</span><span class="p">());</span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">myve</span><span class="p">.</span><span class="n">veEnd</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">strcmp</span><span class="p">(</span><span class="n">myve</span><span class="p">.</span><span class="n">veName</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="w"> </span><span class="s">&quot;V&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">float</span><span class="w"> </span><span class="n">newVoltage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">atof</span><span class="p">(</span><span class="n">myve</span><span class="p">.</span><span class="n">veValue</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">1000</span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">newVoltage</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">newVoltage</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="n">VictronVoltage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newVoltage</span><span class="p">;</span>
+<span class="w">          </span><span class="n">MARK_FRESH</span><span class="p">(</span><span class="n">IDX_VICTRON_VOLTAGE</span><span class="p">);</span>
+<span class="w">          </span><span class="n">dataReceived</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">      </span><span class="p">}</span>
+
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">strcmp</span><span class="p">(</span><span class="n">myve</span><span class="p">.</span><span class="n">veName</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="w"> </span><span class="s">&quot;I&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">float</span><span class="w"> </span><span class="n">newCurrent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">atof</span><span class="p">(</span><span class="n">myve</span><span class="p">.</span><span class="n">veValue</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">1000</span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">newCurrent</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">-1000</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">newCurrent</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">1000</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="n">VictronCurrent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newCurrent</span><span class="p">;</span>
+<span class="w">          </span><span class="n">MARK_FRESH</span><span class="p">(</span><span class="n">IDX_VICTRON_CURRENT</span><span class="p">);</span>
+<span class="w">          </span><span class="n">dataReceived</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">yield</span><span class="p">();</span><span class="w">  </span><span class="c1">// Allow other processes</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">end1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">micros</span><span class="p">();</span>
+<span class="w">  </span><span class="n">VeTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">end1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">start1</span><span class="p">;</span><span class="w">  </span><span class="c1">// Performance monitoring</span>
+<span class="w">  </span><span class="n">lastVEDataRead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">millis</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="vedirect-protocol-details">VE.Direct Protocol Details<a class="headerlink" href="#vedirect-protocol-details" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Label: Value
+V: 12750        // Battery voltage (mV)
+I: -1230        // Battery current (mA)
+P: -15          // Instantaneous power (W)
+CE: -1500       // Consumed energy (mAh)
+SOC: 876        // State of charge (‰)
+TTG: 65535      // Time to go (minutes)
+Alarm: OFF      // Alarm status
+Relay: OFF      // Relay status
+AR: 0           // Alarm reason
+BMV: 712        // Model identification
+FW: 0212        // Firmware version
+Checksum: 9
+</code></pre></div>
+<p><strong>Data Format</strong>: Text labels followed by colon and numeric value
+<strong>Validation</strong>: Checksum verification and range checking for each parameter</p>
+<h3 id="integration-with-control-system">Integration with Control System<a class="headerlink" href="#integration-with-control-system" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1">// VE.Direct data can be used as battery voltage/current source</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">BatteryCurrentSource</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span><span class="w">  </span><span class="c1">// 0=INA228, 1=NMEA2K, 2=NMEA0183, 3=Victron</span>
+
+<span class="kt">float</span><span class="w"> </span><span class="nf">getBatteryCurrent</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">switch</span><span class="w"> </span><span class="p">(</span><span class="n">BatteryCurrentSource</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="mi">3</span><span class="p">:</span><span class="w">  </span><span class="c1">// Victron VE.Direct</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">abs</span><span class="p">(</span><span class="n">VictronCurrent</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mf">0.1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">VictronCurrent</span><span class="p">;</span><span class="w">  </span><span class="c1">// Direct use, no polarity inversion needed</span>
+<span class="w">      </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">queueConsoleMessage</span><span class="p">(</span><span class="s">&quot;Victron current not available, using INA228&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">Bcur</span><span class="p">;</span><span class="w">  </span><span class="c1">// Fallback to local sensor</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Sensor Hierarchy</strong>: VE.Direct can serve as primary or backup data source for battery monitoring</p>
+<h2 id="communication-interface-management">Communication Interface Management<a class="headerlink" href="#communication-interface-management" title="Permanent link">&para;</a></h2>
+<h3 id="data-source-selection">Data Source Selection<a class="headerlink" href="#data-source-selection" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1">// Battery voltage source priority</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">BatteryVoltageSource</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w">  </span><span class="c1">// 0=INA228, 1=ADS1115, 2=VictronVeDirect, 3=NMEA0183, 4=NMEA2K</span>
+
+<span class="kt">float</span><span class="w"> </span><span class="nf">getBatteryVoltage</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">static</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">lastWarningTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+
+<span class="w">  </span><span class="k">switch</span><span class="w"> </span><span class="p">(</span><span class="n">BatteryVoltageSource</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="mi">0</span><span class="p">:</span><span class="w">  </span><span class="c1">// INA228 (preferred)</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">IS_STALE</span><span class="p">(</span><span class="n">IDX_IBV</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">IBV</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mf">8.0</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">IBV</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">70.0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">IBV</span><span class="p">;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">      </span><span class="c1">// Automatic fallback with user notification</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">millis</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">lastWarningTime</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">10000</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">queueConsoleMessage</span><span class="p">(</span><span class="s">&quot;INA228 unavailable, falling back to ADS1115&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">lastWarningTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">millis</span><span class="p">();</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="n">BatteryV</span><span class="p">;</span><span class="w">  </span><span class="c1">// ADS1115 fallback</span>
+
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="mi">2</span><span class="p">:</span><span class="w">  </span><span class="c1">// VE.Direct</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">IS_STALE</span><span class="p">(</span><span class="n">IDX_VICTRON_VOLTAGE</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">VictronVoltage</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mf">8.0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">VictronVoltage</span><span class="p">;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">      </span><span class="n">queueConsoleMessage</span><span class="p">(</span><span class="s">&quot;Victron voltage invalid, using INA228&quot;</span><span class="p">);</span>
+<span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="n">IBV</span><span class="p">;</span><span class="w">  </span><span class="c1">// Fallback to local sensor</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="performance-monitoring">Performance Monitoring<a class="headerlink" href="#performance-monitoring" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1">// Timing measurement for each interface</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">VeTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w">        </span><span class="c1">// VE.Direct processing time (microseconds)</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">NMEA2KData</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w">    </span><span class="c1">// NMEA 2000 data availability flag</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">VeData</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w">        </span><span class="c1">// VE.Direct data availability flag</span>
+</code></pre></div>
+<p><strong>Performance Tracking</strong>: Microsecond-level timing for interface processing overhead</p>
+<h3 id="error-handling-and-recovery">Error Handling and Recovery<a class="headerlink" href="#error-handling-and-recovery" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1">// Interface health monitoring</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">VeData</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">IS_STALE</span><span class="p">(</span><span class="n">IDX_VICTRON_VOLTAGE</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">queueConsoleMessage</span><span class="p">(</span><span class="s">&quot;VE.Direct communication timeout&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">NMEA2KData</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">IS_STALE</span><span class="p">(</span><span class="n">IDX_LATITUDE_NMEA</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">queueConsoleMessage</span><span class="p">(</span><span class="s">&quot;NMEA 2000 GPS data timeout&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Automatic Recovery</strong>:
+- Serial interface reset on prolonged timeouts
+- CAN bus reinitialization on communication failures
+- Graceful fallback to local sensors when remote data unavailable</p>
+<h2 id="configuration-and-control">Configuration and Control<a class="headerlink" href="#configuration-and-control" title="Permanent link">&para;</a></h2>
+<h3 id="interface-enabledisable">Interface Enable/Disable<a class="headerlink" href="#interface-enabledisable" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1">// User-configurable interface enables</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">VeData</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w">        </span><span class="c1">// 0=disabled, 1=enabled</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">NMEA0183Data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w">  </span><span class="c1">// 0=disabled, 1=enabled  </span>
+<span class="kt">int</span><span class="w"> </span><span class="n">NMEA2KData</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w">    </span><span class="c1">// 0=disabled, 1=enabled</span>
+</code></pre></div>
+<p><strong>Runtime Control</strong>: Interfaces can be enabled/disabled via web interface without firmware changes</p>
+<h3 id="verbose-debug-output">Verbose Debug Output<a class="headerlink" href="#verbose-debug-output" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="n">NMEA2KVerbose</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w">  </span><span class="c1">// 0=quiet, 1=serial debug output</span>
+
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">NMEA2KVerbose</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;NMEA2K PGN: &quot;</span><span class="p">);</span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">N2kMsg</span><span class="p">.</span><span class="n">PGN</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Debugging</strong>: Optional verbose output for troubleshooting communication issues</p>
+<h2 id="resource-usage-and-performance">Resource Usage and Performance<a class="headerlink" href="#resource-usage-and-performance" title="Permanent link">&para;</a></h2>
+<h3 id="cpu-utilization">CPU Utilization<a class="headerlink" href="#cpu-utilization" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Interface</th>
+<th>Processing Time</th>
+<th>Update Rate</th>
+<th>CPU Impact</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NMEA 2000</td>
+<td>~100µs per message</td>
+<td>Variable (1Hz-10Hz)</td>
+<td>~1-2%</td>
+</tr>
+<tr>
+<td>VE.Direct</td>
+<td>~2000µs per update</td>
+<td>2 seconds</td>
+<td>&lt;1%</td>
+</tr>
+<tr>
+<td>NMEA 0183</td>
+<td>Not implemented</td>
+<td>N/A</td>
+<td>0%</td>
+</tr>
+</tbody>
+</table>
+<h3 id="memory-usage">Memory Usage<a class="headerlink" href="#memory-usage" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>NMEA 2000</strong>: ~2KB for message buffers and handler tables</li>
+<li><strong>VE.Direct</strong>: ~1KB for frame parsing buffers</li>
+<li><strong>Data storage</strong>: 68 bytes for freshness timestamps</li>
+</ul>
+<h3 id="communication-bandwidth">Communication Bandwidth<a class="headerlink" href="#communication-bandwidth" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>CAN bus</strong>: ~125kbps physical, ~1-5% utilization typical</li>
+<li><strong>Serial interfaces</strong>: 19200 bps each, ~10-50% utilization</li>
+<li><strong>Total overhead</strong>: &lt;5% of main loop execution time</li>
+</ul>
+<p>This communication interface system provides comprehensive integration with marine electronics while maintaining efficient resource utilization and robust error handling.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2025 Xengineering
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.sections", "navigation.expand", "search.highlight"], "search": "../../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.50899def.min.js"></script>
+      
+    
+  </body>
+</html>

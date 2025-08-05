@@ -1,0 +1,2420 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Technical documentation for Xengineering marine open-source alternator regulator system">
+      
+      
+        <meta name="author" content="Xengineering">
+      
+      
+        <link rel="canonical" href="https://docs.xengineering.net/software/esp32/sensor_systems/">
+      
+      
+        <link rel="prev" href="../system_overview/">
+      
+      
+        <link rel="next" href="../communication_interfaces/">
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.16">
+    
+    
+      
+        <title>Sensor Systems - Xengineering Alternator Regulator Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.7e37652d.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#sensor-systems-data-acquisition" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Xengineering Alternator Regulator Documentation" class="md-header__button md-logo" aria-label="Xengineering Alternator Regulator Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Xengineering Alternator Regulator Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Sensor Systems
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/markliquid1/regulatordocumentation" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    markliquid1/regulatordocumentation
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Xengineering Alternator Regulator Documentation" class="md-nav__button md-logo" aria-label="Xengineering Alternator Regulator Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Xengineering Alternator Regulator Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/markliquid1/regulatordocumentation" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    markliquid1/regulatordocumentation
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Basic Use
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Basic Use
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../basic-use/getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Getting Started
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../basic-use/installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Installation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../basic-use/quick-start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quick Start Guide
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../basic-use/troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Troubleshooting
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Hardware
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Hardware
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hardware/system-architecture.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    System Architecture
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hardware/digital-inputs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Digital Inputs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hardware/digital-outputs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Digital Outputs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hardware/field-output.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Alternator Field Drive
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hardware/analog-inputs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Analog Inputs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hardware/power-supply.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Power Supply
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hardware/esp32-controller.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    ESP32 Controller
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hardware/connectors/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Connectors & Wiring
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Software - ESP32
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Software - ESP32
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../system_overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    System Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Sensor Systems
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Sensor Systems
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ads1115-4-channel-analog-input" class="md-nav__link">
+    <span class="md-ellipsis">
+      ADS1115 4-Channel Analog Input
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ADS1115 4-Channel Analog Input">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose" class="md-nav__link">
+    <span class="md-ellipsis">
+      Purpose
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hardware-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Hardware Configuration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#state-machine-implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      State Machine Implementation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#channel-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Channel Processing
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Channel Processing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#channel-0-battery-voltage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Channel 0: Battery Voltage
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#channel-1-alternator-current" class="md-nav__link">
+    <span class="md-ellipsis">
+      Channel 1: Alternator Current
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#channel-2-engine-rpm" class="md-nav__link">
+    <span class="md-ellipsis">
+      Channel 2: Engine RPM
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#channel-3-thermistor-temperature" class="md-nav__link">
+    <span class="md-ellipsis">
+      Channel 3: Thermistor Temperature
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#thermistor-calculation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Thermistor Calculation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ina228-high-precision-battery-monitor" class="md-nav__link">
+    <span class="md-ellipsis">
+      INA228 High-Precision Battery Monitor
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="INA228 High-Precision Battery Monitor">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Purpose
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Processing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hardware-overvoltage-protection" class="md-nav__link">
+    <span class="md-ellipsis">
+      Hardware Overvoltage Protection
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#onewire-temperature-sensors" class="md-nav__link">
+    <span class="md-ellipsis">
+      OneWire Temperature Sensors
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="OneWire Temperature Sensors">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Purpose
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hardware-configuration_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Hardware Configuration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#freertos-task-implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      FreeRTOS Task Implementation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-validation-and-quality-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Validation and Quality Control
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data Validation and Quality Control">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sanity-checking" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sanity Checking
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-freshness-tracking" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Freshness Tracking
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sensor-fallback-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sensor Fallback Strategy
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#performance-characteristics" class="md-nav__link">
+    <span class="md-ellipsis">
+      Performance Characteristics
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Performance Characteristics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#update-rates" class="md-nav__link">
+    <span class="md-ellipsis">
+      Update Rates
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#accuracy-specifications" class="md-nav__link">
+    <span class="md-ellipsis">
+      Accuracy Specifications
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resource-usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Resource Usage
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#error-handling-and-recovery" class="md-nav__link">
+    <span class="md-ellipsis">
+      Error Handling and Recovery
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Error Handling and Recovery">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sensor-disconnection-detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sensor Disconnection Detection
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#automatic-recovery" class="md-nav__link">
+    <span class="md-ellipsis">
+      Automatic Recovery
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-integrity" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Integrity
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../communication_interfaces/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Communication Interfaces
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../field_control.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Field Control
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../learning_mode.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Learning Mode
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../battery_management.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Battery Management
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../network_web_system.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Network & Web System
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../safety_monitoring.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Safety & Monitoring
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../advanced_features.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Advanced Features
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../configuration.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Configuration
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Software - Client
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Software - Client
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../client/web-interface-overview.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Web Interface Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../client/html/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    HTML Structure
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../client/javascript/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    JavaScript Logic
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../client/css/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    CSS Styling
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../client/realtime-data.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Real-time Data Flow
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Local Xengineering Ref Only
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Local Xengineering Ref Only
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../localstuff%20for%20Xengineering%20ref/esp32_partition_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Partitioning
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../localstuff%20for%20Xengineering%20ref/mkdocs_setup_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    MkDocs Guide
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../localstuff for Xengineering ref/updated_ota_docs V3.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    OTA
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../localstuff%20for%20Xengineering%20ref/updated_planning_doc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Planning
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ads1115-4-channel-analog-input" class="md-nav__link">
+    <span class="md-ellipsis">
+      ADS1115 4-Channel Analog Input
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ADS1115 4-Channel Analog Input">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose" class="md-nav__link">
+    <span class="md-ellipsis">
+      Purpose
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hardware-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Hardware Configuration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#state-machine-implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      State Machine Implementation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#channel-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Channel Processing
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Channel Processing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#channel-0-battery-voltage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Channel 0: Battery Voltage
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#channel-1-alternator-current" class="md-nav__link">
+    <span class="md-ellipsis">
+      Channel 1: Alternator Current
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#channel-2-engine-rpm" class="md-nav__link">
+    <span class="md-ellipsis">
+      Channel 2: Engine RPM
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#channel-3-thermistor-temperature" class="md-nav__link">
+    <span class="md-ellipsis">
+      Channel 3: Thermistor Temperature
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#thermistor-calculation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Thermistor Calculation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ina228-high-precision-battery-monitor" class="md-nav__link">
+    <span class="md-ellipsis">
+      INA228 High-Precision Battery Monitor
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="INA228 High-Precision Battery Monitor">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Purpose
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Processing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hardware-overvoltage-protection" class="md-nav__link">
+    <span class="md-ellipsis">
+      Hardware Overvoltage Protection
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#onewire-temperature-sensors" class="md-nav__link">
+    <span class="md-ellipsis">
+      OneWire Temperature Sensors
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="OneWire Temperature Sensors">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Purpose
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hardware-configuration_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Hardware Configuration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#freertos-task-implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      FreeRTOS Task Implementation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-validation-and-quality-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Validation and Quality Control
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data Validation and Quality Control">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sanity-checking" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sanity Checking
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-freshness-tracking" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Freshness Tracking
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sensor-fallback-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sensor Fallback Strategy
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#performance-characteristics" class="md-nav__link">
+    <span class="md-ellipsis">
+      Performance Characteristics
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Performance Characteristics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#update-rates" class="md-nav__link">
+    <span class="md-ellipsis">
+      Update Rates
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#accuracy-specifications" class="md-nav__link">
+    <span class="md-ellipsis">
+      Accuracy Specifications
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resource-usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Resource Usage
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#error-handling-and-recovery" class="md-nav__link">
+    <span class="md-ellipsis">
+      Error Handling and Recovery
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Error Handling and Recovery">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sensor-disconnection-detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sensor Disconnection Detection
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#automatic-recovery" class="md-nav__link">
+    <span class="md-ellipsis">
+      Automatic Recovery
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-integrity" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Integrity
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="sensor-systems-data-acquisition">Sensor Systems &amp; Data Acquisition<a class="headerlink" href="#sensor-systems-data-acquisition" title="Permanent link">&para;</a></h1>
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
+<p>The regulator uses multiple sensor systems to monitor electrical parameters, temperature, and engine status. The system implements redundant measurements with automatic fallback and data validation to ensure reliable operation.</p>
+<h2 id="ads1115-4-channel-analog-input">ADS1115 4-Channel Analog Input<a class="headerlink" href="#ads1115-4-channel-analog-input" title="Permanent link">&para;</a></h2>
+<h3 id="purpose">Purpose<a class="headerlink" href="#purpose" title="Permanent link">&para;</a></h3>
+<p>The ADS1115 provides four 16-bit analog-to-digital conversion channels for primary system measurements:
+- <strong>Channel 0</strong>: Battery voltage (via voltage divider)
+- <strong>Channel 1</strong>: Alternator current (Hall effect sensor)
+- <strong>Channel 2</strong>: Engine RPM (magnetic pickup)
+- <strong>Channel 3</strong>: Thermistor temperature</p>
+<h3 id="hardware-configuration">Hardware Configuration<a class="headerlink" href="#hardware-configuration" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1">// ADS1115 initialization</span>
+<span class="n">ADS1115_lite</span><span class="w"> </span><span class="nf">adc</span><span class="p">(</span><span class="n">ADS1115_DEFAULT_ADDRESS</span><span class="p">);</span>
+<span class="n">adc</span><span class="p">.</span><span class="n">setGain</span><span class="p">(</span><span class="n">ADS1115_REG_CONFIG_PGA_6_144V</span><span class="p">);</span><span class="w">     </span><span class="c1">// ±6.144V range</span>
+<span class="n">adc</span><span class="p">.</span><span class="n">setSampleRate</span><span class="p">(</span><span class="n">ADS1115_REG_CONFIG_DR_64SPS</span><span class="p">);</span><span class="w"> </span><span class="c1">// 64 samples/second (15.6ms)</span>
+</code></pre></div>
+<p><strong>Gain Selection</strong>: ±6.144V range provides maximum resolution for 0-5V sensor inputs
+<strong>Sample Rate</strong>: 64 SPS balances conversion time (15.6ms) with noise rejection</p>
+<h3 id="state-machine-implementation">State Machine Implementation<a class="headerlink" href="#state-machine-implementation" title="Permanent link">&para;</a></h3>
+<p>The ADS1115 uses a non-blocking state machine to cycle through all channels:</p>
+<div class="highlight"><pre><span></span><code><span class="k">enum</span><span class="w"> </span><span class="nc">ADS1115_State</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">ADS_IDLE</span><span class="p">,</span>
+<span class="w">  </span><span class="n">ADS_WAITING_FOR_CONVERSION</span>
+<span class="p">};</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">ReadAnalogInputs</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">switch</span><span class="w"> </span><span class="p">(</span><span class="n">adsState</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="no">ADS_IDLE</span><span class="p">:</span>
+<span class="w">      </span><span class="c1">// Set channel and trigger conversion</span>
+<span class="w">      </span><span class="n">adc</span><span class="p">.</span><span class="n">setMux</span><span class="p">(</span><span class="n">channelConfig</span><span class="p">[</span><span class="n">adsCurrentChannel</span><span class="p">]);</span>
+<span class="w">      </span><span class="n">adc</span><span class="p">.</span><span class="n">triggerConversion</span><span class="p">();</span>
+<span class="w">      </span><span class="n">adsStartTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">millis</span><span class="p">();</span>
+<span class="w">      </span><span class="n">adsState</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ADS_WAITING_FOR_CONVERSION</span><span class="p">;</span>
+<span class="w">      </span><span class="k">break</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="no">ADS_WAITING_FOR_CONVERSION</span><span class="p">:</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">millis</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">adsStartTime</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">ADSConversionDelay</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Raw</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">adc</span><span class="p">.</span><span class="n">getConversion</span><span class="p">();</span>
+<span class="w">        </span><span class="n">processChannelData</span><span class="p">(</span><span class="n">adsCurrentChannel</span><span class="p">,</span><span class="w"> </span><span class="n">Raw</span><span class="p">);</span>
+<span class="w">        </span><span class="n">adsCurrentChannel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">adsCurrentChannel</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mi">4</span><span class="p">;</span>
+<span class="w">        </span><span class="n">adsState</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ADS_IDLE</span><span class="p">;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">      </span><span class="k">break</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Benefits</strong>:
+- Non-blocking operation prevents main loop delays
+- Complete 4-channel cycle every 80ms (20ms per channel)
+- Automatic channel rotation ensures fresh data</p>
+<h3 id="channel-processing">Channel Processing<a class="headerlink" href="#channel-processing" title="Permanent link">&para;</a></h3>
+<h4 id="channel-0-battery-voltage">Channel 0: Battery Voltage<a class="headerlink" href="#channel-0-battery-voltage" title="Permanent link">&para;</a></h4>
+<p><div class="highlight"><pre><span></span><code><span class="n">Channel0V</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Raw</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">32767.0</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">6.144</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">0.0697674419</span><span class="p">;</span><span class="w">  </span><span class="c1">// Voltage divider compensation</span>
+<span class="n">BatteryV</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Channel0V</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">BatteryV</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mf">5.0</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">BatteryV</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">70.0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">            </span><span class="c1">// Sanity check</span>
+<span class="w">  </span><span class="n">MARK_FRESH</span><span class="p">(</span><span class="n">IDX_BATTERY_V</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+<strong>Voltage Divider</strong>: 1MΩ and 75kΩ resistors provide ~14:1 scaling for 12-48V systems</p>
+<h4 id="channel-1-alternator-current">Channel 1: Alternator Current<a class="headerlink" href="#channel-1-alternator-current" title="Permanent link">&para;</a></h4>
+<p><div class="highlight"><pre><span></span><code><span class="n">Channel1V</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Raw</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">32767.0</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">6.144</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w">           </span><span class="c1">// 2:1 voltage divider</span>
+<span class="n">MeasuredAmps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">Channel1V</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">2.5</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="p">;</span><span class="w">          </span><span class="c1">// Hall sensor: 2.5V = 0A</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">InvertAltAmps</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="n">MeasuredAmps</span><span class="w"> </span><span class="o">*=</span><span class="w"> </span><span class="mi">-1</span><span class="p">;</span><span class="w">      </span><span class="c1">// Polarity correction</span>
+<span class="n">MeasuredAmps</span><span class="w"> </span><span class="o">-=</span><span class="w"> </span><span class="n">AlternatorCOffset</span><span class="p">;</span><span class="w">               </span><span class="c1">// User calibration offset</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">AutoAltCurrentZero</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">MeasuredAmps</span><span class="w"> </span><span class="o">-=</span><span class="w"> </span><span class="n">DynamicAltCurrentZero</span><span class="p">;</span><span class="w">         </span><span class="c1">// Auto-zero correction</span>
+<span class="p">}</span>
+</code></pre></div>
+<strong>Hall Sensor</strong>: Linear output with 2.5V center point, 100A full scale</p>
+<h4 id="channel-2-engine-rpm">Channel 2: Engine RPM<a class="headerlink" href="#channel-2-engine-rpm" title="Permanent link">&para;</a></h4>
+<p><div class="highlight"><pre><span></span><code><span class="n">Channel2V</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Raw</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">32767.0</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">6.144</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">RPMScalingFactor</span><span class="p">;</span>
+<span class="n">RPM</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Channel2V</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">RPM</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span><span class="w"> </span><span class="n">RPM</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w">                          </span><span class="c1">// Eliminate noise at idle</span>
+</code></pre></div>
+<strong>RPM Sensor</strong>: Magnetic pickup provides pulse train proportional to engine speed</p>
+<h4 id="channel-3-thermistor-temperature">Channel 3: Thermistor Temperature<a class="headerlink" href="#channel-3-thermistor-temperature" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="n">Channel3V</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Raw</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">32767.0</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">6.144</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">833</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w">    </span><span class="c1">// Signal conditioning</span>
+<span class="n">temperatureThermistor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">thermistorTempC</span><span class="p">(</span><span class="n">Channel3V</span><span class="p">);</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">temperatureThermistor</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">500</span><span class="p">)</span><span class="w"> </span><span class="n">temperatureThermistor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">-99</span><span class="p">;</span><span class="w">  </span><span class="c1">// Error indication</span>
+</code></pre></div>
+<h3 id="thermistor-calculation">Thermistor Calculation<a class="headerlink" href="#thermistor-calculation" title="Permanent link">&para;</a></h3>
+<p><div class="highlight"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="nf">thermistorTempC</span><span class="p">(</span><span class="kt">float</span><span class="w"> </span><span class="n">V_thermistor</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kt">float</span><span class="w"> </span><span class="n">R_thermistor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">R_fixed</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">V_thermistor</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="mf">5.0</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">V_thermistor</span><span class="p">));</span>
+<span class="w">  </span><span class="kt">float</span><span class="w"> </span><span class="n">T0_K</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">T0_C</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">273.15</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">float</span><span class="w"> </span><span class="n">tempK</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">((</span><span class="mf">1.0</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">T0_K</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="mf">1.0</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">Beta</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">log</span><span class="p">(</span><span class="n">R_thermistor</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">R0</span><span class="p">));</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="p">)(</span><span class="n">tempK</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">273.15</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+<strong>Steinhart-Hart Equation</strong>: Converts resistance to temperature using thermistor constants</p>
+<h2 id="ina228-high-precision-battery-monitor">INA228 High-Precision Battery Monitor<a class="headerlink" href="#ina228-high-precision-battery-monitor" title="Permanent link">&para;</a></h2>
+<h3 id="purpose_1">Purpose<a class="headerlink" href="#purpose_1" title="Permanent link">&para;</a></h3>
+<p>The INA228 provides high-accuracy battery voltage and current measurement with hardware overvoltage protection:
+- <strong>Shunt voltage</strong>: ±163.84mV range with 40nV resolution
+- <strong>Bus voltage</strong>: 0-85V range with 3.125mV resolution
+- <strong>Hardware protection</strong>: Configurable overvoltage threshold</p>
+<h3 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">INA</span><span class="p">.</span><span class="n">setMode</span><span class="p">(</span><span class="mi">11</span><span class="p">);</span><span class="w">                           </span><span class="c1">// Continuous shunt and bus voltage</span>
+<span class="n">INA</span><span class="p">.</span><span class="n">setAverage</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span><span class="w">                         </span><span class="c1">// 4-sample averaging</span>
+<span class="n">INA</span><span class="p">.</span><span class="n">setBusVoltageConversionTime</span><span class="p">(</span><span class="mi">7</span><span class="p">);</span><span class="w">        </span><span class="c1">// 4120µs conversion time</span>
+<span class="n">INA</span><span class="p">.</span><span class="n">setShuntVoltageConversionTime</span><span class="p">(</span><span class="mi">7</span><span class="p">);</span><span class="w">      </span><span class="c1">// 4120µs conversion time</span>
+
+<span class="c1">// Hardware overvoltage protection</span>
+<span class="kt">uint16_t</span><span class="w"> </span><span class="n">thresholdLSB</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">uint16_t</span><span class="p">)(</span><span class="n">VoltageHardwareLimit</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">0.003125</span><span class="p">);</span>
+<span class="n">INA</span><span class="p">.</span><span class="n">setBusOvervoltageTH</span><span class="p">(</span><span class="n">thresholdLSB</span><span class="p">);</span>
+<span class="n">INA</span><span class="p">.</span><span class="n">setDiagnoseAlertBit</span><span class="p">(</span><span class="n">INA228_DIAG_BUS_OVER_LIMIT</span><span class="p">);</span>
+</code></pre></div>
+<p><strong>Update Rate</strong>: ~529ms total conversion time with averaging and conversion settings</p>
+<h3 id="data-processing">Data Processing<a class="headerlink" href="#data-processing" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="kt">void</span><span class="w"> </span><span class="nf">ReadINA228</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">INADisconnected</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">IBV</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">INA</span><span class="p">.</span><span class="n">getBusVoltage</span><span class="p">();</span><span class="w">                              </span><span class="c1">// Battery voltage</span>
+<span class="w">    </span><span class="n">ShuntVoltage_mV</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">INA</span><span class="p">.</span><span class="n">getShuntVoltage</span><span class="p">()</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">1000</span><span class="p">;</span><span class="w">        </span><span class="c1">// Shunt voltage</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">isnan</span><span class="p">(</span><span class="n">IBV</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">IBV</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mf">5.0</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">IBV</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">70.0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">Bcur</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ShuntVoltage_mV</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">1000.0f</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">ShuntResistanceMicroOhm</span><span class="p">;</span><span class="w">  </span><span class="c1">// Current calculation</span>
+<span class="w">      </span><span class="n">Bcur</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Bcur</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">BatteryCOffset</span><span class="p">;</span><span class="w">                         </span><span class="c1">// User calibration</span>
+
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">InvertBattAmps</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="n">Bcur</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">Bcur</span><span class="p">;</span><span class="w">               </span><span class="c1">// Polarity correction</span>
+
+<span class="w">      </span><span class="c1">// Dynamic gain correction (Learning mode)</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">AutoShuntGainCorrection</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">AmpSrc</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Bcur</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Bcur</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">DynamicShuntGainFactor</span><span class="p">;</span>
+<span class="w">      </span><span class="p">}</span>
+
+<span class="w">      </span><span class="n">MARK_FRESH</span><span class="p">(</span><span class="n">IDX_IBV</span><span class="p">);</span>
+<span class="w">      </span><span class="n">MARK_FRESH</span><span class="p">(</span><span class="n">IDX_BCUR</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="hardware-overvoltage-protection">Hardware Overvoltage Protection<a class="headerlink" href="#hardware-overvoltage-protection" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1">// Check hardware alert status</span>
+<span class="kt">uint16_t</span><span class="w"> </span><span class="n">alertStatus</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">readINA228AlertRegister</span><span class="p">(</span><span class="n">INA</span><span class="p">.</span><span class="n">getAddress</span><span class="p">());</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">inaOvervoltageLatched</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="p">(</span><span class="n">alertStatus</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="mh">0x0080</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">inaOvervoltageLatched</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="w">  </span><span class="n">inaOvervoltageTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">millis</span><span class="p">();</span>
+<span class="w">  </span><span class="n">queueConsoleMessage</span><span class="p">(</span><span class="s">&quot;INA228 hardware overvoltage detected! Field disabled until corrected&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// Auto-clear after 10 seconds if condition resolved</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">inaOvervoltageLatched</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">millis</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">inaOvervoltageTime</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">10000</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">clearINA228AlertLatch</span><span class="p">(</span><span class="n">INA</span><span class="p">.</span><span class="n">getAddress</span><span class="p">());</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">readINA228AlertRegister</span><span class="p">(</span><span class="n">INA</span><span class="p">.</span><span class="n">getAddress</span><span class="p">())</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="mh">0x0080</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">inaOvervoltageLatched</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Benefits</strong>:
+- Hardware-level protection independent of software
+- Automatic recovery when overvoltage condition clears
+- Prevents alternator runaway scenarios</p>
+<h2 id="onewire-temperature-sensors">OneWire Temperature Sensors<a class="headerlink" href="#onewire-temperature-sensors" title="Permanent link">&para;</a></h2>
+<h3 id="purpose_2">Purpose<a class="headerlink" href="#purpose_2" title="Permanent link">&para;</a></h3>
+<p>DS18B20 digital temperature sensors provide alternator temperature monitoring with high accuracy and immunity to electrical noise.</p>
+<h3 id="hardware-configuration_1">Hardware Configuration<a class="headerlink" href="#hardware-configuration_1" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="cp">#define ONE_WIRE_BUS 13</span>
+<span class="n">OneWire</span><span class="w"> </span><span class="nf">oneWire</span><span class="p">(</span><span class="n">ONE_WIRE_BUS</span><span class="p">);</span>
+<span class="n">DallasTemperature</span><span class="w"> </span><span class="nf">sensors</span><span class="p">(</span><span class="o">&amp;</span><span class="n">oneWire</span><span class="p">);</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">initializeOneWire</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">sensors</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+<span class="w">  </span><span class="n">sensors</span><span class="p">.</span><span class="n">setResolution</span><span class="p">(</span><span class="mi">12</span><span class="p">);</span><span class="w">                    </span><span class="c1">// 12-bit resolution (0.0625°C)</span>
+<span class="w">  </span><span class="n">sensors</span><span class="p">.</span><span class="n">getAddress</span><span class="p">(</span><span class="n">tempDeviceAddress</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w">     </span><span class="c1">// Get first sensor address</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="freertos-task-implementation">FreeRTOS Task Implementation<a class="headerlink" href="#freertos-task-implementation" title="Permanent link">&para;</a></h3>
+<p>Temperature reading runs in a separate task to prevent main loop blocking:</p>
+<div class="highlight"><pre><span></span><code><span class="kt">void</span><span class="w"> </span><span class="nf">TempTask</span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">parameter</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">esp_task_wdt_add</span><span class="p">(</span><span class="nb">NULL</span><span class="p">);</span><span class="w">                       </span><span class="c1">// Add to watchdog monitoring</span>
+
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(;;)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">millis</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">lastTempRead</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">10000</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">      </span><span class="c1">// 10-second update interval</span>
+<span class="w">      </span><span class="n">vTaskDelay</span><span class="p">(</span><span class="n">pdMS_TO_TICKS</span><span class="p">(</span><span class="mi">1000</span><span class="p">));</span>
+<span class="w">      </span><span class="n">esp_task_wdt_reset</span><span class="p">();</span>
+<span class="w">      </span><span class="k">continue</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Trigger conversion</span>
+<span class="w">    </span><span class="n">sensors</span><span class="p">.</span><span class="n">requestTemperaturesByAddress</span><span class="p">(</span><span class="n">tempDeviceAddress</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Wait for conversion (5 seconds with watchdog feeding)</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">25</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">vTaskDelay</span><span class="p">(</span><span class="n">pdMS_TO_TICKS</span><span class="p">(</span><span class="mi">200</span><span class="p">));</span>
+<span class="w">      </span><span class="n">esp_task_wdt_reset</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Read result</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">sensors</span><span class="p">.</span><span class="n">readScratchPad</span><span class="p">(</span><span class="n">tempDeviceAddress</span><span class="p">,</span><span class="w"> </span><span class="n">scratchPad</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="kt">int16_t</span><span class="w"> </span><span class="n">raw</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">scratchPad</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">8</span><span class="p">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">scratchPad</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+<span class="w">      </span><span class="kt">float</span><span class="w"> </span><span class="n">tempF</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">raw</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">16.0</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">1.8</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">32.0</span><span class="p">;</span>
+
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">tempF</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">-50</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">tempF</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">300</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">          </span><span class="c1">// Sanity check</span>
+<span class="w">        </span><span class="n">AlternatorTemperatureF</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tempF</span><span class="p">;</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">AlternatorTemperatureF</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">MaxAlternatorTemperatureF</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="n">MaxAlternatorTemperatureF</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">AlternatorTemperatureF</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="n">MARK_FRESH</span><span class="p">(</span><span class="n">IDX_ALTERNATOR_TEMP</span><span class="p">);</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="n">lastTempRead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">millis</span><span class="p">();</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Task Benefits</strong>:
+- Non-blocking main loop operation
+- Independent watchdog monitoring
+- Automatic error handling and recovery</p>
+<h2 id="data-validation-and-quality-control">Data Validation and Quality Control<a class="headerlink" href="#data-validation-and-quality-control" title="Permanent link">&para;</a></h2>
+<h3 id="sanity-checking">Sanity Checking<a class="headerlink" href="#sanity-checking" title="Permanent link">&para;</a></h3>
+<p>Each sensor reading undergoes validation before use:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Example: Battery voltage validation</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">BatteryV</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mf">5.0</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">BatteryV</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">70.0</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">!</span><span class="n">isnan</span><span class="p">(</span><span class="n">BatteryV</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// Valid reading - mark fresh and use</span>
+<span class="w">  </span><span class="n">MARK_FRESH</span><span class="p">(</span><span class="n">IDX_BATTERY_V</span><span class="p">);</span>
+<span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// Invalid reading - do not mark fresh, data goes stale</span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Invalid battery voltage reading: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">String</span><span class="p">(</span><span class="n">BatteryV</span><span class="p">));</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Validation Criteria</strong>:
+- <strong>Range limits</strong>: Physical limits for each measurement type
+- <strong>NaN detection</strong>: Arithmetic error checking
+- <strong>Rate limits</strong>: Maximum change rate between readings
+- <strong>Cross-validation</strong>: Compare redundant sensors when available</p>
+<h3 id="data-freshness-tracking">Data Freshness Tracking<a class="headerlink" href="#data-freshness-tracking" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="k">enum</span><span class="w"> </span><span class="nc">DataIndex</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">IDX_ALTERNATOR_TEMP</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">    </span><span class="c1">// OneWire temperature</span>
+<span class="w">  </span><span class="n">IDX_BATTERY_V</span><span class="p">,</span><span class="w">              </span><span class="c1">// ADS1115 battery voltage</span>
+<span class="w">  </span><span class="n">IDX_MEASURED_AMPS</span><span class="p">,</span><span class="w">          </span><span class="c1">// ADS1115 alternator current</span>
+<span class="w">  </span><span class="n">IDX_IBV</span><span class="p">,</span><span class="w">                    </span><span class="c1">// INA228 battery voltage</span>
+<span class="w">  </span><span class="n">IDX_BCUR</span><span class="p">,</span><span class="w">                   </span><span class="c1">// INA228 battery current</span>
+<span class="w">  </span><span class="n">IDX_RPM</span><span class="p">,</span><span class="w">                    </span><span class="c1">// ADS1115 engine RPM</span>
+<span class="w">  </span><span class="n">IDX_VICTRON_VOLTAGE</span><span class="p">,</span><span class="w">        </span><span class="c1">// VE.Direct voltage</span>
+<span class="w">  </span><span class="n">IDX_VICTRON_CURRENT</span><span class="p">,</span><span class="w">        </span><span class="c1">// VE.Direct current</span>
+<span class="w">  </span><span class="c1">// ... additional indices</span>
+<span class="w">  </span><span class="n">MAX_DATA_INDICES</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">17</span>
+<span class="p">};</span>
+
+<span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">dataTimestamps</span><span class="p">[</span><span class="n">MAX_DATA_INDICES</span><span class="p">];</span>
+<span class="k">const</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">DATA_TIMEOUT</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10000</span><span class="p">;</span><span class="w">      </span><span class="c1">// 10 seconds</span>
+
+<span class="cp">#define MARK_FRESH(index) dataTimestamps[index] = millis()</span>
+<span class="cp">#define IS_STALE(index) (millis() - dataTimestamps[index] &gt; DATA_TIMEOUT)</span>
+</code></pre></div>
+<p><strong>Benefits</strong>:
+- Web interface shows stale data indicators
+- Prevents control decisions based on old readings
+- Enables automatic sensor fallback strategies
+- Facilitates troubleshooting sensor failures</p>
+<h3 id="sensor-fallback-strategy">Sensor Fallback Strategy<a class="headerlink" href="#sensor-fallback-strategy" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="kt">float</span><span class="w"> </span><span class="nf">getBatteryVoltage</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">switch</span><span class="w"> </span><span class="p">(</span><span class="n">BatteryVoltageSource</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="mi">0</span><span class="p">:</span><span class="w">  </span><span class="c1">// INA228 (preferred)</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">IS_STALE</span><span class="p">(</span><span class="n">IDX_IBV</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">IBV</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mf">8.0</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">IBV</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">70.0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">IBV</span><span class="p">;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">      </span><span class="c1">// Fall through to ADS1115</span>
+
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="w">  </span><span class="c1">// ADS1115 (backup)</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">IS_STALE</span><span class="p">(</span><span class="n">IDX_BATTERY_V</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">BatteryV</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mf">8.0</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">BatteryV</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">70.0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">BatteryV</span><span class="p">;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">      </span><span class="c1">// Fall through to VE.Direct</span>
+
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="mi">2</span><span class="p">:</span><span class="w">  </span><span class="c1">// VE.Direct (tertiary)</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">IS_STALE</span><span class="p">(</span><span class="n">IDX_VICTRON_VOLTAGE</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">VictronVoltage</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mf">8.0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">VictronVoltage</span><span class="p">;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">      </span><span class="k">break</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="n">queueConsoleMessage</span><span class="p">(</span><span class="s">&quot;No valid battery voltage source available&quot;</span><span class="p">);</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="mi">999</span><span class="p">;</span><span class="w">  </span><span class="c1">// Error indication</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Fallback Hierarchy</strong>:
+1. <strong>Primary source</strong>: User-configured preference
+2. <strong>Secondary sources</strong>: Automatic fallback to validated alternatives
+3. <strong>Error handling</strong>: Graceful degradation with user notification</p>
+<h2 id="performance-characteristics">Performance Characteristics<a class="headerlink" href="#performance-characteristics" title="Permanent link">&para;</a></h2>
+<h3 id="update-rates">Update Rates<a class="headerlink" href="#update-rates" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Sensor</th>
+<th>Update Rate</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ADS1115</td>
+<td>80ms (4 channels)</td>
+<td>Complete cycle every 80ms</td>
+</tr>
+<tr>
+<td>INA228</td>
+<td>529ms</td>
+<td>With averaging and high precision</td>
+</tr>
+<tr>
+<td>OneWire</td>
+<td>10 seconds</td>
+<td>Separate task, temperature changes slowly</td>
+</tr>
+<tr>
+<td>NMEA2K</td>
+<td>100ms-2s</td>
+<td>Variable based on message type</td>
+</tr>
+<tr>
+<td>VE.Direct</td>
+<td>2 seconds</td>
+<td>Victron device dependent</td>
+</tr>
+</tbody>
+</table>
+<h3 id="accuracy-specifications">Accuracy Specifications<a class="headerlink" href="#accuracy-specifications" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Sensor</th>
+<th>Resolution</th>
+<th>Accuracy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Battery Voltage</td>
+<td>INA228</td>
+<td>3.125mV</td>
+<td>±0.1%</td>
+</tr>
+<tr>
+<td>Battery Current</td>
+<td>INA228</td>
+<td>40nV (shunt)</td>
+<td>±0.5%</td>
+</tr>
+<tr>
+<td>Alternator Current</td>
+<td>Hall Sensor</td>
+<td>~100mA</td>
+<td>±2%</td>
+</tr>
+<tr>
+<td>Temperature</td>
+<td>DS18B20</td>
+<td>0.0625°C</td>
+<td>±0.5°C</td>
+</tr>
+<tr>
+<td>Engine RPM</td>
+<td>Magnetic Pickup</td>
+<td>~1 RPM</td>
+<td>±1%</td>
+</tr>
+</tbody>
+</table>
+<h3 id="resource-usage">Resource Usage<a class="headerlink" href="#resource-usage" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>CPU time</strong>: ~15% of main loop for sensor reading</li>
+<li><strong>Memory</strong>: 68 bytes for data timestamps, ~200 bytes for sensor buffers</li>
+<li><strong>I2C bandwidth</strong>: ~2kHz for ADS1115 + INA228 continuous operation</li>
+<li><strong>Task stack</strong>: 4KB for temperature task</li>
+</ul>
+<h2 id="error-handling-and-recovery">Error Handling and Recovery<a class="headerlink" href="#error-handling-and-recovery" title="Permanent link">&para;</a></h2>
+<h3 id="sensor-disconnection-detection">Sensor Disconnection Detection<a class="headerlink" href="#sensor-disconnection-detection" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1">// ADS1115 connection check</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">adc</span><span class="p">.</span><span class="n">testConnection</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">ADS1115Disconnected</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">  </span><span class="n">queueConsoleMessage</span><span class="p">(</span><span class="s">&quot;ADS1115 connection failed&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// INA228 connection check  </span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">INA</span><span class="p">.</span><span class="n">begin</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">INADisconnected</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">  </span><span class="n">queueConsoleMessage</span><span class="p">(</span><span class="s">&quot;INA228 connection failed&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="automatic-recovery">Automatic Recovery<a class="headerlink" href="#automatic-recovery" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>I2C bus reset</strong>: Automatic recovery from bus lockup conditions</li>
+<li><strong>Sensor reinitialization</strong>: Periodic connection testing and recovery</li>
+<li><strong>Graceful degradation</strong>: Continue operation with available sensors</li>
+<li><strong>User notification</strong>: Console messages for failed sensors</li>
+</ul>
+<h3 id="data-integrity">Data Integrity<a class="headerlink" href="#data-integrity" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Checksums</strong>: Protocol-level validation for digital communications</li>
+<li><strong>Range checking</strong>: Physical limit validation for all measurements</li>
+<li><strong>Trend analysis</strong>: Rate-of-change validation to detect sensor glitches</li>
+<li><strong>Cross-validation</strong>: Compare redundant measurements when available</li>
+</ul>
+<p>This sensor system provides the reliable, accurate data foundation required for safe alternator control and comprehensive system monitoring.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2025 Xengineering
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.sections", "navigation.expand", "search.highlight"], "search": "../../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.50899def.min.js"></script>
+      
+    
+  </body>
+</html>

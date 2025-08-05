@@ -1,0 +1,3023 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Technical documentation for Xengineering marine open-source alternator regulator system">
+      
+      
+        <meta name="author" content="Xengineering">
+      
+      
+        <link rel="canonical" href="https://docs.xengineering.net/localstuff%20for%20Xengineering%20ref/updated_ota_docs%20V3%20/">
+      
+      
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.16">
+    
+    
+      
+        <title>XRegulator Secure OTA System - Complete Documentation - Xengineering Alternator Regulator Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.7e37652d.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#xregulator-secure-ota-system-complete-documentation" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Xengineering Alternator Regulator Documentation" class="md-header__button md-logo" aria-label="Xengineering Alternator Regulator Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Xengineering Alternator Regulator Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              XRegulator Secure OTA System - Complete Documentation
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/markliquid1/regulatordocumentation" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    markliquid1/regulatordocumentation
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Xengineering Alternator Regulator Documentation" class="md-nav__button md-logo" aria-label="Xengineering Alternator Regulator Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Xengineering Alternator Regulator Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/markliquid1/regulatordocumentation" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    markliquid1/regulatordocumentation
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Basic Use
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Basic Use
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../basic-use/getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Getting Started
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../basic-use/installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Installation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../basic-use/quick-start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quick Start Guide
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../basic-use/troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Troubleshooting
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Hardware
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Hardware
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hardware/system-architecture.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    System Architecture
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hardware/digital-inputs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Digital Inputs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hardware/digital-outputs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Digital Outputs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hardware/field-output.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Alternator Field Drive
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hardware/analog-inputs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Analog Inputs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hardware/power-supply.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Power Supply
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hardware/esp32-controller.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    ESP32 Controller
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hardware/connectors/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Connectors & Wiring
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Software - ESP32
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Software - ESP32
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../software/esp32/system_overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    System Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../software/esp32/sensor_systems/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Sensor Systems
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../software/esp32/communication_interfaces/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Communication Interfaces
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../software/esp32/field_control.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Field Control
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../software/esp32/learning_mode.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Learning Mode
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../software/esp32/battery_management.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Battery Management
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../software/esp32/network_web_system.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Network & Web System
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../software/esp32/safety_monitoring.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Safety & Monitoring
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../software/esp32/advanced_features.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Advanced Features
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../software/esp32/configuration.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Configuration
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Software - Client
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Software - Client
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../software/client/web-interface-overview.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Web Interface Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../software/client/html/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    HTML Structure
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../software/client/javascript/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    JavaScript Logic
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../software/client/css/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    CSS Styling
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../software/client/realtime-data.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Real-time Data Flow
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Local Xengineering Ref Only
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Local Xengineering Ref Only
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../esp32_partition_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Partitioning
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mkdocs_setup_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    MkDocs Guide
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../localstuff for Xengineering ref/updated_ota_docs V3.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    OTA
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../updated_planning_doc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Planning
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#table-of-contents" class="md-nav__link">
+    <span class="md-ellipsis">
+      Table of Contents
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#system-architecture-key-decisions" class="md-nav__link">
+    <span class="md-ellipsis">
+      System Architecture &amp; Key Decisions
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="System Architecture &amp; Key Decisions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#core-design-philosophy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Core Design Philosophy
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#technology-stack" class="md-nav__link">
+    <span class="md-ellipsis">
+      Technology Stack
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#file-structure-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      File Structure Overview
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#esp32-firmware-partition-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      ESP32 Firmware &amp; Partition Configuration
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ESP32 Firmware &amp; Partition Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#partition-scheme-16mb-flash" class="md-nav__link">
+    <span class="md-ellipsis">
+      Partition Scheme (16MB Flash)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arduino-ide-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Arduino IDE Configuration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-firmware-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key Firmware Features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#streaming-tar-extractor-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Streaming Tar Extractor Structure
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#build-and-deploy-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      Build and Deploy Process
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Build and Deploy Process">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#automated-build-script" class="md-nav__link">
+    <span class="md-ellipsis">
+      Automated Build Script
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#manual-build-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      Manual Build Process
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#server-deployment" class="md-nav__link">
+    <span class="md-ellipsis">
+      Server Deployment
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#streaming-tar-parser-implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Streaming Tar Parser Implementation
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Streaming Tar Parser Implementation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#key-technical-achievement" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key Technical Achievement
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#problem-solved" class="md-nav__link">
+    <span class="md-ellipsis">
+      Problem Solved
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#core-parser-logic" class="md-nav__link">
+    <span class="md-ellipsis">
+      Core Parser Logic
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#file-routing-logic" class="md-nav__link">
+    <span class="md-ellipsis">
+      File Routing Logic
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#server-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Server Configuration
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Server Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#php-based-ota-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      PHP-based OTA Server
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#api-endpoints" class="md-nav__link">
+    <span class="md-ellipsis">
+      API Endpoints
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="API Endpoints">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#update-check-apifirmwarecheckphp" class="md-nav__link">
+    <span class="md-ellipsis">
+      Update Check: /api/firmware/check.php
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#package-download-apifirmwaredownloadphp" class="md-nav__link">
+    <span class="md-ellipsis">
+      Package Download: /api/firmware/download.php
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#signature-download-apifirmwaresignaturephp" class="md-nav__link">
+    <span class="md-ellipsis">
+      Signature Download: /api/firmware/signature.php
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration Files
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuration Files">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#version-configuration-configota_configphp" class="md-nav__link">
+    <span class="md-ellipsis">
+      Version Configuration: /config/ota_config.php
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#security-configuration-configsecurityphp" class="md-nav__link">
+    <span class="md-ellipsis">
+      Security Configuration: /config/security.php
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#server-maintenance-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      Server Maintenance Commands
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#security-implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Security Implementation
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Security Implementation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rsa-4096-cryptographic-security" class="md-nav__link">
+    <span class="md-ellipsis">
+      RSA-4096 Cryptographic Security
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#air-gapped-signing-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      Air-Gapped Signing Process
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ssl-certificate-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      SSL Certificate Validation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#signature-verification-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      Signature Verification Process
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#security-key-rotation-process-planned" class="md-nav__link">
+    <span class="md-ellipsis">
+      Security Key Rotation Process (Planned)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Security Key Rotation Process (Planned)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-discover-current-server-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 1: Discover Current Server Configuration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-generate-new-rsa-4096-key-pair-air-gapped-machine" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 2: Generate New RSA-4096 Key Pair (Air-Gapped Machine)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-update-esp32-firmware-with-new-public-key" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 3: Update ESP32 Firmware with New Public Key
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-deploy-key-transition-firmware-critical-use-old-private-key" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 4: Deploy Key Transition Firmware (Critical: Use OLD Private Key)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-5-update-server-configuration-with-new-public-key" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 5: Update Server Configuration with New Public Key
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-6-wait-for-complete-fleet-update" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 6: Wait for Complete Fleet Update
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-7-complete-key-transition-air-gapped-machine" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 7: Complete Key Transition (Air-Gapped Machine)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#firmwareweb-package-deployment-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      Firmware/Web Package Deployment Process
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Firmware/Web Package Deployment Process">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#current-process-same-machine-signing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Current Process (Same-Machine Signing)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-1-prepare-new-firmware-version" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 1: Prepare New Firmware Version
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-deploy-using-build-script" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 2: Deploy Using Build Script
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-verify-deployment" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 3: Verify Deployment
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-monitor-device-updates" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 4: Monitor Device Updates
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#future-air-gapped-signing-process-production" class="md-nav__link">
+    <span class="md-ellipsis">
+      Future Air-Gapped Signing Process (Production)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Future Air-Gapped Signing Process (Production)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#modified-step-2-future-implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Modified Step 2 (Future Implementation):
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#discover-server-file-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Discover Server File Structure
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting-common-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      Troubleshooting &amp; Common Issues
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting &amp; Common Issues">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#build-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      Build Issues
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Build Issues">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arduino-cli-not-found" class="md-nav__link">
+    <span class="md-ellipsis">
+      Arduino CLI Not Found
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#compilation-errors" class="md-nav__link">
+    <span class="md-ellipsis">
+      Compilation Errors
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#build-script-permissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Build Script Permissions
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#runtime-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      Runtime Issues
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Runtime Issues">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#no-ota-partition-available" class="md-nav__link">
+    <span class="md-ellipsis">
+      "No OTA partition available"
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#memory-issues-stack-overflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      Memory Issues / Stack Overflow
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#streaming-extraction-failed" class="md-nav__link">
+    <span class="md-ellipsis">
+      "Streaming extraction failed"
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#server-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      Server Issues
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Server Issues">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rate-limiting-http-429" class="md-nav__link">
+    <span class="md-ellipsis">
+      Rate Limiting (HTTP 429)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#signature-verification-failed" class="md-nav__link">
+    <span class="md-ellipsis">
+      Signature Verification Failed
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#server-not-responding" class="md-nav__link">
+    <span class="md-ellipsis">
+      Server Not Responding
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#network-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      Network Issues
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Network Issues">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ssl-certificate-problems" class="md-nav__link">
+    <span class="md-ellipsis">
+      SSL Certificate Problems
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#connection-refused" class="md-nav__link">
+    <span class="md-ellipsis">
+      Connection Refused
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#debugging-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      Debugging Commands
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Debugging Commands">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#esp32-serial-monitor" class="md-nav__link">
+    <span class="md-ellipsis">
+      ESP32 Serial Monitor
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#server-side-debugging" class="md-nav__link">
+    <span class="md-ellipsis">
+      Server-side Debugging
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#future-improvements" class="md-nav__link">
+    <span class="md-ellipsis">
+      Future Improvements
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Future Improvements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#security-enhancements" class="md-nav__link">
+    <span class="md-ellipsis">
+      Security Enhancements
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#operational-improvements" class="md-nav__link">
+    <span class="md-ellipsis">
+      Operational Improvements
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#build-process-automation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Build Process Automation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#package-format-evolution" class="md-nav__link">
+    <span class="md-ellipsis">
+      Package Format Evolution
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#air-gapped-signing-improvements" class="md-nav__link">
+    <span class="md-ellipsis">
+      Air-Gapped Signing Improvements
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#system-status-verified-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      System Status &amp; Verified Metrics
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="System Status &amp; Verified Metrics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#verified-working-july-6-2025" class="md-nav__link">
+    <span class="md-ellipsis">
+      Verified Working (July 6, 2025)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#current-package-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      Current Package Metrics
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#server-configuration_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Server Configuration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#file-paths-reference-for-aiautomation" class="md-nav__link">
+    <span class="md-ellipsis">
+      File Paths Reference (for AI/automation)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="xregulator-secure-ota-system-complete-documentation">XRegulator Secure OTA System - Complete Documentation<a class="headerlink" href="#xregulator-secure-ota-system-complete-documentation" title="Permanent link">&para;</a></h1>
+<h2 id="table-of-contents">Table of Contents<a class="headerlink" href="#table-of-contents" title="Permanent link">&para;</a></h2>
+<ol>
+<li><a href="#system-architecture--key-decisions">System Architecture &amp; Key Decisions</a></li>
+<li><a href="#esp32-firmware--partition-configuration">ESP32 Firmware &amp; Partition Configuration</a></li>
+<li><a href="#build-and-deploy-process">Build and Deploy Process</a></li>
+<li><a href="#streaming-tar-parser-implementation">Streaming Tar Parser Implementation</a></li>
+<li><a href="#server-configuration">Server Configuration</a></li>
+<li><a href="#security-implementation">Security Implementation</a></li>
+<li><a href="#troubleshooting--common-issues">Troubleshooting &amp; Common Issues</a></li>
+<li><a href="#future-improvements">Future Improvements</a></li>
+</ol>
+<hr />
+<h2 id="system-architecture-key-decisions">System Architecture &amp; Key Decisions<a class="headerlink" href="#system-architecture-key-decisions" title="Permanent link">&para;</a></h2>
+<h3 id="core-design-philosophy">Core Design Philosophy<a class="headerlink" href="#core-design-philosophy" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Streaming tar extraction</strong>: Handle large packages without memory allocation issues</li>
+<li><strong>Dual content updates</strong>: Firmware (.bin) + web files (HTML/CSS/JS) in single package</li>
+<li><strong>Factory recovery system</strong>: GPIO15-triggered fallback to known-good firmware</li>
+<li><strong>Military-grade security</strong>: RSA-4096 signatures with air-gapped private key</li>
+<li><strong>Production reliability</strong>: Comprehensive error handling and validation</li>
+</ul>
+<h3 id="technology-stack">Technology Stack<a class="headerlink" href="#technology-stack" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>ESP32</strong>: 16MB flash with custom partition scheme</li>
+<li><strong>Package Format</strong>: Uncompressed tar archives (ustar format)</li>
+<li><strong>Security</strong>: RSA-4096 + SHA-256 signatures</li>
+<li><strong>Server</strong>: PHP on CloudPanel/nginx with Let's Encrypt SSL</li>
+<li><strong>Build System</strong>: Arduino CLI with custom deployment script</li>
+</ul>
+<h3 id="file-structure-overview">File Structure Overview<a class="headerlink" href="#file-structure-overview" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>/Users/joeceo/Documents/Arduino/Xregulator/         # Local development
+├── Xregulator.ino                                  # Main ESP32 firmware
+├── build_and_deploy.sh                            # Automated build/deploy script
+├── data/                                           # Web files for OTA
+│   ├── index.html                                 # Main dashboard
+│   ├── script.js                                  # JavaScript logic
+│   ├── styles.css                                 # Styling
+│   ├── uPlot.iife.min.js                         # Charting library
+│   └── uPlot.min.css                             # Chart styling
+├── build/                                         # Arduino compilation output
+└── partitions.csv                                # ESP32 partition scheme
+
+ota.xengineering.net (Server)                     # Production OTA server
+├── api/firmware/
+│   ├── check.php                                 # Update availability
+│   ├── download.php                              # Package download
+│   └── signature.php                             # Signature download
+├── config/
+│   ├── ota_config.php                           # Version &amp; public key
+│   └── security.php                             # Rate limiting
+├── firmware/                                     # Signed tar packages
+├── signatures/                                   # Base64 RSA signatures
+└── tmp/                                          # Rate limiting data
+
+/Users/joeceo/private_key.pem                     # Air-gapped signing key
+</code></pre></div>
+<hr />
+<h2 id="esp32-firmware-partition-configuration">ESP32 Firmware &amp; Partition Configuration<a class="headerlink" href="#esp32-firmware-partition-configuration" title="Permanent link">&para;</a></h2>
+<h3 id="partition-scheme-16mb-flash">Partition Scheme (16MB Flash)<a class="headerlink" href="#partition-scheme-16mb-flash" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code># Name,     Type, SubType,  Offset,   Size,     Flags
+nvs,        data, nvs,      0x9000,   0x5000,
+otadata,    data, ota,      0xe000,   0x2000,
+factory,    app,  factory,  0x10000,  0x400000,  # 4MB - Factory firmware (GPIO15 recovery)
+ota_0,      app,  ota_0,    0x410000, 0x400000,  # 4MB - Production firmware (OTA updates)
+factory_fs, data, spiffs,   0x810000, 0x200000,  # 2MB - Factory web files (never change)
+prod_fs,    data, spiffs,   0xa10000, 0x200000,  # 2MB - Production web files (OTA updated)
+userdata,   data, spiffs,   0xc10000, 0x3D0000,  # ~4MB - Data logs, config
+coredump,   data, coredump, 0xFF0000, 0x10000,   # Debug data
+</code></pre></div>
+<p><strong>Partition Strategy</strong>:
+- <strong>Factory partitions</strong>: Permanent "golden image" for GPIO15 recovery
+- <strong>OTA partitions</strong>: Where updates are installed
+- <strong>4MB firmware partitions</strong>: Current usage ~1.4MB, provides 2.6MB growth room
+- <strong>Separate filesystems</strong>: Factory vs production web files</p>
+<h3 id="arduino-ide-configuration">Arduino IDE Configuration<a class="headerlink" href="#arduino-ide-configuration" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Required settings in Arduino IDE:</span>
+Board:<span class="w"> </span><span class="s2">&quot;ESP32S3 Dev Module&quot;</span>
+Flash<span class="w"> </span>Size:<span class="w"> </span><span class="s2">&quot;16MB (128Mb)&quot;</span>
+Partition<span class="w"> </span>Scheme:<span class="w"> </span><span class="s2">&quot;Custom&quot;</span><span class="w"> </span><span class="o">(</span>uses<span class="w"> </span>partitions.csv<span class="o">)</span>
+</code></pre></div>
+<h3 id="key-firmware-features">Key Firmware Features<a class="headerlink" href="#key-firmware-features" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1">// Version identification</span>
+<span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">FIRMWARE_VERSION</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;2.4.0&quot;</span><span class="p">;</span><span class="w">  </span><span class="c1">// Update this for each release</span>
+
+<span class="c1">// Recovery mode check (GPIO15 pulled low on boot)</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="w"> </span><span class="n">INPUT_PULLUP</span><span class="p">);</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">digitalRead</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">LOW</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;🔧 RECOVERY MODE: Reverting to factory firmware&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">esp_ota_set_boot_partition</span><span class="p">(</span><span class="n">esp_partition_find_first</span><span class="p">(</span>
+<span class="w">      </span><span class="n">ESP_PARTITION_TYPE_APP</span><span class="p">,</span><span class="w"> </span><span class="n">ESP_PARTITION_SUBTYPE_APP_FACTORY</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">));</span>
+<span class="w">    </span><span class="n">ESP</span><span class="p">.</span><span class="n">restart</span><span class="p">();</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// Update check frequency (configurable)</span>
+<span class="k">static</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">lastUpdateCheck</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">WiFi</span><span class="p">.</span><span class="n">status</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">WL_CONNECTED</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">millis</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">lastUpdateCheck</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">300000</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">  </span><span class="c1">// 5 minutes</span>
+<span class="w">  </span><span class="n">lastUpdateCheck</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">millis</span><span class="p">();</span>
+<span class="w">  </span><span class="n">checkForOTAUpdate</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="streaming-tar-extractor-structure">Streaming Tar Extractor Structure<a class="headerlink" href="#streaming-tar-extractor-structure" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="k">struct</span><span class="w"> </span><span class="nc">StreamingExtractor</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// Tar parsing state</span>
+<span class="w">  </span><span class="kt">bool</span><span class="w"> </span><span class="n">inTarHeader</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">tarHeader</span><span class="p">[</span><span class="mi">512</span><span class="p">];</span>
+<span class="w">  </span><span class="kt">size_t</span><span class="w"> </span><span class="n">tarHeaderPos</span><span class="p">;</span>
+<span class="w">  </span><span class="n">String</span><span class="w"> </span><span class="n">currentFileName</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">size_t</span><span class="w"> </span><span class="n">currentFileSize</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">size_t</span><span class="w"> </span><span class="n">currentFilePos</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">bool</span><span class="w"> </span><span class="n">isCurrentFileFirmware</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">// Padding state for proper streaming</span>
+<span class="w">  </span><span class="kt">bool</span><span class="w"> </span><span class="n">inPadding</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">size_t</span><span class="w"> </span><span class="n">paddingRemaining</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">// OTA state</span>
+<span class="w">  </span><span class="n">esp_ota_handle_t</span><span class="w"> </span><span class="n">otaHandle</span><span class="p">;</span>
+<span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="n">esp_partition_t</span><span class="o">*</span><span class="w"> </span><span class="n">otaPartition</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">bool</span><span class="w"> </span><span class="n">otaStarted</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">// LittleFS state</span>
+<span class="w">  </span><span class="n">File</span><span class="w"> </span><span class="n">currentWebFile</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">bool</span><span class="w"> </span><span class="n">prodFSMounted</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">// Hash verification</span>
+<span class="w">  </span><span class="n">mbedtls_md_context_t</span><span class="w"> </span><span class="n">hashCtx</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">bool</span><span class="w"> </span><span class="n">hashStarted</span><span class="p">;</span>
+<span class="p">};</span>
+</code></pre></div>
+<hr />
+<h2 id="build-and-deploy-process">Build and Deploy Process<a class="headerlink" href="#build-and-deploy-process" title="Permanent link">&para;</a></h2>
+<h3 id="automated-build-script">Automated Build Script<a class="headerlink" href="#automated-build-script" title="Permanent link">&para;</a></h3>
+<p>Location: <code>/Users/joeceo/Documents/Arduino/Xregulator/build_and_deploy.sh</code></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Make executable and run</span>
+chmod<span class="w"> </span>+x<span class="w"> </span>build_and_deploy.sh
+./build_and_deploy.sh<span class="w"> </span><span class="m">2</span>.5.0
+</code></pre></div>
+<p><strong>What the script does</strong>:
+1. <strong>Cleans build artifacts</strong> and Arduino caches
+2. <strong>Compiles firmware</strong> using Arduino CLI with custom FQBN
+3. <strong>Creates tar package</strong> containing firmware.bin + data/ folder contents
+4. <strong>Signs package</strong> with RSA-4096 private key
+5. <strong>Uploads to server</strong> via sshpass/scp
+6. <strong>Updates server configuration</strong> to new version
+7. <strong>Tests deployment</strong> with curl</p>
+<h3 id="manual-build-process">Manual Build Process<a class="headerlink" href="#manual-build-process" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Navigate to project</span>
+<span class="nb">cd</span><span class="w"> </span>/Users/joeceo/Documents/Arduino/Xregulator
+
+<span class="c1"># Clean previous builds</span>
+rm<span class="w"> </span>-rf<span class="w"> </span>build/<span class="w"> </span>temp_package/<span class="w"> </span>firmware_*.tar<span class="w"> </span>firmware_*.sig.*
+arduino-cli<span class="w"> </span>cache<span class="w"> </span>clean
+
+<span class="c1"># Compile with custom partition scheme</span>
+arduino-cli<span class="w"> </span>compile<span class="w"> </span>--fqbn<span class="w"> </span><span class="s2">&quot;esp32:esp32:esp32s3:FlashSize=16M,PartitionScheme=custom&quot;</span><span class="w"> </span>--output-dir<span class="w"> </span>./build<span class="w"> </span>.
+
+<span class="c1"># Verify compilation</span>
+ls<span class="w"> </span>-la<span class="w"> </span>build/Xregulator.ino.bin
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Firmware size: </span><span class="k">$(</span>wc<span class="w"> </span>-c<span class="w"> </span>&lt;<span class="w"> </span>build/Xregulator.ino.bin<span class="k">)</span><span class="s2"> bytes&quot;</span>
+
+<span class="c1"># Create package</span>
+mkdir<span class="w"> </span>temp_package
+cp<span class="w"> </span>build/Xregulator.ino.bin<span class="w"> </span>temp_package/firmware.bin
+cp<span class="w"> </span>-r<span class="w"> </span>data/*<span class="w"> </span>temp_package/
+tar<span class="w"> </span>--format<span class="o">=</span>ustar<span class="w"> </span>-cf<span class="w"> </span><span class="s2">&quot;firmware_2.5.0.tar&quot;</span><span class="w"> </span>-C<span class="w"> </span>temp_package<span class="w"> </span>.
+
+<span class="c1"># Sign package (air-gapped machine)</span>
+openssl<span class="w"> </span>dgst<span class="w"> </span>-sha256<span class="w"> </span>-sign<span class="w"> </span>/Users/joeceo/private_key.pem<span class="w"> </span>-out<span class="w"> </span>firmware_2.5.0.sig.binary<span class="w"> </span>firmware_2.5.0.tar
+base64<span class="w"> </span>-i<span class="w"> </span>firmware_2.5.0.sig.binary<span class="w"> </span><span class="p">|</span><span class="w"> </span>tr<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;\n&#39;</span><span class="w"> </span>&gt;<span class="w"> </span>firmware_2.5.0.sig.base64
+</code></pre></div>
+<h3 id="server-deployment">Server Deployment<a class="headerlink" href="#server-deployment" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Upload firmware package</span>
+sshpass<span class="w"> </span>-p<span class="w"> </span><span class="s2">&quot;a47H8IE0vgeEe5efgwe&quot;</span><span class="w"> </span>scp<span class="w"> </span>firmware_2.5.0.tar<span class="w"> </span>root@host.xengineering.net:/home/ota/htdocs/ota.xengineering.net/firmware/
+
+<span class="c1"># Upload signature</span>
+sshpass<span class="w"> </span>-p<span class="w"> </span><span class="s2">&quot;a47H8IE0vgeEe5efgwe&quot;</span><span class="w"> </span>ssh<span class="w"> </span>root@host.xengineering.net<span class="w"> </span><span class="s2">&quot;echo &#39;</span><span class="k">$(</span>cat<span class="w"> </span>firmware_2.5.0.sig.base64<span class="k">)</span><span class="s2">&#39; &gt; /home/ota/htdocs/ota.xengineering.net/signatures/firmware_2.5.0.sig&quot;</span>
+
+<span class="c1"># Update server version</span>
+sshpass<span class="w"> </span>-p<span class="w"> </span><span class="s2">&quot;a47H8IE0vgeEe5efgwe&quot;</span><span class="w"> </span>ssh<span class="w"> </span>root@host.xengineering.net<span class="w"> </span><span class="s2">&quot;</span>
+<span class="s2">  cd /home/ota/htdocs/ota.xengineering.net</span>
+<span class="s2">  sed -i \&quot;s/CURRENT_FIRMWARE_VERSION&#39;, &#39;[^&#39;]*&#39;/CURRENT_FIRMWARE_VERSION&#39;, &#39;2.5.0&#39;/\&quot; config/ota_config.php</span>
+<span class="s2">  rm -f tmp/rate_limits.json  # Clear rate limits for testing</span>
+<span class="s2">&quot;</span>
+
+<span class="c1"># Test deployment</span>
+curl<span class="w"> </span>-s<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Device-ID: TEST123&quot;</span><span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Current-Version: 2.4.0&quot;</span><span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Hardware-Version: ESP32-S3&quot;</span><span class="w"> </span>https://ota.xengineering.net/api/firmware/check.php<span class="w"> </span><span class="p">|</span><span class="w"> </span>python3<span class="w"> </span>-m<span class="w"> </span>json.tool
+</code></pre></div>
+<hr />
+<h2 id="streaming-tar-parser-implementation">Streaming Tar Parser Implementation<a class="headerlink" href="#streaming-tar-parser-implementation" title="Permanent link">&para;</a></h2>
+<h3 id="key-technical-achievement">Key Technical Achievement<a class="headerlink" href="#key-technical-achievement" title="Permanent link">&para;</a></h3>
+<p>The streaming tar parser was the critical breakthrough that made this system work. It solves the fundamental problem of processing large firmware packages on memory-constrained ESP32 devices.</p>
+<h3 id="problem-solved">Problem Solved<a class="headerlink" href="#problem-solved" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Memory limitation</strong>: ESP32 can't load 1.8MB+ packages into RAM</li>
+<li><strong>Dual content</strong>: Need to extract both firmware.bin and web files</li>
+<li><strong>Streaming requirement</strong>: Process tar archive as it downloads</li>
+<li><strong>Padding complexity</strong>: Tar files use 512-byte alignment with padding</li>
+</ul>
+<h3 id="core-parser-logic">Core Parser Logic<a class="headerlink" href="#core-parser-logic" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="kt">bool</span><span class="w"> </span><span class="nf">processDataChunk</span><span class="p">(</span><span class="n">StreamingExtractor</span><span class="o">*</span><span class="w"> </span><span class="n">extractor</span><span class="p">,</span><span class="w"> </span><span class="kt">uint8_t</span><span class="o">*</span><span class="w"> </span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">dataSize</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kt">size_t</span><span class="w"> </span><span class="n">processed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+
+<span class="w">  </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">processed</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">dataSize</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">extractor</span><span class="o">-&gt;</span><span class="n">inPadding</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="c1">// Skip tar padding bytes across chunk boundaries</span>
+<span class="w">      </span><span class="kt">size_t</span><span class="w"> </span><span class="n">toSkip</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">min</span><span class="p">(</span><span class="n">extractor</span><span class="o">-&gt;</span><span class="n">paddingRemaining</span><span class="p">,</span><span class="w"> </span><span class="n">dataSize</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">processed</span><span class="p">);</span>
+<span class="w">      </span><span class="n">processed</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">toSkip</span><span class="p">;</span>
+<span class="w">      </span><span class="n">extractor</span><span class="o">-&gt;</span><span class="n">paddingRemaining</span><span class="w"> </span><span class="o">-=</span><span class="w"> </span><span class="n">toSkip</span><span class="p">;</span>
+
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">extractor</span><span class="o">-&gt;</span><span class="n">paddingRemaining</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">extractor</span><span class="o">-&gt;</span><span class="n">inPadding</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<span class="w">        </span><span class="n">extractor</span><span class="o">-&gt;</span><span class="n">inTarHeader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="w">        </span><span class="n">extractor</span><span class="o">-&gt;</span><span class="n">tarHeaderPos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">      </span><span class="p">}</span>
+
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">extractor</span><span class="o">-&gt;</span><span class="n">inTarHeader</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="c1">// Read 512-byte tar header across chunks</span>
+<span class="w">      </span><span class="kt">size_t</span><span class="w"> </span><span class="n">headerRemaining</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">512</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">extractor</span><span class="o">-&gt;</span><span class="n">tarHeaderPos</span><span class="p">;</span>
+<span class="w">      </span><span class="kt">size_t</span><span class="w"> </span><span class="n">toCopy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">min</span><span class="p">(</span><span class="n">headerRemaining</span><span class="p">,</span><span class="w"> </span><span class="n">dataSize</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">processed</span><span class="p">);</span>
+<span class="w">      </span><span class="n">memcpy</span><span class="p">(</span><span class="n">extractor</span><span class="o">-&gt;</span><span class="n">tarHeader</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">extractor</span><span class="o">-&gt;</span><span class="n">tarHeaderPos</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">processed</span><span class="p">,</span><span class="w"> </span><span class="n">toCopy</span><span class="p">);</span>
+<span class="w">      </span><span class="n">extractor</span><span class="o">-&gt;</span><span class="n">tarHeaderPos</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">toCopy</span><span class="p">;</span>
+<span class="w">      </span><span class="n">processed</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">toCopy</span><span class="p">;</span>
+
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">extractor</span><span class="o">-&gt;</span><span class="n">tarHeaderPos</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">512</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Complete header - check for end of archive (512 zeros)</span>
+<span class="w">        </span><span class="kt">bool</span><span class="w"> </span><span class="n">allZeros</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">512</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">extractor</span><span class="o">-&gt;</span><span class="n">tarHeader</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">allZeros</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<span class="w">            </span><span class="k">break</span><span class="p">;</span>
+<span class="w">          </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">allZeros</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;✅ End of tar archive detected - extraction complete!&quot;</span><span class="p">);</span>
+<span class="w">          </span><span class="k">return</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span><span class="w"> </span><span class="c1">// SUCCESS! Archive is complete</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="c1">// Parse file header and setup for data extraction</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">parseTarHeader</span><span class="p">(</span><span class="n">extractor</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="n">extractor</span><span class="o">-&gt;</span><span class="n">inTarHeader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<span class="w">      </span><span class="p">}</span>
+
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="c1">// Extract file data to appropriate destination</span>
+<span class="w">      </span><span class="kt">size_t</span><span class="w"> </span><span class="n">fileRemaining</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">extractor</span><span class="o">-&gt;</span><span class="n">currentFileSize</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">extractor</span><span class="o">-&gt;</span><span class="n">currentFilePos</span><span class="p">;</span>
+<span class="w">      </span><span class="kt">size_t</span><span class="w"> </span><span class="n">toWrite</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">min</span><span class="p">(</span><span class="n">fileRemaining</span><span class="p">,</span><span class="w"> </span><span class="n">dataSize</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">processed</span><span class="p">);</span>
+
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">toWrite</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">extractor</span><span class="o">-&gt;</span><span class="n">currentFileName</span><span class="p">.</span><span class="n">length</span><span class="p">()</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">extractor</span><span class="o">-&gt;</span><span class="n">isCurrentFileFirmware</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">extractor</span><span class="o">-&gt;</span><span class="n">otaStarted</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="c1">// Write to OTA partition</span>
+<span class="w">          </span><span class="n">esp_ota_write</span><span class="p">(</span><span class="n">extractor</span><span class="o">-&gt;</span><span class="n">otaHandle</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">processed</span><span class="p">,</span><span class="w"> </span><span class="n">toWrite</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">extractor</span><span class="o">-&gt;</span><span class="n">currentWebFile</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="c1">// Write to LittleFS</span>
+<span class="w">          </span><span class="n">extractor</span><span class="o">-&gt;</span><span class="n">currentWebFile</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">data</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">processed</span><span class="p">,</span><span class="w"> </span><span class="n">toWrite</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">      </span><span class="p">}</span>
+
+<span class="w">      </span><span class="n">extractor</span><span class="o">-&gt;</span><span class="n">currentFilePos</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">toWrite</span><span class="p">;</span>
+<span class="w">      </span><span class="n">processed</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">toWrite</span><span class="p">;</span>
+
+<span class="w">      </span><span class="c1">// File complete - calculate padding for next file</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">extractor</span><span class="o">-&gt;</span><span class="n">currentFilePos</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">extractor</span><span class="o">-&gt;</span><span class="n">currentFileSize</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Close current file</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">extractor</span><span class="o">-&gt;</span><span class="n">currentWebFile</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="n">extractor</span><span class="o">-&gt;</span><span class="n">currentWebFile</span><span class="p">.</span><span class="n">close</span><span class="p">();</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="c1">// Calculate 512-byte boundary padding</span>
+<span class="w">        </span><span class="kt">size_t</span><span class="w"> </span><span class="n">padding</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mi">512</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="n">extractor</span><span class="o">-&gt;</span><span class="n">currentFileSize</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mi">512</span><span class="p">))</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mi">512</span><span class="p">;</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">padding</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="n">extractor</span><span class="o">-&gt;</span><span class="n">inPadding</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="w">          </span><span class="n">extractor</span><span class="o">-&gt;</span><span class="n">paddingRemaining</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">padding</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="n">extractor</span><span class="o">-&gt;</span><span class="n">inTarHeader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="w">          </span><span class="n">extractor</span><span class="o">-&gt;</span><span class="n">tarHeaderPos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="file-routing-logic">File Routing Logic<a class="headerlink" href="#file-routing-logic" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="kt">bool</span><span class="w"> </span><span class="nf">parseTarHeader</span><span class="p">(</span><span class="n">StreamingExtractor</span><span class="o">*</span><span class="w"> </span><span class="n">extractor</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// Validate ustar magic at offset 257</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">memcmp</span><span class="p">(</span><span class="n">extractor</span><span class="o">-&gt;</span><span class="n">tarHeader</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">257</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;ustar&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="c1">// Extract filename and size</span>
+<span class="w">  </span><span class="kt">char</span><span class="w"> </span><span class="n">rawFilename</span><span class="p">[</span><span class="mi">101</span><span class="p">];</span>
+<span class="w">  </span><span class="n">memcpy</span><span class="p">(</span><span class="n">rawFilename</span><span class="p">,</span><span class="w"> </span><span class="n">extractor</span><span class="o">-&gt;</span><span class="n">tarHeader</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">);</span>
+<span class="w">  </span><span class="n">extractor</span><span class="o">-&gt;</span><span class="n">currentFileName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">String</span><span class="p">(</span><span class="n">rawFilename</span><span class="p">).</span><span class="n">trim</span><span class="p">();</span>
+
+<span class="w">  </span><span class="c1">// Parse octal file size from header</span>
+<span class="w">  </span><span class="kt">char</span><span class="w"> </span><span class="n">sizeStr</span><span class="p">[</span><span class="mi">13</span><span class="p">];</span>
+<span class="w">  </span><span class="n">memcpy</span><span class="p">(</span><span class="n">sizeStr</span><span class="p">,</span><span class="w"> </span><span class="n">extractor</span><span class="o">-&gt;</span><span class="n">tarHeader</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">124</span><span class="p">,</span><span class="w"> </span><span class="mi">12</span><span class="p">);</span>
+<span class="w">  </span><span class="n">extractor</span><span class="o">-&gt;</span><span class="n">currentFileSize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">12</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">sizeStr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="sc">&#39;0&#39;</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">sizeStr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="sc">&#39;7&#39;</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">extractor</span><span class="o">-&gt;</span><span class="n">currentFileSize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">extractor</span><span class="o">-&gt;</span><span class="n">currentFileSize</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">sizeStr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="sc">&#39;0&#39;</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="c1">// Route file to appropriate destination</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">extractor</span><span class="o">-&gt;</span><span class="n">currentFileName</span><span class="p">.</span><span class="n">equals</span><span class="p">(</span><span class="s">&quot;firmware.bin&quot;</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Initialize OTA partition write</span>
+<span class="w">    </span><span class="n">extractor</span><span class="o">-&gt;</span><span class="n">otaPartition</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">esp_ota_get_next_update_partition</span><span class="p">(</span><span class="nb">NULL</span><span class="p">);</span>
+<span class="w">    </span><span class="n">esp_ota_begin</span><span class="p">(</span><span class="n">extractor</span><span class="o">-&gt;</span><span class="n">otaPartition</span><span class="p">,</span><span class="w"> </span><span class="n">extractor</span><span class="o">-&gt;</span><span class="n">currentFileSize</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">extractor</span><span class="o">-&gt;</span><span class="n">otaHandle</span><span class="p">);</span>
+<span class="w">    </span><span class="n">extractor</span><span class="o">-&gt;</span><span class="n">otaStarted</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="w">    </span><span class="n">extractor</span><span class="o">-&gt;</span><span class="n">isCurrentFileFirmware</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">extractor</span><span class="o">-&gt;</span><span class="n">currentFileName</span><span class="p">.</span><span class="n">indexOf</span><span class="p">(</span><span class="sc">&#39;.&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Mount LittleFS and create web file</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">extractor</span><span class="o">-&gt;</span><span class="n">prodFSMounted</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">LittleFS</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="nb">true</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;/web&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;prod_fs&quot;</span><span class="p">);</span>
+<span class="w">      </span><span class="n">extractor</span><span class="o">-&gt;</span><span class="n">prodFSMounted</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="n">filePath</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;/&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">extractor</span><span class="o">-&gt;</span><span class="n">currentFileName</span><span class="p">;</span>
+<span class="w">    </span><span class="n">extractor</span><span class="o">-&gt;</span><span class="n">currentWebFile</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LittleFS</span><span class="p">.</span><span class="n">open</span><span class="p">(</span><span class="n">filePath</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;w&quot;</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>The streaming parser handles tar files by processing them in 1KB chunks as they download, routing firmware.bin to the OTA partition and web files to LittleFS, while properly managing 512-byte tar padding across chunk boundaries.</p>
+<hr />
+<h2 id="server-configuration">Server Configuration<a class="headerlink" href="#server-configuration" title="Permanent link">&para;</a></h2>
+<h3 id="php-based-ota-server">PHP-based OTA Server<a class="headerlink" href="#php-based-ota-server" title="Permanent link">&para;</a></h3>
+<p><strong>Location</strong>: <code>ota.xengineering.net</code> (CloudPanel/nginx)
+<strong>Path</strong>: <code>/home/ota/htdocs/ota.xengineering.net/</code></p>
+<h3 id="api-endpoints">API Endpoints<a class="headerlink" href="#api-endpoints" title="Permanent link">&para;</a></h3>
+<h4 id="update-check-apifirmwarecheckphp">Update Check: <code>/api/firmware/check.php</code><a class="headerlink" href="#update-check-apifirmwarecheckphp" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># Test update availability</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Device-ID: TEST123&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Current-Version: 2.4.0&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Hardware-Version: ESP32-S3&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>https://ota.xengineering.net/api/firmware/check.php
+</code></pre></div>
+<p><strong>Expected Response</strong>:
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;hasUpdate&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2.5.0&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;firmwareUrl&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://ota.xengineering.net/api/firmware/download.php?version=2.5.0&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;signatureUrl&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://ota.xengineering.net/api/firmware/signature.php?version=2.5.0&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;firmwareSize&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1815040</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;changelog&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Update to version 2.5.0&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;releaseDate&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-07-06T15:09:27-04:00&quot;</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<h4 id="package-download-apifirmwaredownloadphp">Package Download: <code>/api/firmware/download.php</code><a class="headerlink" href="#package-download-apifirmwaredownloadphp" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Security</strong>: Verifies signature before serving</li>
+<li><strong>Headers</strong>: Requires Device-ID and Current-Version</li>
+<li><strong>Rate limiting</strong>: 5 downloads per device per day</li>
+<li><strong>Content-Type</strong>: <code>application/octet-stream</code></li>
+</ul>
+<h4 id="signature-download-apifirmwaresignaturephp">Signature Download: <code>/api/firmware/signature.php</code><a class="headerlink" href="#signature-download-apifirmwaresignaturephp" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Format</strong>: Base64-encoded RSA-4096 signature</li>
+<li><strong>Length</strong>: 684-685 characters (both normal)</li>
+<li><strong>Content-Type</strong>: <code>text/plain</code></li>
+</ul>
+<h3 id="configuration-files">Configuration Files<a class="headerlink" href="#configuration-files" title="Permanent link">&para;</a></h3>
+<h4 id="version-configuration-configota_configphp">Version Configuration: <code>/config/ota_config.php</code><a class="headerlink" href="#version-configuration-configota_configphp" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+<span class="nb">define</span><span class="p">(</span><span class="s1">&#39;CURRENT_FIRMWARE_VERSION&#39;</span><span class="p">,</span> <span class="s1">&#39;2.5.0&#39;</span><span class="p">);</span>
+<span class="nb">define</span><span class="p">(</span><span class="s1">&#39;OTA_PUBLIC_KEY&#39;</span><span class="p">,</span> <span class="s1">&#39;-----BEGIN PUBLIC KEY-----</span>
+<span class="s1">MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAp2sRgMjD4wazKHo6Rk3g</span>
+<span class="s1">[... full RSA-4096 public key ...]</span>
+<span class="s1">-----END PUBLIC KEY-----&#39;</span><span class="p">);</span>
+<span class="cp">?&gt;</span>
+</code></pre></div>
+<h4 id="security-configuration-configsecurityphp">Security Configuration: <code>/config/security.php</code><a class="headerlink" href="#security-configuration-configsecurityphp" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+<span class="nb">define</span><span class="p">(</span><span class="s1">&#39;RATE_LIMIT_CHECKS_PER_HOUR&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
+<span class="nb">define</span><span class="p">(</span><span class="s1">&#39;RATE_LIMIT_DOWNLOADS_PER_DAY&#39;</span><span class="p">,</span> <span class="mi">5</span><span class="p">);</span>
+
+<span class="c1">// Rate limiting implementation</span>
+<span class="k">function</span> <span class="nf">checkRateLimit</span><span class="p">(</span><span class="nv">$deviceId</span><span class="p">,</span> <span class="nv">$action</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$rateLimits</span> <span class="o">=</span> <span class="nb">json_decode</span><span class="p">(</span><span class="nb">file_get_contents</span><span class="p">(</span><span class="s1">&#39;/home/ota/htdocs/ota.xengineering.net/tmp/rate_limits.json&#39;</span><span class="p">),</span> <span class="k">true</span><span class="p">)</span> <span class="o">?:</span> <span class="p">[];</span>
+    <span class="c1">// ... implementation</span>
+<span class="p">}</span>
+<span class="cp">?&gt;</span>
+</code></pre></div>
+<h3 id="server-maintenance-commands">Server Maintenance Commands<a class="headerlink" href="#server-maintenance-commands" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># SSH into server</span>
+ssh<span class="w"> </span>root@host.xengineering.net
+
+<span class="c1"># Check OTA server status</span>
+<span class="nb">cd</span><span class="w"> </span>/home/ota/htdocs/ota.xengineering.net
+ls<span class="w"> </span>-la<span class="w"> </span>firmware/<span class="w">        </span><span class="c1"># Check firmware files</span>
+ls<span class="w"> </span>-la<span class="w"> </span>signatures/<span class="w">      </span><span class="c1"># Check signature files</span>
+cat<span class="w"> </span>config/ota_config.php<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>CURRENT_FIRMWARE_VERSION
+
+<span class="c1"># Clear rate limits for testing</span>
+rm<span class="w"> </span>-f<span class="w"> </span>tmp/rate_limits.json
+
+<span class="c1"># Check server logs</span>
+tail<span class="w"> </span>-f<span class="w"> </span>/var/log/nginx/access.log
+tail<span class="w"> </span>-f<span class="w"> </span>/var/log/nginx/error.log
+
+<span class="c1"># Check disk space</span>
+df<span class="w"> </span>-h<span class="w"> </span>/home/ota/
+du<span class="w"> </span>-sh<span class="w"> </span>firmware/<span class="w">        </span><span class="c1"># Firmware storage usage</span>
+
+<span class="c1"># Clean old firmware files (if needed)</span>
+find<span class="w"> </span>firmware/<span class="w"> </span>-name<span class="w"> </span><span class="s2">&quot;firmware_*.tar&quot;</span><span class="w"> </span>-mtime<span class="w"> </span>+30<span class="w"> </span>-delete
+find<span class="w"> </span>signatures/<span class="w"> </span>-name<span class="w"> </span><span class="s2">&quot;firmware_*.sig&quot;</span><span class="w"> </span>-mtime<span class="w"> </span>+30<span class="w"> </span>-delete
+</code></pre></div>
+<hr />
+<h2 id="security-implementation">Security Implementation<a class="headerlink" href="#security-implementation" title="Permanent link">&para;</a></h2>
+<h3 id="rsa-4096-cryptographic-security">RSA-4096 Cryptographic Security<a class="headerlink" href="#rsa-4096-cryptographic-security" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Algorithm</strong>: RSA-4096 with SHA-256 hashing</li>
+<li><strong>Key storage</strong>: Private key air-gapped at <code>/Users/joeceo/private_key.pem</code></li>
+<li><strong>Signature size</strong>: 512 bytes (684-685 characters base64)</li>
+<li><strong>Security level</strong>: Military-grade (future-proof against quantum computing)</li>
+</ul>
+<h3 id="air-gapped-signing-process">Air-Gapped Signing Process<a class="headerlink" href="#air-gapped-signing-process" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># On offline machine only:</span>
+<span class="nb">cd</span><span class="w"> </span>/Users/joeceo/Documents/Arduino/Xregulator
+
+<span class="c1"># Sign firmware package</span>
+openssl<span class="w"> </span>dgst<span class="w"> </span>-sha256<span class="w"> </span>-sign<span class="w"> </span>/Users/joeceo/private_key.pem<span class="w"> </span>-out<span class="w"> </span>firmware_2.5.0.sig.binary<span class="w"> </span>firmware_2.5.0.tar
+
+<span class="c1"># Convert to base64 for server upload</span>
+base64<span class="w"> </span>-i<span class="w"> </span>firmware_2.5.0.sig.binary<span class="w"> </span><span class="p">|</span><span class="w"> </span>tr<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;\n&#39;</span><span class="w"> </span>&gt;<span class="w"> </span>firmware_2.5.0.sig.base64
+
+<span class="c1"># Display signature for manual server upload</span>
+cat<span class="w"> </span>firmware_2.5.0.sig.base64
+</code></pre></div>
+<h3 id="ssl-certificate-validation">SSL Certificate Validation<a class="headerlink" href="#ssl-certificate-validation" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1">// ESP32 firmware - Let&#39;s Encrypt R10 intermediate certificate</span>
+<span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">server_root_ca</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="s">&quot;-----BEGIN CERTIFICATE-----</span><span class="se">\n</span><span class="s">&quot;</span>
+<span class="w">  </span><span class="s">&quot;MIIFBTCCAu2gAwIBAgIQS6hSk/eaL6JzBkuoBI110DANBgkqhkiG9w0BAQsFADBP</span><span class="se">\n</span><span class="s">&quot;</span>
+<span class="w">  </span><span class="c1">// ... full certificate ...</span>
+<span class="w">  </span><span class="s">&quot;-----END CERTIFICATE-----</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span>
+
+<span class="c1">// Usage in ESP32 code</span>
+<span class="n">WiFiClientSecure</span><span class="w"> </span><span class="n">client</span><span class="p">;</span>
+<span class="n">client</span><span class="p">.</span><span class="n">setCACert</span><span class="p">(</span><span class="n">server_root_ca</span><span class="p">);</span><span class="w">  </span><span class="c1">// NEVER use client.setInsecure() in production!</span>
+</code></pre></div>
+<h3 id="signature-verification-process">Signature Verification Process<a class="headerlink" href="#signature-verification-process" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="kt">bool</span><span class="w"> </span><span class="nf">verifyPackageSignature</span><span class="p">(</span><span class="kt">uint8_t</span><span class="o">*</span><span class="w"> </span><span class="n">packageData</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">packageSize</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">String</span><span class="o">&amp;</span><span class="w"> </span><span class="n">signatureBase64</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// 1. Decode base64 signature</span>
+<span class="w">  </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">signature</span><span class="p">[</span><span class="mi">520</span><span class="p">];</span>
+<span class="w">  </span><span class="kt">size_t</span><span class="w"> </span><span class="n">sigLength</span><span class="p">;</span>
+<span class="w">  </span><span class="n">base64Decode</span><span class="p">(</span><span class="n">signatureBase64</span><span class="p">,</span><span class="w"> </span><span class="n">signature</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">signature</span><span class="p">),</span><span class="w"> </span><span class="o">&amp;</span><span class="n">sigLength</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// 2. Hash complete package with SHA-256</span>
+<span class="w">  </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">hash</span><span class="p">[</span><span class="mi">32</span><span class="p">];</span>
+<span class="w">  </span><span class="n">mbedtls_md_context_t</span><span class="w"> </span><span class="n">ctx</span><span class="p">;</span>
+<span class="w">  </span><span class="n">mbedtls_md_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ctx</span><span class="p">);</span>
+<span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="n">mbedtls_md_info_t</span><span class="o">*</span><span class="w"> </span><span class="n">info</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mbedtls_md_info_from_type</span><span class="p">(</span><span class="n">MBEDTLS_MD_SHA256</span><span class="p">);</span>
+<span class="w">  </span><span class="n">mbedtls_md_setup</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ctx</span><span class="p">,</span><span class="w"> </span><span class="n">info</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="w">  </span><span class="n">mbedtls_md_starts</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ctx</span><span class="p">);</span>
+<span class="w">  </span><span class="n">mbedtls_md_update</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ctx</span><span class="p">,</span><span class="w"> </span><span class="n">packageData</span><span class="p">,</span><span class="w"> </span><span class="n">packageSize</span><span class="p">);</span>
+<span class="w">  </span><span class="n">mbedtls_md_finish</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ctx</span><span class="p">,</span><span class="w"> </span><span class="n">hash</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// 3. Verify RSA signature</span>
+<span class="w">  </span><span class="n">mbedtls_pk_context</span><span class="w"> </span><span class="n">pk</span><span class="p">;</span>
+<span class="w">  </span><span class="n">mbedtls_pk_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">pk</span><span class="p">);</span>
+<span class="w">  </span><span class="n">mbedtls_pk_parse_public_key</span><span class="p">(</span><span class="o">&amp;</span><span class="n">pk</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="p">)</span><span class="n">OTA_PUBLIC_KEY</span><span class="p">,</span><span class="w"> </span><span class="n">strlen</span><span class="p">(</span><span class="n">OTA_PUBLIC_KEY</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">ret</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mbedtls_pk_verify</span><span class="p">(</span><span class="o">&amp;</span><span class="n">pk</span><span class="p">,</span><span class="w"> </span><span class="n">MBEDTLS_MD_SHA256</span><span class="p">,</span><span class="w"> </span><span class="n">hash</span><span class="p">,</span><span class="w"> </span><span class="mi">32</span><span class="p">,</span><span class="w"> </span><span class="n">signature</span><span class="p">,</span><span class="w"> </span><span class="n">sigLength</span><span class="p">);</span>
+<span class="w">  </span><span class="n">mbedtls_pk_free</span><span class="p">(</span><span class="o">&amp;</span><span class="n">pk</span><span class="p">);</span>
+
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span><span class="n">ret</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w">  </span><span class="c1">// 0 = success</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="security-key-rotation-process-planned">Security Key Rotation Process (Planned)<a class="headerlink" href="#security-key-rotation-process-planned" title="Permanent link">&para;</a></h2>
+<h3 id="step-1-discover-current-server-configuration">Step 1: Discover Current Server Configuration<a class="headerlink" href="#step-1-discover-current-server-configuration" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># SSH into server to find current paths and configuration</span>
+ssh<span class="w"> </span>root@host.xengineering.net
+
+<span class="c1"># Find OTA configuration file location</span>
+find<span class="w"> </span>/home/ota<span class="w"> </span>-name<span class="w"> </span><span class="s2">&quot;ota_config.php&quot;</span><span class="w"> </span>-type<span class="w"> </span>f
+<span class="c1"># Expected: /home/ota/htdocs/ota.xengineering.net/config/ota_config.php</span>
+
+<span class="c1"># View current public key configuration</span>
+cat<span class="w"> </span>/home/ota/htdocs/ota.xengineering.net/config/ota_config.php<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-A<span class="w"> </span><span class="m">20</span><span class="w"> </span><span class="s2">&quot;OTA_PUBLIC_KEY&quot;</span>
+
+<span class="c1"># Check current firmware version</span>
+grep<span class="w"> </span><span class="s2">&quot;CURRENT_FIRMWARE_VERSION&quot;</span><span class="w"> </span>/home/ota/htdocs/ota.xengineering.net/config/ota_config.php
+</code></pre></div>
+<h3 id="step-2-generate-new-rsa-4096-key-pair-air-gapped-machine">Step 2: Generate New RSA-4096 Key Pair (Air-Gapped Machine)<a class="headerlink" href="#step-2-generate-new-rsa-4096-key-pair-air-gapped-machine" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># On completely offline machine - NEVER connected to internet</span>
+<span class="nb">cd</span><span class="w"> </span>/Users/joeceo/
+
+<span class="c1"># Generate new private key</span>
+openssl<span class="w"> </span>genrsa<span class="w"> </span>-out<span class="w"> </span>private_key_new.pem<span class="w"> </span><span class="m">4096</span>
+
+<span class="c1"># Extract public key</span>
+openssl<span class="w"> </span>rsa<span class="w"> </span>-in<span class="w"> </span>private_key_new.pem<span class="w"> </span>-pubout<span class="w"> </span>-out<span class="w"> </span>public_key_new.pem
+
+<span class="c1"># Secure private key permissions</span>
+chmod<span class="w"> </span><span class="m">600</span><span class="w"> </span>private_key_new.pem
+
+<span class="c1"># Display new public key for copying</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;=== NEW PUBLIC KEY - Copy to ESP32 firmware and server ===&quot;</span>
+cat<span class="w"> </span>public_key_new.pem
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;===========================================================&quot;</span>
+</code></pre></div>
+<h3 id="step-3-update-esp32-firmware-with-new-public-key">Step 3: Update ESP32 Firmware with New Public Key<a class="headerlink" href="#step-3-update-esp32-firmware-with-new-public-key" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1">// In Xregulator.ino, replace the OTA_PUBLIC_KEY constant:</span>
+<span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">OTA_PUBLIC_KEY</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="s">&quot;-----BEGIN PUBLIC KEY-----</span><span class="se">\n</span><span class="s">&quot;</span>
+<span class="w">  </span><span class="s">&quot;PASTE_NEW_PUBLIC_KEY_CONTENT_HERE</span><span class="se">\n</span><span class="s">&quot;</span><span class="w">  </span><span class="c1">// From public_key_new.pem</span>
+<span class="w">  </span><span class="s">&quot;-----END PUBLIC KEY-----</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span>
+
+<span class="c1">// IMPORTANT: Firmware Version number MUST follow semantic versioning (x.y.z format)</span>
+<span class="c1">// - Only numeric digits and dots allowed (regex: ^\d+\.\d+\.\d+$)</span>
+<span class="c1">// - Examples: &quot;1.0.0&quot;, &quot;2.1.3&quot;, &quot;10.5.22&quot; ✅</span>
+<span class="c1">// - Invalid: &quot;1.1.1Retry&quot;, &quot;v2.0.0&quot;, &quot;2.1.0-beta&quot; ❌</span>
+<span class="c1">// - Server uses PHP version_compare() for semantic comparison</span>
+<span class="c1">// - New version MUST be numerically higher than previous for updates to trigger</span>
+<span class="c1">// - Devices with higher versions will NOT receive &quot;downgrades&quot;</span>
+<span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">FIRMWARE_VERSION</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;3.1.0&quot;</span><span class="p">;</span><span class="w">  </span><span class="c1">// Increment for key transition</span>
+</code></pre></div>
+<h3 id="step-4-deploy-key-transition-firmware-critical-use-old-private-key">Step 4: Deploy Key Transition Firmware (Critical: Use OLD Private Key)<a class="headerlink" href="#step-4-deploy-key-transition-firmware-critical-use-old-private-key" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Build firmware with new public key but sign with OLD private key</span>
+<span class="nb">cd</span><span class="w"> </span>/Users/joeceo/Documents/Arduino/Xregulator
+./build_and_deploy.sh<span class="w"> </span><span class="m">3</span>.1.0
+
+<span class="c1"># This uses OLD private key (/Users/joeceo/private_key.pem) for signing</span>
+<span class="c1"># All devices update to firmware containing NEW public key</span>
+</code></pre></div>
+<h3 id="step-5-update-server-configuration-with-new-public-key">Step 5: Update Server Configuration with New Public Key<a class="headerlink" href="#step-5-update-server-configuration-with-new-public-key" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># SSH into server</span>
+ssh<span class="w"> </span>root@host.xengineering.net
+
+<span class="c1"># Navigate to OTA directory</span>
+<span class="nb">cd</span><span class="w"> </span>/home/ota/htdocs/ota.xengineering.net
+
+<span class="c1"># Backup current configuration</span>
+cp<span class="w"> </span>config/ota_config.php<span class="w"> </span>config/ota_config.php.backup
+
+<span class="c1"># Edit configuration file to add new public key</span>
+nano<span class="w"> </span>config/ota_config.php
+
+<span class="c1"># Replace the OTA_PUBLIC_KEY definition with content from public_key_new.pem</span>
+<span class="c1"># Ensure proper PHP string formatting with \n for line breaks</span>
+</code></pre></div>
+<h3 id="step-6-wait-for-complete-fleet-update">Step 6: Wait for Complete Fleet Update<a class="headerlink" href="#step-6-wait-for-complete-fleet-update" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Monitor device update status</span>
+<span class="c1"># Wait until ALL devices have updated to version 3.1.0 (contains new public key)</span>
+<span class="c1"># Do NOT proceed until 100% of devices are updated</span>
+
+<span class="c1"># Check update logs/monitoring to confirm fleet status</span>
+<span class="c1"># This may take hours/days depending on device check frequency</span>
+</code></pre></div>
+<h3 id="step-7-complete-key-transition-air-gapped-machine">Step 7: Complete Key Transition (Air-Gapped Machine)<a class="headerlink" href="#step-7-complete-key-transition-air-gapped-machine" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># ONLY after ALL devices have new public key:</span>
+<span class="nb">cd</span><span class="w"> </span>/Users/joeceo/
+
+<span class="c1"># Securely destroy old private key</span>
+shred<span class="w"> </span>-vfz<span class="w"> </span>-n<span class="w"> </span><span class="m">3</span><span class="w"> </span>private_key.pem
+
+<span class="c1"># Activate new private key</span>
+mv<span class="w"> </span>private_key_new.pem<span class="w"> </span>private_key.pem
+mv<span class="w"> </span>public_key_new.pem<span class="w"> </span>public_key.pem
+
+<span class="c1"># Verify new key is active</span>
+ls<span class="w"> </span>-la<span class="w"> </span>private_key.pem
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Key rotation complete - future firmware signed with new key&quot;</span>
+</code></pre></div>
+<p><strong>CRITICAL</strong>: Never destroy the old private key until ALL devices have updated to firmware containing the new public key!</p>
+<hr />
+<h2 id="firmwareweb-package-deployment-process">Firmware/Web Package Deployment Process<a class="headerlink" href="#firmwareweb-package-deployment-process" title="Permanent link">&para;</a></h2>
+<h3 id="current-process-same-machine-signing">Current Process (Same-Machine Signing)<a class="headerlink" href="#current-process-same-machine-signing" title="Permanent link">&para;</a></h3>
+<p>This is the current implementation using the automated build script. For production, this will be modified to use air-gapped signing.</p>
+<h3 id="step-1-prepare-new-firmware-version">Step 1: Prepare New Firmware Version<a class="headerlink" href="#step-1-prepare-new-firmware-version" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1">// Update version in Xregulator.ino</span>
+<span class="c1">// IMPORTANT: Firmware Version number MUST follow semantic versioning (x.y.z format)</span>
+<span class="c1">// - Only numeric digits and dots allowed (regex: ^\d+\.\d+\.\d+$)</span>
+<span class="c1">// - Examples: &quot;1.0.0&quot;, &quot;2.1.3&quot;, &quot;10.5.22&quot; ✅</span>
+<span class="c1">// - Invalid: &quot;1.1.1Retry&quot;, &quot;v2.0.0&quot;, &quot;2.1.0-beta&quot; ❌</span>
+<span class="c1">// - Server uses PHP version_compare() for semantic comparison</span>
+<span class="c1">// - New version MUST be numerically higher than previous for updates to trigger</span>
+<span class="c1">// - Devices with higher versions will NOT receive &quot;downgrades&quot;</span>
+<span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">FIRMWARE_VERSION</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;2.6.0&quot;</span><span class="p">;</span><span class="w">  </span><span class="c1">// Must be higher than current deployed version</span>
+
+<span class="c1">// Make any desired firmware changes</span>
+<span class="c1">// Update web files in data/ folder if needed</span>
+</code></pre></div>
+<h3 id="step-2-deploy-using-build-script">Step 2: Deploy Using Build Script<a class="headerlink" href="#step-2-deploy-using-build-script" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Navigate to project directory</span>
+<span class="nb">cd</span><span class="w"> </span>/Users/joeceo/Documents/Arduino/Xregulator
+
+<span class="c1"># Ensure build script is executable</span>
+chmod<span class="w"> </span>+x<span class="w"> </span>build_and_deploy.sh
+
+<span class="c1"># Deploy new version (replace 2.6.0 with your target version)</span>
+./build_and_deploy.sh<span class="w"> </span><span class="m">2</span>.6.0
+
+<span class="c1"># Script will:</span>
+<span class="c1"># 1. Clean previous builds and caches</span>
+<span class="c1"># 2. Compile firmware with Arduino CLI</span>
+<span class="c1"># 3. Create tar package (firmware.bin + data/ contents)</span>
+<span class="c1"># 4. Sign package with RSA-4096</span>
+<span class="c1"># 5. Upload to server</span>
+<span class="c1"># 6. Update server version configuration</span>
+<span class="c1"># 7. Test deployment</span>
+</code></pre></div>
+<h3 id="step-3-verify-deployment">Step 3: Verify Deployment<a class="headerlink" href="#step-3-verify-deployment" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Test server response</span>
+curl<span class="w"> </span>-s<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Device-ID: TEST123&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>-H<span class="w"> </span><span class="s2">&quot;Current-Version: 2.5.0&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>-H<span class="w"> </span><span class="s2">&quot;Hardware-Version: ESP32-S3&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>https://ota.xengineering.net/api/firmware/check.php<span class="w"> </span><span class="p">|</span><span class="w"> </span>python3<span class="w"> </span>-m<span class="w"> </span>json.tool
+
+<span class="c1"># Expected response with hasUpdate: true and new version</span>
+</code></pre></div>
+<h3 id="step-4-monitor-device-updates">Step 4: Monitor Device Updates<a class="headerlink" href="#step-4-monitor-device-updates" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Devices will automatically discover and install update within their check interval</span>
+<span class="c1"># Default: 5 minutes (configurable in firmware)</span>
+
+<span class="c1"># Monitor device logs for update process:</span>
+<span class="c1"># &quot;🔍 Initial update check...&quot;</span>
+<span class="c1"># &quot;🚀 === STARTING OTA UPDATE PROCESS ===&quot;</span>
+<span class="c1"># &quot;✅ Streaming download and extraction completed&quot;</span>
+<span class="c1"># &quot;🎉 === STREAMING OTA UPDATE SUCCESSFUL ===&quot;</span>
+</code></pre></div>
+<h3 id="future-air-gapped-signing-process-production">Future Air-Gapped Signing Process (Production)<a class="headerlink" href="#future-air-gapped-signing-process-production" title="Permanent link">&para;</a></h3>
+<p>For production deployment, the signing process will be modified to use an air-gapped machine:</p>
+<h4 id="modified-step-2-future-implementation">Modified Step 2 (Future Implementation):<a class="headerlink" href="#modified-step-2-future-implementation" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># Step 2a: Build package locally (without signing)</span>
+<span class="nb">cd</span><span class="w"> </span>/Users/joeceo/Documents/Arduino/Xregulator
+<span class="c1"># Modified build script will create unsigned package</span>
+
+<span class="c1"># Step 2b: Transfer to air-gapped machine</span>
+<span class="c1"># USB transfer: firmware_2.6.0.tar</span>
+
+<span class="c1"># Step 2c: Sign on air-gapped machine</span>
+<span class="nb">cd</span><span class="w"> </span>/path/to/airgapped/signing/directory
+openssl<span class="w"> </span>dgst<span class="w"> </span>-sha256<span class="w"> </span>-sign<span class="w"> </span>/secure/path/private_key.pem<span class="w"> </span>-out<span class="w"> </span>firmware_2.6.0.sig.binary<span class="w"> </span>firmware_2.6.0.tar
+base64<span class="w"> </span>-i<span class="w"> </span>firmware_2.6.0.sig.binary<span class="w"> </span><span class="p">|</span><span class="w"> </span>tr<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;\n&#39;</span><span class="w"> </span>&gt;<span class="w"> </span>firmware_2.6.0.sig.base64
+
+<span class="c1"># Step 2d: Transfer signature back</span>
+<span class="c1"># USB transfer: firmware_2.6.0.sig.base64</span>
+
+<span class="c1"># Step 2e: Upload to server</span>
+<span class="c1"># Modified script uploads both package and signature</span>
+</code></pre></div>
+<h3 id="discover-server-file-structure">Discover Server File Structure<a class="headerlink" href="#discover-server-file-structure" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># SSH into server to find current file paths</span>
+ssh<span class="w"> </span>root@host.xengineering.net
+
+<span class="c1"># Find firmware storage location</span>
+find<span class="w"> </span>/home/ota<span class="w"> </span>-name<span class="w"> </span><span class="s2">&quot;firmware&quot;</span><span class="w"> </span>-type<span class="w"> </span>d
+<span class="c1"># Expected: /home/ota/htdocs/ota.xengineering.net/firmware/</span>
+
+<span class="c1"># Find signature storage location  </span>
+find<span class="w"> </span>/home/ota<span class="w"> </span>-name<span class="w"> </span><span class="s2">&quot;signatures&quot;</span><span class="w"> </span>-type<span class="w"> </span>d
+<span class="c1"># Expected: /home/ota/htdocs/ota.xengineering.net/signatures/</span>
+
+<span class="c1"># List current firmware files</span>
+ls<span class="w"> </span>-la<span class="w"> </span>/home/ota/htdocs/ota.xengineering.net/firmware/
+
+<span class="c1"># List current signature files</span>
+ls<span class="w"> </span>-la<span class="w"> </span>/home/ota/htdocs/ota.xengineering.net/signatures/
+
+<span class="c1"># Check current server version</span>
+grep<span class="w"> </span><span class="s2">&quot;CURRENT_FIRMWARE_VERSION&quot;</span><span class="w"> </span>/home/ota/htdocs/ota.xengineering.net/config/ota_config.php
+</code></pre></div>
+<hr />
+<h2 id="troubleshooting-common-issues">Troubleshooting &amp; Common Issues<a class="headerlink" href="#troubleshooting-common-issues" title="Permanent link">&para;</a></h2>
+<h3 id="build-issues">Build Issues<a class="headerlink" href="#build-issues" title="Permanent link">&para;</a></h3>
+<h4 id="arduino-cli-not-found">Arduino CLI Not Found<a class="headerlink" href="#arduino-cli-not-found" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># Install Arduino CLI (macOS)</span>
+brew<span class="w"> </span>install<span class="w"> </span>arduino-cli
+
+<span class="c1"># Verify installation</span>
+arduino-cli<span class="w"> </span>version
+
+<span class="c1"># Install ESP32 board package</span>
+arduino-cli<span class="w"> </span>core<span class="w"> </span>install<span class="w"> </span>esp32:esp32
+</code></pre></div>
+<h4 id="compilation-errors">Compilation Errors<a class="headerlink" href="#compilation-errors" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># Clear all caches</span>
+arduino-cli<span class="w"> </span>cache<span class="w"> </span>clean
+rm<span class="w"> </span>-rf<span class="w"> </span>/tmp/arduino_*
+rm<span class="w"> </span>-rf<span class="w"> </span>~/Library/Arduino15/packages/esp32/hardware/esp32/cache
+
+<span class="c1"># Verify FQBN</span>
+arduino-cli<span class="w"> </span>compile<span class="w"> </span>--fqbn<span class="w"> </span><span class="s2">&quot;esp32:esp32:esp32s3:FlashSize=16M,PartitionScheme=custom&quot;</span><span class="w"> </span>--verify
+
+<span class="c1"># Check partition file</span>
+cat<span class="w"> </span>partitions.csv
+</code></pre></div>
+<h4 id="build-script-permissions">Build Script Permissions<a class="headerlink" href="#build-script-permissions" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># Make executable</span>
+chmod<span class="w"> </span>+x<span class="w"> </span>build_and_deploy.sh
+
+<span class="c1"># Check script variables</span>
+head<span class="w"> </span>-20<span class="w"> </span>build_and_deploy.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-E<span class="w"> </span><span class="s2">&quot;(PROJECT_PATH|FQBN|PRIVATE_KEY)&quot;</span>
+</code></pre></div>
+<h3 id="runtime-issues">Runtime Issues<a class="headerlink" href="#runtime-issues" title="Permanent link">&para;</a></h3>
+<h4 id="no-ota-partition-available">"No OTA partition available"<a class="headerlink" href="#no-ota-partition-available" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># Check partition scheme</span>
+arduino-cli<span class="w"> </span>compile<span class="w"> </span>--show-properties<span class="w"> </span>--fqbn<span class="w"> </span><span class="s2">&quot;esp32:esp32:esp32s3:FlashSize=16M,PartitionScheme=custom&quot;</span>
+
+<span class="c1"># Verify partitions.csv exists</span>
+ls<span class="w"> </span>-la<span class="w"> </span>partitions.csv
+</code></pre></div>
+<h4 id="memory-issues-stack-overflow">Memory Issues / Stack Overflow<a class="headerlink" href="#memory-issues-stack-overflow" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># Monitor free heap during OTA</span>
+Serial.printf<span class="o">(</span><span class="s2">&quot;Free heap: %d bytes\n&quot;</span>,<span class="w"> </span>ESP.getFreeHeap<span class="o">())</span><span class="p">;</span>
+
+<span class="c1"># Reduce buffer sizes if needed (in ESP32 code)</span>
+const<span class="w"> </span>size_t<span class="w"> </span><span class="nv">CHUNK_SIZE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">512</span><span class="p">;</span><span class="w">  </span>//<span class="w"> </span>Reduce<span class="w"> </span>from<span class="w"> </span><span class="m">1024</span><span class="w"> </span><span class="k">if</span><span class="w"> </span>memory<span class="w"> </span>issues
+</code></pre></div>
+<h4 id="streaming-extraction-failed">"Streaming extraction failed"<a class="headerlink" href="#streaming-extraction-failed" title="Permanent link">&para;</a></h4>
+<p>This was the critical bug - ensure end-of-archive detection returns success:
+<div class="highlight"><pre><span></span><code><span class="c1">// In processDataChunk() - verify this logic exists:</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">allZeros</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;✅ End of tar archive detected - extraction complete!&quot;</span><span class="p">);</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span><span class="w"> </span><span class="c1">// CRITICAL: Must return true, not false!</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<h3 id="server-issues">Server Issues<a class="headerlink" href="#server-issues" title="Permanent link">&para;</a></h3>
+<h4 id="rate-limiting-http-429">Rate Limiting (HTTP 429)<a class="headerlink" href="#rate-limiting-http-429" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># Clear rate limits</span>
+ssh<span class="w"> </span>root@host.xengineering.net<span class="w"> </span><span class="s2">&quot;rm -f /home/ota/htdocs/ota.xengineering.net/tmp/rate_limits.json&quot;</span>
+</code></pre></div>
+<h4 id="signature-verification-failed">Signature Verification Failed<a class="headerlink" href="#signature-verification-failed" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># Check signature file</span>
+ssh<span class="w"> </span>root@host.xengineering.net<span class="w"> </span><span class="s2">&quot;wc -c /home/ota/htdocs/ota.xengineering.net/signatures/firmware_X.X.X.sig&quot;</span>
+<span class="c1"># Should be 684-685 characters</span>
+
+<span class="c1"># Verify base64 format (no line breaks)</span>
+ssh<span class="w"> </span>root@host.xengineering.net<span class="w"> </span><span class="s2">&quot;head -c 50 /home/ota/htdocs/ota.xengineering.net/signatures/firmware_X.X.X.sig&quot;</span>
+</code></pre></div>
+<h4 id="server-not-responding">Server Not Responding<a class="headerlink" href="#server-not-responding" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># Test server health</span>
+curl<span class="w"> </span>https://ota.xengineering.net/api/health.php
+
+<span class="c1"># Check nginx status</span>
+ssh<span class="w"> </span>root@host.xengineering.net<span class="w"> </span><span class="s2">&quot;systemctl status nginx&quot;</span>
+
+<span class="c1"># Check PHP-FPM</span>
+ssh<span class="w"> </span>root@host.xengineering.net<span class="w"> </span><span class="s2">&quot;systemctl status php8.4-fpm&quot;</span>
+</code></pre></div>
+<h3 id="network-issues">Network Issues<a class="headerlink" href="#network-issues" title="Permanent link">&para;</a></h3>
+<h4 id="ssl-certificate-problems">SSL Certificate Problems<a class="headerlink" href="#ssl-certificate-problems" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># Test SSL certificate</span>
+openssl<span class="w"> </span>s_client<span class="w"> </span>-showcerts<span class="w"> </span>-servername<span class="w"> </span>ota.xengineering.net<span class="w"> </span>-connect<span class="w"> </span>ota.xengineering.net:443
+
+<span class="c1"># Verify certificate in ESP32 code matches server</span>
+</code></pre></div>
+<h4 id="connection-refused">Connection Refused<a class="headerlink" href="#connection-refused" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># Test connectivity</span>
+ping<span class="w"> </span>ota.xengineering.net
+
+<span class="c1"># Test specific port</span>
+telnet<span class="w"> </span>ota.xengineering.net<span class="w"> </span><span class="m">443</span>
+
+<span class="c1"># Check firewall</span>
+ssh<span class="w"> </span>root@host.xengineering.net<span class="w"> </span><span class="s2">&quot;ufw status&quot;</span>
+</code></pre></div>
+<h3 id="debugging-commands">Debugging Commands<a class="headerlink" href="#debugging-commands" title="Permanent link">&para;</a></h3>
+<h4 id="esp32-serial-monitor">ESP32 Serial Monitor<a class="headerlink" href="#esp32-serial-monitor" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1">// Add debug output in key functions</span>
+<span class="n">Serial</span><span class="p">.</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;📦 Processing file: %s (%d bytes)</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">fileName</span><span class="p">.</span><span class="n">c_str</span><span class="p">(),</span><span class="w"> </span><span class="n">fileSize</span><span class="p">);</span>
+<span class="n">Serial</span><span class="p">.</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;💾 Free heap: %d bytes</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">ESP</span><span class="p">.</span><span class="n">getFreeHeap</span><span class="p">());</span>
+<span class="n">Serial</span><span class="p">.</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;📊 Progress: %d%% (%d/%d bytes)</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">progress</span><span class="p">,</span><span class="w"> </span><span class="n">downloaded</span><span class="p">,</span><span class="w"> </span><span class="n">total</span><span class="p">);</span>
+</code></pre></div>
+<h4 id="server-side-debugging">Server-side Debugging<a class="headerlink" href="#server-side-debugging" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># Monitor real-time logs</span>
+ssh<span class="w"> </span>root@host.xengineering.net<span class="w"> </span><span class="s2">&quot;tail -f /var/log/nginx/access.log&quot;</span>
+
+<span class="c1"># Check PHP errors</span>
+ssh<span class="w"> </span>root@host.xengineering.net<span class="w"> </span><span class="s2">&quot;tail -f /var/log/php8.4-fpm.log&quot;</span>
+
+<span class="c1"># Test API directly</span>
+curl<span class="w"> </span>-v<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Device-ID: DEBUG&quot;</span><span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Current-Version: 0.0.0&quot;</span><span class="w"> </span>https://ota.xengineering.net/api/firmware/check.php
+</code></pre></div>
+<hr />
+<h2 id="future-improvements">Future Improvements<a class="headerlink" href="#future-improvements" title="Permanent link">&para;</a></h2>
+<h3 id="security-enhancements">Security Enhancements<a class="headerlink" href="#security-enhancements" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Device authentication</strong>: Beyond Device-ID, implement certificate-based auth</li>
+<li><strong>Firmware encryption</strong>: AES encryption for firmware packages</li>
+<li><strong>Rollback protection</strong>: Prevent downgrade attacks</li>
+<li><strong>Audit logging</strong>: Complete chain of custody for all updates</li>
+</ol>
+<h3 id="operational-improvements">Operational Improvements<a class="headerlink" href="#operational-improvements" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Gradual rollouts</strong>: Deploy to percentage of fleet first</li>
+<li><strong>Health monitoring</strong>: Device health checks before/after updates</li>
+<li><strong>Automatic rollback</strong>: Detect failed updates and revert</li>
+<li><strong>Delta updates</strong>: Only send changed files, not complete packages</li>
+</ol>
+<h3 id="build-process-automation">Build Process Automation<a class="headerlink" href="#build-process-automation" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>CI/CD integration</strong>: GitHub Actions for automated builds</li>
+<li><strong>Test automation</strong>: Automated testing on ESP32 hardware</li>
+<li><strong>Staging environment</strong>: Test updates before production deployment</li>
+<li><strong>Notification system</strong>: Alert on build failures or security issues</li>
+</ol>
+<h3 id="package-format-evolution">Package Format Evolution<a class="headerlink" href="#package-format-evolution" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Compression</strong>: Add gzip support for smaller packages</li>
+<li><strong>Multiple architectures</strong>: Support ESP32, ESP32-S3, ESP32-C3 in one package</li>
+<li><strong>Incremental updates</strong>: Binary diff patches for large firmware</li>
+<li><strong>Metadata enhancement</strong>: More detailed changelog and dependency info</li>
+</ol>
+<h3 id="air-gapped-signing-improvements">Air-Gapped Signing Improvements<a class="headerlink" href="#air-gapped-signing-improvements" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Hardware security modules</strong>: Use YubiKey or similar for signing</li>
+<li><strong>Multi-signature</strong>: Require multiple keys for critical updates</li>
+<li><strong>Key escrow</strong>: Secure backup and recovery procedures</li>
+<li><strong>Signing ceremony</strong>: Formal process for production releases</li>
+</ol>
+<hr />
+<h2 id="system-status-verified-metrics">System Status &amp; Verified Metrics<a class="headerlink" href="#system-status-verified-metrics" title="Permanent link">&para;</a></h2>
+<h3 id="verified-working-july-6-2025">Verified Working (July 6, 2025)<a class="headerlink" href="#verified-working-july-6-2025" title="Permanent link">&para;</a></h3>
+<ul>
+<li>✅ Complete streaming tar parser with proper end-of-archive handling</li>
+<li>✅ RSA-4096 signature verification (military-grade security)</li>
+<li>✅ Dual content updates (firmware + web files)</li>
+<li>✅ Factory recovery system (GPIO15 fallback)</li>
+<li>✅ Memory-efficient operation (1KB streaming chunks)</li>
+<li>✅ Production-ready error handling and validation</li>
+<li>✅ Automated build and deploy pipeline</li>
+</ul>
+<h3 id="current-package-metrics">Current Package Metrics<a class="headerlink" href="#current-package-metrics" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Package size</strong>: ~1.8MB (1,815,040 bytes tested)</li>
+<li><strong>Firmware size</strong>: ~1.4MB (room for 2.6MB growth)</li>
+<li><strong>Web files</strong>: ~400KB (HTML/CSS/JS dashboard)</li>
+<li><strong>Signature</strong>: 684-685 characters base64 (both normal)</li>
+<li><strong>Memory usage</strong>: &lt;1KB RAM for streaming (vs 1.8MB+ for loading)</li>
+</ul>
+<h3 id="server-configuration_1">Server Configuration<a class="headerlink" href="#server-configuration_1" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Domain</strong>: ota.xengineering.net</li>
+<li><strong>SSL</strong>: Let's Encrypt (auto-renewed)</li>
+<li><strong>Rate limits</strong>: 10 checks/hour, 5 downloads/day per device</li>
+<li><strong>Platform</strong>: CloudPanel/nginx/PHP 8.4</li>
+<li><strong>Security</strong>: Input validation, rate limiting, signature verification</li>
+</ul>
+<h3 id="file-paths-reference-for-aiautomation">File Paths Reference (for AI/automation)<a class="headerlink" href="#file-paths-reference-for-aiautomation" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Local Development:
+/Users/joeceo/Documents/Arduino/Xregulator/          # Project root
+/Users/joecoe/private_key.pem                        # Air-gapped signing key
+
+Server Paths:
+/home/ota/htdocs/ota.xengineering.net/              # Web root
+/home/ota/htdocs/ota.xengineering.net/config/ota_config.php  # Version config
+/home/ota/htdocs/ota.xengineering.net/firmware/     # Package storage
+/home/ota/htdocs/ota.xengineering.net/signatures/   # Signature storage
+
+Arduino CLI:
+FQBN: &quot;esp32:esp32:esp32s3:FlashSize=16M,PartitionScheme=custom&quot;
+Build Output: /Users/joeceo/Documents/Arduino/Xregulator/build/
+</code></pre></div>
+<p>This system provides <strong>military-grade OTA security</strong> with <strong>streaming capabilities</strong> that can handle large firmware packages on memory-constrained ESP32 devices. The breakthrough streaming tar parser enables dual-content updates (firmware + web files) while maintaining cryptographic security through RSA-4096 signatures and air-gapped private key management.</p>
+<p><strong>Key Achievement</strong>: Successfully solved the "package too large for ESP32 memory" problem through streaming extraction, enabling sophisticated IoT devices with rich web interfaces to update reliably and securely.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2025 Xengineering
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.sections", "navigation.expand", "search.highlight"], "search": "../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.50899def.min.js"></script>
+      
+    
+  </body>
+</html>
