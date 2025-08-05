@@ -4,6 +4,32 @@
 
 The regulator features a 4-channel analog input system designed for precision voltage measurements in marine and automotive applications. The system uses an ADS1115 16-bit ADC with I2C interface, combined with precision voltage divider architecture and op-amp buffering for high-impedance, accurate measurements with minimal power consumption.
 
+## Critical System Limitations
+
+### Op-Amp Output Voltage Constraints
+
+**Why Op-Amp Buffering is Required**: The high-impedance voltage dividers (typically 384kΩ to 1MΩ+ equivalent) cannot directly drive the ADS1115 input without significant loading errors. Op-amp buffers provide the necessary impedance transformation from high-impedance sources to low-impedance ADC inputs.
+
+**However, this introduces a critical limitation**: Even with the rail-to-rail TLV9154IDR op-amp, the **minimum output voltage is approximately 10-20mV** (typical VOL specification). This constraint directly limits the minimum measurable input values on all channels:
+
+| Channel | Minimum Op-Amp Output | Minimum Measurable Input | Impact |
+|---------|----------------------|-------------------------|---------|
+| 0 (Battery) | ~10mV | 0.21V | No practical impact (batteries never this low) |
+| 1 (Current) | ~10mV | -246A | No impact (within ±200A sensor range) |
+| 2 (RPM) | ~10mV | 16Hz → 55-958 RPM | **Significant idle detection limitation** |
+| 3 (Temperature) | ~10mV | Depends on configuration | **Limits cold temperature range** |
+
+### ADS1115 Input Range Limitations
+
+**Critical Specification Corrections**: The ADS1115 specifications are commonly misunderstood:
+
+- **Advertised range**: ±4.096V (with GAIN = 1 setting)
+- **Reality**: Input range is **0V to +3.3V maximum** due to single 3.3V supply rail
+- **Negative voltages**: **Cannot be measured** - ADS1115 inputs must remain positive
+- **Maximum input**: Limited to 3.3V supply voltage, not the advertised 4.096V
+
+This creates additional measurement constraints that must be considered in all voltage divider calculations.
+
 ---
 
 ## System Architecture
@@ -16,15 +42,17 @@ All analog input channels share a common, proven architecture optimized for:
 - **EMI immunity**: Integrated filtering for marine electrical environments
 - **Robust fault tolerance**: Designed to handle high-voltage transients and DC faults
 
+**Trade-offs**: The single-supply design provides excellent protection but introduces minimum voltage limitations that affect low-signal measurements.
+
 ### Signal Chain Architecture
 ```
 Input Signal ──[R1]──┬──[R2]──GND
                      │
                   [5nF]──GND (Low-pass filter)
                      │
-              [MCP6004 Input+]
+              [TLV9154IDR Input+]
                      │
-              [MCP6004 Output]──ADS1115 Channel
+              [TLV9154IDR Output]──ADS1115 Channel (0-3.3V only)
                      │
               [Feedback to Input-] (Unity gain)
 ```
@@ -32,7 +60,7 @@ Input Signal ──[R1]──┬──[R2]──GND
 ### Component Functions
 
 #### Voltage Divider (R1/R2)
-- **Function**: Scales high input voltages to ADS1115-compatible range (0-3.3V)
+- **Function**: Scales high input voltages to ADS1115-compatible range (0-3.3V maximum)
 - **Power consumption**: Continuous, proportional to input voltage
 - **Ratio selection**: Determines maximum measurable voltage and resolution
 - **Precision**: ±0.1% tolerance for accuracy
@@ -43,28 +71,34 @@ Input Signal ──[R1]──┬──[R2]──GND
 - **Settling time**: ~5 × time constant for 99% accuracy
 - **Placement**: Before op-amp buffer for optimal noise rejection
 
-#### Unity-Gain Buffer (MCP6004)
+#### Unity-Gain Buffer (TLV9154IDR)
 - **Function**: High input impedance to low output impedance conversion
 - **Gain**: Exactly 1.0 (Vout = Vin)
 - **Supply**: Single 3.3V rail
 - **Configuration**: Non-inverting input from voltage divider, output feedback to inverting input
 - **Input impedance**: >1MΩ (isolates high-impedance voltage dividers)
+- **Critical limitation**: Minimum output ~10-20mV limits low-signal detection
 
 #### ADC (ADS1115)
-- **Resolution**: 16-bit with ±4.096V range (GAIN = 1 setting) * but input range is limited to 0–3.3V by supply rail
-
-
+- **Resolution**: 16-bit with 0 to +3.3V input range (not ±4.096V as commonly stated)
 - **Interface**: I2C communication
 - **Sample rate**: 128 SPS recommended for low noise
-- **Effective input range**: 0-3.6V (limited by 3.3V supply)
-- **LSB resolution**: 0.125mV per count
+- **Actual input range**: 0-3.3V (limited by supply rail, cannot measure negative voltages)
+- **LSB resolution**: 0.1mV per count (3.3V ÷ 32768 counts)
 
-### Single-Supply Design Benefits
+### Single-Supply Design Benefits and Limitations
+
+**Benefits**:
 - **Inherent overvoltage protection**: Op-amp output cannot exceed 3.3V supply rails
 - **No protection diodes needed**: Eliminates leakage current and temperature coefficient errors
 - **Perfect accuracy**: No diode-related drift or offset issues
 - **Low power consumption**: Single 3.3V supply shared with ADS1115
-- **Safety margin**: Op-amp max output (3.1V) < ADS1115 max input (3.6V)
+- **Safety margin**: Op-amp max output (3.1V) < ADS1115 max input (3.3V)
+
+**Limitations**:
+- **Minimum voltage constraint**: Cannot measure inputs below ~10-20mV equivalent
+- **No negative voltage capability**: All measurements must be positive
+- **Reduced dynamic range**: 3.3V maximum instead of theoretical 4.096V
 
 ---
 
@@ -80,17 +114,25 @@ Input Signal ──[R1]──┬──[R2]──GND
 - **Divider ratio**: 0.0475 (1:21.04 scaling)
 - **Filter capacitor**: 5nF ±10%, X7R, 0603 SMD
 - **Measurement range**: 2.1V to 65.2V
+- **Minimum measurable**: 0.21V (limited by op-amp minimum output)
 
 #### Performance Analysis
-| Input Voltage | Divided Voltage | ADC Reading | Resolution | Accuracy |
-|---------------|-----------------|-------------|------------|----------|
-| 2.1V | 0.100V | Minimum | 0.055V | 2.6% |
-| 5.0V | 0.238V | Valid | 0.055V | 1.1% |
-| 12.0V | 0.570V | Valid | 0.055V | 0.46% |
-| 24.0V | 1.141V | Valid | 0.055V | 0.23% |
-| 48.0V | 2.281V | Valid | 0.055V | 0.11% |
-| 60.0V | 2.852V | Valid | 0.055V | 0.092% |
-| 65.2V | 3.100V | Maximum | 0.055V | 0.084% |
+| Input Voltage | Divided Voltage | ADC Reading | ADC Resolution (LSB) | Engineering Resolution | Practical Accuracy |
+|---------------|-----------------|-------------|---------------------|----------------------|-------------------|
+| 0.21V | 0.010V | **Op-amp minimum** | 0.1mV | 0.0021V | Limited by noise/drift |
+| 2.1V | 0.100V | Valid | 0.1mV | 0.0021V | 2.6% |
+| 5.0V | 0.238V | Valid | 0.1mV | 0.0021V | 1.1% |
+| 12.0V | 0.570V | Valid | 0.1mV | 0.0021V | 0.46% |
+| 24.0V | 1.141V | Valid | 0.1mV | 0.0021V | 0.23% |
+| 48.0V | 2.281V | Valid | 0.1mV | 0.0021V | 0.11% |
+| 60.0V | 2.852V | Valid | 0.1mV | 0.0021V | 0.092% |
+| 65.2V | 3.100V | **ADC maximum** | 0.1mV | 0.0021V | 0.084% |
+
+**Resolution Clarification**: 
+- **ADC LSB resolution**: 0.1mV (3.3V ÷ 32768 counts)
+- **Engineering resolution**: 0.0021V input (0.1mV ÷ 0.0475 divider ratio)  
+- **Practical accuracy**: Limited by component tolerances (±0.1% resistors), temperature drift, and noise floor
+- **Effective resolution**: ~55mV due to noise floor and component limitations
 
 #### Filter Characteristics
 - **Thevenin resistance**: 47.5kΩ
@@ -119,15 +161,24 @@ Input Signal ──[R1]──┬──[R2]──GND
 - **Filter capacitor**: 5nF ±10%, X7R, 0603 SMD
 - **Sensor voltage range**: 0.5V to 4.5V (±200A)
 - **ADC voltage range**: 0.25V to 2.25V
+- **Minimum measurable**: 0.02V sensor voltage (limited by op-amp, equivalent to -248A)
 
 #### Performance Analysis
-| Hall Sensor Voltage | Current (A) | Divided Voltage | ADC Reading | Resolution | Accuracy | Measurable |
-|--------------------|-----------|------------------|-------------|------------|----------|------------|
-| 0.5V | -200A | 0.250V | Valid | 5.2mV | 1.04A | ✅ Valid |
-| 2.5V | 0A | 1.250V | Valid | 5.2mV | 1.04A | ✅ Valid |
-| 4.5V | +200A | 2.250V | Valid | 5.2mV | 1.04A | ✅ Valid |
+| Hall Sensor Voltage | Current (A) | Divided Voltage | ADC Reading | ADC Resolution (LSB) | True Current Resolution | Practical Accuracy | Measurable |
+|--------------------|-----------|------------------|-------------|---------------------|----------------------|-------------------|------------|
+| 0.5V | -200A | 0.250V | Valid | 0.1mV | 0.05A | ±1.04A | ✅ Valid |
+| 2.5V | 0A | 1.250V | Valid | 0.1mV | 0.05A | ±1.04A | ✅ Valid |
+| 4.5V | +200A | 2.250V | Valid | 0.1mV | 0.05A | ±1.04A | ✅ Valid |
 
-**Note**: Op-amp minimum output (70mV) corresponds to -186A, well within the ±200A physical sensor limits.
+**Resolution Clarification**:
+- **ADC LSB resolution**: 0.1mV (3.3V ÷ 32768 counts)
+- **Sensor scaling**: 100A/V (200A range ÷ 2V swing)
+- **True current resolution**: 0.1mV ÷ 0.5 divider × 100A/V = **0.02A per LSB**
+- **Practical accuracy**: ±1.04A represents the noise floor and worst-case measurement uncertainty, not the fundamental resolution
+- **Noise sources**: Op-amp noise, ADC noise, sensor drift, temperature effects, EMI
+- **Effective resolution**: While theoretical resolution is 0.02A, practical measurements are limited to ~1A accuracy due to system noise and sensor specifications
+
+**Note**: Op-amp minimum output (10mV) corresponds to -246A, well within the ±200A physical sensor limits, so the limitation has no practical impact.
 
 #### Filter Characteristics
 - **Thevenin resistance**: 384kΩ
@@ -143,17 +194,18 @@ Input Signal ──[R1]──┬──[R2]──GND
 
 ---
 
-### Channel 2: Engine Speed Monitor
+### Channel 2: Engine Speed Monitor (Optimized - No Voltage Divider)
 
 **Application**: LM2907 frequency-to-voltage converter output from alternator stator tap
 
-#### Design Parameters
-- **R1**: 768kΩ ±0.1%, 1/8W, 0805 SMD
-- **R2**: 768kΩ ±0.1%, 1/8W, 0805 SMD
-- **Divider ratio**: 0.5000 (1:2 scaling)
+#### Optimized Design Parameters
+- **Direct connection**: LM2907 output directly to op-amp input (no voltage divider)
 - **Filter capacitor**: 5nF ±10%, X7R, 0603 SMD
 - **LM2907 output range**: 0V to 5V
-- **ADC voltage range**: 0V to 2.5V
+- **Op-amp output range**: 0V to 3.3V (clipped by supply rail)
+- **ADC voltage range**: 0V to 3.3V
+- **Minimum measurable**: 0.01V LM2907 output (8Hz minimum frequency)
+- **Maximum measurable**: 3.3V LM2907 output (2640Hz maximum frequency)
 
 #### LM2907 Circuit Configuration
 
@@ -186,6 +238,8 @@ Input Signal ──[R1]──┬──[R2]──GND
 
 #### Frequency and RPM Analysis
 
+**Critical Improvement**: Removing the voltage divider reduces the minimum detectable frequency from 16Hz to **8Hz**, dramatically improving idle RPM detection capability.
+
 **Engine-to-Stator Scaling Factors:**
 - **Conservative case**: 6-pulse alternator, 1.5:1 belt ratio → **Engine RPM × 0.15 = Stator Hz**
 - **Aggressive case**: 7-pulse alternator, 2.5:1 belt ratio → **Engine RPM × 0.292 = Stator Hz**  
@@ -193,27 +247,30 @@ Input Signal ──[R1]──┬──[R2]──GND
 
 #### Performance Analysis (Conservative Case Example)
 
-**Minimum detectable frequency**: 16Hz (limited by rail-to-rail op-amp ~10mV output)
+**Minimum detectable frequency**: 8Hz (improved from 16Hz by removing voltage divider)
+**Maximum detectable frequency**: 2640Hz (limited by 3.3V op-amp supply rail)
 
 | Engine RPM | Stator Frequency | LM2907 Output | ADC Voltage | Status |
 |------------|------------------|---------------|-------------|---------|
-| 107 RPM | 16Hz | 0.020V | 0.010V | **Minimum detectable** |
-| 300 RPM | 45Hz | 0.056V | 0.028V | Valid |
-| 600 RPM | 90Hz | 0.113V | 0.056V | Valid |
-| 1500 RPM | 225Hz | 0.281V | 0.141V | Valid |
-| 3000 RPM | 450Hz | 0.563V | 0.281V | Valid |
-| 4000 RPM | 600Hz | 0.750V | 0.375V | Valid |
-| 6000 RPM | 900Hz | 1.125V | 0.563V | Valid |
-| 8000 RPM | 1200Hz | 1.500V | 0.750V | Valid |
-| 13333 RPM | 2000Hz | 2.500V | 1.250V | Valid |
-| 26667 RPM | 4000Hz | 5.000V | 2.500V | Maximum |
+| 53 RPM | 8Hz | 0.010V | 0.010V | **Minimum detectable** |
+| 133 RPM | 20Hz | 0.025V | 0.025V | Valid |
+| 300 RPM | 45Hz | 0.056V | 0.056V | Valid |
+| 600 RPM | 90Hz | 0.113V | 0.113V | Valid |
+| 1500 RPM | 225Hz | 0.281V | 0.281V | Valid |
+| 3000 RPM | 450Hz | 0.563V | 0.563V | Valid |
+| 4000 RPM | 600Hz | 0.750V | 0.750V | Valid |
+| 6000 RPM | 900Hz | 1.125V | 1.125V | Valid |
+| 8000 RPM | 1200Hz | 1.500V | 1.500V | Valid |
+| 10667 RPM | 1600Hz | 2.000V | 2.000V | Valid |
+| 14667 RPM | 2200Hz | 2.750V | 2.750V | Valid |
+| 17600 RPM | 2640Hz | 3.300V | 3.300V | **Maximum detectable** |
 
-**RPM Range Summary**:
-- **Conservative (6-pulse, 1.5:1)**: 107 RPM to 26,667 RPM  
-- **Aggressive (7-pulse, 2.5:1)**: 55 RPM to 13,699 RPM
-- **1-pulse direct**: 958 RPM to 240,000 RPM
+**RPM Range Summary (Significantly Improved)**:
+- **Conservative (6-pulse, 1.5:1)**: **53 RPM** to **17,600 RPM** (was 107-26,667 RPM)
+- **Aggressive (7-pulse, 2.5:1)**: **27 RPM** to **9,041 RPM** (was 55-13,699 RPM)  
+- **1-pulse direct**: **479 RPM** to **158,400 RPM** (was 958-240,000 RPM)
 
-**Key Improvement**: The TLV9154IDR rail-to-rail capability reduces minimum detectable RPM by **85%**, enabling proper idle detection for marine engines.
+**Key Improvement**: Removing the voltage divider improves minimum detectable RPM by **50%** while maintaining more than adequate maximum RPM capability for marine applications. The trade-off (reduced maximum RPM) is highly favorable since marine engines rarely exceed 3000-4000 RPM.
 
 #### Input Signal Requirements
 
@@ -231,18 +288,21 @@ Input Signal ──[R1]──┬──[R2]──GND
 
 **Very Low Frequency Analysis (1-pulse systems):**
 
-**Minimum detectable**: 16Hz = 958 RPM for 1-pulse systems
+**Minimum detectable**: 8Hz = 479 RPM for 1-pulse systems (major improvement for marine idle detection)
 
 | Engine RPM | Frequency | Signal at Pin 1 | Detection Status |
 |------------|-----------|-----------------|------------------|
-| 958 RPM | 16Hz | Variable | **Minimum detectable** |
+| 479 RPM | 8Hz | Variable | **Minimum detectable** |
+| 1500 RPM | 25Hz | 238mV | ✅ Valid |
 | 3000 RPM | 50Hz | 477mV | ✅ Valid |
 | 6000 RPM | 100Hz | 954mV | ✅ Valid |
 | 18000 RPM | 300Hz | 286mV | ✅ Valid |
 | 30000 RPM | 500Hz | 477mV | ✅ Valid |
 | 60000 RPM | 1000Hz | 918mV | ✅ Valid |
+| 95040 RPM | 1584Hz | 1510mV | ✅ Valid |
+| 158400 RPM | 2640Hz | 2518mV | **Maximum detectable** |
 
-**Significant Improvement**: The rail-to-rail op-amp reduces the minimum detectable RPM for 1-pulse systems from 6,707 RPM to **958 RPM**, making this configuration much more practical for slow marine applications.
+**Significant Improvement**: Removing the voltage divider reduces the minimum detectable RPM for 1-pulse systems from 958 RPM to **479 RPM**, making single-pulse configurations much more practical for marine applications with slow idle speeds.
 
 **Sine vs. Square Wave Performance**: Both waveform types perform identically for frequency detection. The LM2907 detects zero crossings regardless of waveform shape, and AC coupling affects both equally at very low frequencies.
 
@@ -263,83 +323,88 @@ Input Signal ──[R1]──┬──[R2]──GND
 
 **Component ratings**: 4.7kΩ resistor (HP122WJ0472T4E) rated for 2W, providing excellent safety margin up to 56V DC faults.
 
-#### Filter Characteristics
-- **Thevenin resistance**: 384kΩ
-- **Cutoff frequency**: 83Hz  
-- **Time constant**: 1.9ms
-- **99% settling time**: 9.6ms
+#### Filter Characteristics (Optimized - No Voltage Divider)
+- **Input impedance**: Direct connection to op-amp (>1MΩ input impedance)
+- **Cutoff frequency**: Determined by LM2907 output impedance and 5nF capacitor
+- **Time constant**: Minimal (direct connection)
+- **99% settling time**: <50µs
 
-#### Power Consumption Analysis
-| LM2907 Output | Divider Current | Divider Power | Total Power | Equivalent at 12V |
-|---------------|-----------------|---------------|-------------|-------------------|
-| 1.0V | 0.65µA | 0.65µW | 0.13mW | **10.8µA** |
-| 3.0V | 1.95µA | 5.86µW | 0.14mW | **11.7µA** |
-| 5.0V | 3.26µA | 16.3µW | 0.14mW | **11.7µA** |
+#### Power Consumption Analysis (Optimized - No Voltage Divider)
+- **Voltage divider power**: 0W (no divider resistors)
+- **Op-amp power**: 0.13mW (shared IC allocation)
+- **Total power**: 0.13mW
+- **Equivalent at 12V**: **10.8µA** (unchanged from IC power)
+
+**Power Improvement**: Eliminating the voltage divider completely removes the ~1-3µA divider current, making this channel's power consumption negligible.
 
 ---
 
-### Channel 3: Temperature Monitor (Optimized with Rail-to-Rail Op-Amp)
+### Channel 3: Temperature Monitor (Optimized Configuration)
 
-**Application**: Engine or ambient temperature monitoring using 10kΩ NTC thermistor with rail-to-rail capability
+**Application**: Engine or ambient temperature monitoring using 10kΩ NTC thermistor
 
-#### Optimized Parameters with TLV9154IDR
-- **Supply voltage**: 5V 
-- **R1**: 10kΩ ±0.1%, 1/8W, 0805 SMD (pullup to 5V)
+#### Recommended Optimized Parameters
+Given the op-amp minimum output limitation (~10mV) and the ADS1115 3.3V supply constraint, the voltage divider should be optimized for better low-temperature detection.
+
+**Current Configuration Issues**:
+- 5V supply with 10kΩ/10kΩ divider creates voltages above 3.3V for cold temperatures
+- ADC cannot measure voltages above 3.3V (supply rail limitation)
+- Cold temperatures below ~15°C are unmeasurable
+
+**Recommended Improved Configuration**:
+- **Supply voltage**: 3.3V (matches ADC supply)
+- **R1**: 15kΩ ±0.1%, 1/8W, 0805 SMD (pullup to 3.3V)
 - **R2**: 10kΩ NTC thermistor (user-supplied sensor, to ground)
-- **Divider configuration**: 10kΩ pullup to 5V, thermistor to ground
+- **Divider configuration**: 15kΩ pullup to 3.3V, thermistor to ground
 - **Filter capacitor**: 5nF ±10%, X7R, 0603 SMD
-- **Temperature range**: -40°C to +125°C
-- **ADC voltage range**: 0.01V to 3.05V (rail-to-rail enables full range)
+- **Temperature range**: -40°C to +125°C (full range with optimized divider)
+- **ADC voltage range**: 0.13V to 3.05V
 
 #### Optimized Thermistor Performance Analysis
 
-**Voltage divider equation**: V_out = 5V × R_thermistor / (10kΩ + R_thermistor)
+**Voltage divider equation**: V_out = 3.3V × R_thermistor / (15kΩ + R_thermistor)
 
 | Temperature | Thermistor Resistance | Divider Voltage | ADC Reading | Measurable | Temperature Resolution |
 |-------------|----------------------|-----------------|-------------|------------|----------------------|
-| -40°C | ~195kΩ | 4.76V | **3.05V max** | ✅ At ADC limit | ~3°C |
-| -20°C | ~84kΩ | 4.47V | **3.05V max** | ✅ At ADC limit | ~2°C |
-| 0°C | ~27kΩ | 3.65V | **3.05V max** | ✅ At ADC limit | ~1°C |
-| 15°C | ~15kΩ | 3.00V | 3.00V | ✅ Valid | ~0.7°C |
-| 25°C | ~10kΩ | 2.50V | 2.50V | ✅ Valid | ~0.5°C |
-| 50°C | ~3.9kΩ | 1.41V | 1.41V | ✅ Valid | ~0.6°C |
-| 75°C | ~1.8kΩ | 0.76V | 0.76V | ✅ Valid | ~1.0°C |
-| 100°C | ~0.9kΩ | 0.45V | 0.45V | ✅ Valid | ~1.8°C |
-| 125°C | ~0.5kΩ | 0.32V | 0.32V | ✅ Valid | ~3.2°C |
+| -40°C | ~195kΩ | 3.06V | 3.06V | ✅ Valid | ~2°C |
+| -20°C | ~84kΩ | 2.80V | 2.80V | ✅ Valid | ~1.5°C |
+| 0°C | ~27kΩ | 2.16V | 2.16V | ✅ Valid | ~1°C |
+| 15°C | ~15kΩ | 1.65V | 1.65V | ✅ Valid | ~0.7°C |
+| 25°C | ~10kΩ | 1.32V | 1.32V | ✅ Valid | ~0.5°C |
+| 50°C | ~3.9kΩ | 0.73V | 0.73V | ✅ Valid | ~0.6°C |
+| 75°C | ~1.8kΩ | 0.37V | 0.37V | ✅ Valid | ~1.0°C |
+| 100°C | ~0.9kΩ | 0.20V | 0.20V | ✅ Valid | ~1.8°C |
+| 125°C | ~0.5kΩ | 0.13V | 0.13V | ✅ Valid | ~3.2°C |
 
-**Key Advantage**: The TLV9154IDR rail-to-rail capability eliminates the previous 70mV limitation, enabling measurement down to 125°C with 0.32V output (well above the ~10mV minimum).
+**Key Improvement**: The optimized 3.3V/15kΩ configuration eliminates the ADC supply limitation and enables full -40°C to +125°C measurement range. The op-amp minimum output (10mV) still allows measurement down to 125°C with adequate margin.
 
-#### Filter Characteristics
-- **Thevenin resistance**: 5kΩ (parallel combination at mid-range)
-- **Cutoff frequency**: 6.4kHz
-- **Time constant**: 25µs
-- **99% settling time**: 125µs
+#### Original Configuration Limitations
+The documented 5V/10kΩ configuration suffers from:
+- **Cold temperature limitation**: Voltages above 3.3V cannot be measured by ADC
+- **Wasted voltage range**: High voltages at cold temperatures exceed ADC capability
+- **Higher power consumption**: 5V supply increases current draw
 
-#### Power Consumption Analysis
+#### Filter Characteristics (Optimized Configuration)
+- **Thevenin resistance**: 6kΩ (parallel combination at mid-range)
+- **Cutoff frequency**: 5.3kHz
+- **Time constant**: 30µs
+- **99% settling time**: 150µs
+
+#### Power Consumption Analysis (Optimized Configuration)
 | Temperature | Thermistor R | Divider Current | Divider Power | Total Power | Equiv at 12V |
 |-------------|--------------|-----------------|---------------|-------------|--------------|
-| -40°C | 195kΩ | 24.4µA | 0.122mW | 0.25mW | **20.8µA** |
-| 25°C | 10kΩ | 250µA | 1.25mW | 1.38mW | **115µA** |
-| 100°C | 0.9kΩ | 458µA | 2.29mW | 2.42mW | **202µA** |
-| 125°C | 0.5kΩ | 476µA | 2.38mW | 2.51mW | **209µA** |
+| -40°C | 195kΩ | 15.7µA | 0.052mW | 0.18mW | **15µA** |
+| 25°C | 10kΩ | 132µA | 0.44mW | 0.57mW | **47.5µA** |
+| 100°C | 0.9kΩ | 208µA | 0.69mW | 0.82mW | **68.3µA** |
+| 125°C | 0.5kΩ | 213µA | 0.70mW | 0.83mW | **69.2µA** |
 
-**Temperature Range Achievement**: Rail-to-rail capability enables full -40°C to +125°C measurement with the 5V/10kΩ configuration, though cold temperatures below ~15°C are limited by the ADS1115 3.3V supply constraint.
-
-#### Alternative User Configurations
-
-**For custom voltage ranges, use the design equations:**
-
-1. **Determine maximum input voltage** (V_max)
-2. **Set maximum ADC voltage** = 3.0V (safety margin)  
-3. **Calculate divider ratio**: Ratio = 3.0V / V_max
-4. **Select R1**: Choose 470kΩ to 2.2MΩ for low power
-5. **Calculate R2**: R2 = R1 × Ratio / (1 - Ratio)
+**Power Improvement**: The optimized 3.3V configuration reduces power consumption by ~40% compared to the 5V version while enabling full temperature range.
 
 ---
 
 ## IC Configuration Details
 
-### MCP6004 Quad Op-Amp Pinout
+### TLV9154IDR Quad Op-Amp Pinout
 
 | Pin | Symbol | Function | Connection |
 |-----|--------|----------|------------|
@@ -363,15 +428,23 @@ Input Signal ──[R1]──┬──[R2]──GND
 ### ADS1115 Configuration
 
 **Recommended Settings**
-- **PGA (Programmable Gain Amplifier)**: ±4.096V (GAIN = 1) *but input range is limited to 0–3.3V by supply rail
+- **Input range**: 0V to +3.3V maximum (NOT ±4.096V as commonly stated)
+- **PGA (Programmable Gain Amplifier)**: GAIN = 1 setting provides best resolution for 0-3.3V range
 - **Sample rate**: 128 SPS for optimal noise performance
 - **Operating mode**: Single-shot or continuous conversion
 - **Comparator**: Disabled for normal operation
 
+**Critical Reality Check**:
+- **Marketing specification**: ±4.096V full scale range
+- **Actual limitation**: 0V to +3.3V due to single supply operation
+- **Negative voltage capability**: **None** - all inputs must be positive
+- **Maximum measurable**: Limited by 3.3V supply rail, not internal ADC range
+
 **Resolution Analysis**
-- **ADC range**: ±4.096V full scale * but input range is limited to 0–3.3V by supply rail
-- **16-bit resolution**: 0.125mV per LSB
-- **Effective resolution**: 0.125mV / divider_ratio per input LSB
+- **Theoretical ADC range**: ±4.096V (GAIN = 1)
+- **Actual usable range**: 0V to +3.3V
+- **16-bit resolution**: 0.1mV per LSB (3.3V ÷ 32768 counts)
+- **Effective resolution**: 0.1mV / divider_ratio per input LSB
 
 ---
 
@@ -384,63 +457,29 @@ Input Signal ──[R1]──┬──[R2]──GND
 |---------|-------------|-----------------|---------------|----------------|-------------|-------------------|
 | 0 | Battery Monitor | 12V | 0.14mW | 0.13mW | 0.27mW | **22.5µA** |
 | 1 | Current Monitor | 2.5V (0A) | 4.1µW | 0.13mW | 0.13mW | **10.8µA** |
-| 2 | RPM Monitor | 1V | 0.65µW | 0.13mW | 0.13mW | **10.8µA** |
-| 3 | Temperature | 25°C | 0.54mW | 0.13mW | 0.67mW | **55.8µA** |
+| 2 | RPM Monitor (optimized) | 1V | 0µW | 0.13mW | 0.13mW | **10.8µA** |
+| 3 | Temperature (optimized) | 25°C | 0.44mW | 0.13mW | 0.57mW | **47.5µA** |
 
 #### Total System Power
 - **ADS1115**: 0.50mW (150µA @ 3.3V) = **41.7µA equivalent at 12V**
-- **MCP6004**: 0.013mW (4µA @ 3.3V) = **1.1µA equivalent at 12V**
+- **TLV9154IDR**: 0.013mW (4µA @ 3.3V) = **1.1µA equivalent at 12V**
 - **Total IC power**: 0.51mW = **42.8µA equivalent at 12V**
-- **Total system power**: ~2.5mW = **208µA equivalent at 12V** (with redesigned Channel 3)
+- **Total system power**: ~1.55mW = **129µA equivalent at 12V** (with optimized Channels 2 & 3)
 
 #### Battery Life Analysis (100Ah 12V Battery)
-- **Continuous current draw**: ~208µA
-- **Daily consumption**: 5.0mAh (0.005% of capacity)
-- **Estimated battery life**: >50 years (limited by self-discharge, not monitoring system)
+- **Continuous current draw**: ~129µA
+- **Daily consumption**: 3.1mAh (0.003% of capacity)
+- **Estimated battery life**: >80 years (limited by self-discharge, not monitoring system)
 - **Conclusion**: Excellent performance for battery-powered marine applications
 
 ### Accuracy and Resolution Summary
 
-| Channel | Input Range | Engineering Units | ADC Resolution | Best Accuracy |
-|---------|-------------|-------------------|----------------|---------------|
-| 0 | 2.1V - 65.2V | Battery voltage | 0.055V | 0.084% |
-| 1 | ±200A | Alternator current | 1.04A | 0.52% |
-| 2 | 40Hz - 4000Hz | Engine frequency | Variable | 0.03% |
-| 3 | -40°C to +125°C | Temperature | 0.125mV | Variable with curve |
-
-## Minimum Measurable Input Analysis
-
-The TLV9154IDR rail-to-rail op-amp provides excellent low-voltage output capability, with typical VOL of **5-20mV** (estimated from rail-to-rail specifications). This dramatically improves the measurable range compared to traditional op-amps.
-
-### TLV9154IDR Output Capabilities
-
-| Channel | Min Op-Amp Output | Engineering Limit | Impact on Range |
-|---------|-------------------|-------------------|------------------|
-| 0 | ~10mV | 0.21V battery voltage | ✅ No impact (batteries never this low) |
-| 1 | ~10mV | -246A current | ✅ No impact (within ±200A sensor range) |
-| 2 | ~10mV | Low RPM detection | ✅ **Excellent low RPM capability** |
-| 3 | ~10mV | Full temperature range | ✅ No temperature range limitations |
-
-### Channel-Specific Minimum Analysis
-
-**Channel 0 (Battery)**: 10mV op-amp output = 10mV ÷ 0.0475 = **0.21V minimum**
-- **Impact**: None - batteries never operate this low
-
-**Channel 1 (Current)**: 10mV op-amp output = 10mV ÷ 0.5 = 20mV sensor output
-- Sensor equation: I = (V_sensor - 2.5V) × 100A/V
-- 20mV sensor = (0.02V - 2.5V) × 100 = **-248A**
-- **Impact**: None - sensor physically limited to ±200A range
-
-**Channel 2 (RPM)**: 10mV op-amp output = 10mV ÷ 0.5 = 20mV LM2907 output  
-- LM2907 equation: f = V_out ÷ 0.00125 V/Hz = 20mV ÷ 0.00125 = **16 Hz minimum**
-- **RPM impact**: 
-  - Conservative (0.15): 16Hz ÷ 0.15 = **107 RPM minimum**
-  - Aggressive (0.292): 16Hz ÷ 0.292 = **55 RPM minimum**
-  - 1-pulse (0.0167): 16Hz ÷ 0.0167 = **958 RPM minimum**
-
-**Channel 3 (Temperature)**: Rail-to-rail capability eliminates temperature range limitations
-- Full -40°C to +125°C range achievable with proper voltage divider design
-- **Solution**: Rail-to-rail output enables optimized thermistor configurations
+| Channel | Input Range | Engineering Units | ADC Resolution | Best Accuracy | Limitations |
+|---------|-------------|-------------------|----------------|---------------|-------------|
+| 0 | 0.21V - 65.2V | Battery voltage | 0.055V | 0.084% | Min 0.21V (op-amp limit) |
+| 1 | ±200A | Alternator current | 1.04A | 0.52% | None (within sensor range) |
+| 2 | 16Hz - 4000Hz | Engine frequency | Variable | 0.03% | Min 16Hz → 55-958 RPM |
+| 3 | -40°C to +125°C | Temperature | 0.1mV | Variable | Optimized config recommended |
 
 ---
 
@@ -449,12 +488,13 @@ The TLV9154IDR rail-to-rail op-amp provides excellent low-voltage output capabil
 ### Overvoltage Protection Verification
 ✅ **Inherent protection confirmed**: Single-supply op-amp output cannot exceed 3.3V  
 ✅ **No protection diodes required**: Eliminates leakage current and temperature drift  
-✅ **Safety margins verified**: Op-amp max output (3.1V) < ADS1115 max input (3.6V)  
+✅ **Safety margins verified**: Op-amp max output (3.1V) < ADS1115 max input (3.3V)  
 
 ### Accuracy Verification  
 ✅ **No leakage current errors**: Op-amp buffer isolates high-impedance voltage dividers  
 ✅ **Temperature stability**: No Schottky diode temperature coefficients  
 ✅ **Precision components**: 0.1% resistors eliminate ratio errors  
+⚠️ **Minimum voltage limitations**: Op-amp VOL (~10mV) creates measurement dead zones
 
 ### Noise Performance Verification
 ✅ **Low-pass filtering effective**: 5nF capacitors remove high-frequency noise before amplification  
@@ -464,8 +504,9 @@ The TLV9154IDR rail-to-rail op-amp provides excellent low-voltage output capabil
 ### Environmental Suitability
 ✅ **Temperature range**: -40°C to +85°C (industrial grade components)  
 ✅ **Marine environment**: Ultra-low power, high accuracy, EMI immune design  
-✅ **Battery compatibility**: 100µA total consumption suitable for extended operation  
+✅ **Battery compatibility**: 133µA total consumption suitable for extended operation  
 ✅ **Fault tolerance**: Robust protection against high-voltage transients and DC faults
+⚠️ **Low-signal limitations**: Minimum voltage constraints affect idle RPM and cold temperature detection
 
 ---
 
@@ -486,9 +527,9 @@ The TLV9154IDR rail-to-rail op-amp provides excellent low-voltage output capabil
 - **R2**: 768kΩ ±0.1%, 1/8W, 0805 SMD
 - **C1**: 5nF ±10%, X7R, 0603 SMD
 
-### Channel 2: RPM Monitor
-- **R1**: 768kΩ ±0.1%, 1/8W, 0805 SMD  
-- **R2**: 768kΩ ±0.1%, 1/8W, 0805 SMD
+### Channel 2: RPM Monitor (Optimized Configuration)
+- **R1**: Not used (direct connection)
+- **R2**: Not used (direct connection)  
 - **C1**: 5nF ±10%, X7R, 0603 SMD
 
 **LM2907 Input Circuit:**
@@ -504,10 +545,10 @@ The TLV9154IDR rail-to-rail op-amp provides excellent low-voltage output capabil
 - **R_TIMING**: 25kΩ ±0.1%, 1/8W, 0805 SMD (Pin 3)
 - **C_BYPASS**: 1µF ±10%, 0805 SMD (power supply bypass)
 
-### Channel 3: Temperature Monitor
-- **R1**: 10kΩ ±0.1%, 1/8W, 0805 SMD (pullup to 5V)
+### Channel 3: Temperature Monitor (Optimized Configuration)
+- **R1**: 15kΩ ±0.1%, 1/8W, 0805 SMD (pullup to 3.3V, optimized for full range)
 - **R2**: 10kΩ NTC thermistor (user-supplied)
-- **Supply**: 5V (required for adequate voltage span)
+- **Supply**: 3.3V (optimized to match ADC supply rail)
 - **C1**: 5nF ±10%, X7R, 0603 SMD
 
 ### Component Selection Notes
@@ -516,7 +557,8 @@ The TLV9154IDR rail-to-rail op-amp provides excellent low-voltage output capabil
 - **Package size**: 0805/0603 SMD for compact layout and thermal stability
 - **Capacitor dielectric**: X7R for temperature stability in filtering applications
 - **High-power resistor**: HP122WJ0472T4E (2W) essential for DC fault protection
-- **Op-amp upgrade**: TLV9154IDR provides rail-to-rail output for superior low-voltage performance
+- **Op-amp selection**: TLV9154IDR provides rail-to-rail output for superior low-voltage performance
+- **Configuration optimization**: Channel 3 optimized for 3.3V supply to eliminate ADC range limitations
 
 ---
 
@@ -527,66 +569,126 @@ The TLV9154IDR rail-to-rail op-amp provides excellent low-voltage output capabil
 - **Resolution**: 55mV (excellent for battery monitoring)
 - **Update rate**: Suitable for continuous monitoring
 - **Power impact**: 22.5µA at 12V input
+- **Limitation**: Cannot measure below 0.21V (not practically relevant)
 
 ### Channel 1: Current Monitoring  
 - **Compatible sensors**: QNHC1K-21 200A hall sensor or equivalent
 - **Sensor requirements**: 2.5V center, ±2V swing for full scale
 - **Resolution**: 1.04A (suitable for alternator monitoring)
 - **Power impact**: 10.8µA (minimal)
+- **Limitation**: Cannot measure extreme negative currents below -246A (exceeds sensor range anyway)
 
 ### Channel 2: RPM Monitoring
 - **Input requirements**: Minimum 50mV (±50mV) for reliable detection  
 - **Recommended input**: 100mV+ for best performance
+- **Major improvement**: Direct connection (no voltage divider) reduces minimum detectable frequency from 16Hz to **8Hz**
 - **Supported configurations**:
   - Multi-pulse alternator stator (typical marine/automotive)
-  - Single pulse per revolution (slow engines)
-- **Frequency range**: 16Hz to 4000Hz (significantly improved with TLV9154IDR)
-- **Engine RPM range**: Depends on pulse configuration:
-  - Conservative (6-pulse, 1.5:1): **107 RPM to 26,667 RPM**
-  - Aggressive (7-pulse, 2.5:1): **55 RPM to 13,699 RPM**  
-  - 1-pulse direct: **958 RPM to 240,000 RPM**
+  - Single pulse per revolution (slow engines) - **significantly improved with 8Hz minimum**
+- **Frequency range**: **8Hz to 2640Hz** (optimized from 16Hz-4000Hz)
+- **Engine RPM range**: **Dramatically improved minimum RPM detection**:
+  - Conservative (6-pulse, 1.5:1): **53 RPM** to **17,600 RPM** (was 107-26,667 RPM)
+  - Aggressive (7-pulse, 2.5:1): **27 RPM** to **9,041 RPM** (was 55-13,699 RPM)  
+  - 1-pulse direct: **479 RPM** to **158,400 RPM** (was 958-240,000 RPM)
+- **Signal types**: Both sine and square waves work identically
+- **DC fault protection**: Safe up to 56V sustained DC input
+- **Power impact**: **Eliminated** (no voltage divider power consumption)
+- **Design optimization**: Removing voltage divider provides superior idle detection while maintaining adequate maximum RPM for marine applications, 1.5:1): **107 RPM** to 26,667 RPM
+  - Aggressive (7-pulse, 2.5:1): **55 RPM** to 13,699 RPM  
+  - 1-pulse direct: **958 RPM** to 240,000 RPM (**major limitation for marine idle detection**)
 - **Signal types**: Both sine and square waves work identically
 - **DC fault protection**: Safe up to 56V sustained DC input
 - **Power impact**: 10.8µA (minimal)
-- **Key improvement**: TLV9154IDR reduces minimum detectable RPM by 85%
+- **Design trade-off**: Single-supply protection comes at cost of low-RPM detection capability
 
 ### Channel 3: Temperature Monitor
-- **Current configuration**: 10kΩ NTC thermistor with 10kΩ pullup resistor at 5V supply
-- **Temperature range**: 15°C to +125°C (full resolution), -40°C to 15°C (limited by ADC supply)
-- **Resolution**: 0.125mV ADC resolution with 0.5-3.2°C temperature resolution depending on curve position
-- **Power impact**: 115µA at 25°C, up to 209µA at 125°C
-- **Supply requirement**: 5V supply needed for adequate voltage span
-- **Limitation**: Cold temperatures below 15°C cannot be distinguished due to ADC 3.3V supply limit
+- **Recommended configuration**: 15kΩ pullup at 3.3V supply (optimized)
+- **Original configuration issues**: 5V supply creates unmeasurable voltages above 3.3V ADC limit
+- **Temperature range**: 
+  - **Optimized (3.3V/15kΩ)**: -40°C to +125°C (full range)
+  - **Original (5V/10kΩ)**: 15°C to +125°C (cold temperature limitation)
+- **Resolution**: 0.1mV ADC resolution with 0.5-3.2°C temperature resolution depending on curve position
+- **Power impact**: 
+  - **Optimized**: 47.5µA at 25°C, up to 69.2µA at 125°C
+  - **Original**: 115µA at 25°C, up to 209µA at 125°C
+- **Supply requirement**: 3.3V supply recommended for optimal range and power
+- **Key improvement**: Optimized configuration eliminates ADC supply rail limitations
 
 ### System Integration Notes
-- **Total power consumption**: 167µA equivalent at 12V (with 5V thermistor supply)
+- **Total power consumption**: 129µA equivalent at 12V (with optimized channels 2 & 3)
 - **Battery life impact**: Minimal (<0.01% daily consumption on 100Ah battery)
 - **Environmental rating**: Suitable for marine applications (-40°C to +85°C)
 - **EMI performance**: Excellent noise immunity with integrated filtering
 - **Calibration**: Precision components minimize calibration requirements
-- **Op-amp advantage**: TLV9154IDR rail-to-rail output eliminates low-voltage limitations
-- **RPM detection improvement**: 85% reduction in minimum detectable RPM
+- **Op-amp trade-offs**: TLV9154IDR rail-to-rail output provides best available low-voltage performance, but fundamental ~10mV limitation still constrains minimum measurements
+- **ADC reality check**: Actual 0-3.3V range, not advertised ±4.096V range
+- **Configuration optimizations**: 
+  - **Channel 2**: Direct connection improves minimum RPM detection by 50%
+  - **Channel 3**: 3.3V supply configuration eliminates cold temperature limitations
 
-### Critical Design Features
-- **Fault tolerance**: Robust protection against overvoltage and DC faults
-- **Ultra-low power**: Optimized for battery-powered applications
-- **High accuracy**: Precision measurement with minimal drift
-- **Flexible configuration**: Channel 3 can be reconfigured for custom applications
-- **Marine suitability**: Designed specifically for harsh marine electrical environments
-- **Advanced op-amp**: TLV9154IDR rail-to-rail capability enables superior low-signal detection
+### Critical Design Limitations and Trade-offs
+
+**Inherent Single-Supply Limitations**:
+- **Minimum voltage detection**: ~10mV op-amp output limit affects all channels
+- **No negative voltage capability**: ADS1115 cannot measure negative voltages
+- **ADC range constraint**: 3.3V supply limits maximum measurable voltage, not internal 4.096V range
+
+**Channel-Specific Impacts**:
+- **Channel 0**: No practical impact (batteries never operate at 0.21V minimum)
+- **Channel 1**: No practical impact (minimum -246A within sensor ±200A range)
+- **Channel 2**: **Significantly improved idle detection** - minimum 8Hz (27-479 RPM depending on configuration)
+- **Channel 3**: **Cold temperature limitation eliminated with optimized 3.3V configuration**
+
+**Design Philosophy Trade-offs**:
+- **Protection vs. Performance**: Single-supply design provides excellent overvoltage protection but sacrifices some low-signal detection capability
+- **Simplicity vs. Range**: No protection diodes eliminate complexity and error sources but create minimum voltage constraints
+- **Power vs. Capability**: Ultra-low power consumption achieved through optimized design
+
+### Recommended Design Improvements
+
+**Channel 2 Optimization** (implemented):
+- **Remove voltage divider** for direct connection to LM2907 output
+- **50% improvement** in minimum RPM detection (8Hz vs 16Hz)
+- **Eliminates channel power consumption** (no divider resistors)
+- **Trade-off**: Maximum frequency reduced from 4000Hz to 2640Hz (still adequate for marine applications)
+
+**Channel 3 Optimization** (strongly recommended):
+- Change from 5V/10kΩ to 3.3V/15kΩ configuration
+- Eliminates ADC supply rail limitation
+- Reduces power consumption by ~40%
+- Enables full -40°C to +125°C temperature range
+
+**Alternative RPM Detection** (for extremely low RPM applications):
+- Consider magnetic pickup sensors with higher output voltages
+- Implement signal conditioning amplifiers for very low-amplitude inputs
+- Use alternative frequency detection methods for single-pulse systems requiring <27 RPM detection
+
+**System Validation Requirements**:
+- Test minimum RPM detection with actual engine configurations
+- Verify temperature range with optimized Channel 3 configuration  
+- Validate power consumption measurements under all operating conditions
+- Confirm EMI immunity in marine electrical environment
 
 ## Engineering Validation Summary
 
-This analog input system has been thoroughly analyzed for:
+This analog input system has been thoroughly analyzed for both capabilities and limitations:
 
-**Signal Integrity**: All channels provide excellent accuracy across their intended ranges with proper filtering and buffering.
+**Signal Integrity**: All channels provide excellent accuracy across their intended ranges with proper filtering and buffering, **with optimized configurations eliminating major limitations**.
 
-**Power Efficiency**: Ultra-low power consumption suitable for continuous battery-powered operation.
+**Power Efficiency**: Ultra-low power consumption (129µA at 12V) suitable for continuous battery-powered operation, with optimized channels providing additional power savings.
 
-**Fault Protection**: Robust design handles overvoltage conditions and DC faults without component damage.
+**Fault Protection**: Robust design handles overvoltage conditions and DC faults without component damage, **with design optimizations minimizing the cost of protection**.
 
 **Environmental Robustness**: Industrial-grade components selected for marine temperature and EMI requirements.
 
-**Flexibility**: System supports multiple sensor types and can be reconfigured for various monitoring applications.
+**Design Optimizations**: 
+- **Channel 2**: Direct connection provides 50% improvement in minimum RPM detection while eliminating power consumption
+- **Channel 3**: 3.3V configuration eliminates cold temperature measurement limitations
 
-The design represents a mature, production-ready analog input system optimized for marine and automotive monitoring applications.
+**Critical Recommendations**:
+1. **Implement Channel 2 direct connection** (no voltage divider) for superior idle RPM detection
+2. **Implement optimized Channel 3 configuration** (3.3V/15kΩ) for full temperature range
+3. **Understand ADC true limitations** (0-3.3V, not ±4.096V) for system integration
+4. **Test actual performance** with real-world signal sources to validate detection thresholds
+
+The design represents a well-engineered analog input system optimized for marine and automotive monitoring applications, **with identified optimizations that eliminate the major limitations while maintaining excellent protection and power characteristics**.
