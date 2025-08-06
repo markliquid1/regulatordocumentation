@@ -1,4 +1,4 @@
-# Alternator Field Controller - Design Documentation
+# Alternator Field Control
 
 ## Overview
 

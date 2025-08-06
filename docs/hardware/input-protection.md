@@ -1,4 +1,4 @@
-
+# Input Protection 
 
 ## Device Overview
 - **Part Number**: TPS4800-Q1
