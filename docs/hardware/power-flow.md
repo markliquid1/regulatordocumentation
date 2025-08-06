@@ -102,7 +102,7 @@ The design implements a **hierarchical protection approach** to handle automotiv
 - **Redundant Protection**: Backs up TPS4800-Q1's internal -65V protection
 
 **Input Capacitance:**
-- **Total**: 11µF (10µF bulk + 1µF ceramic)
+- **Total**: 11µF (10µF  + 1µF)
 - **Function**: Energy storage during transients, reduces TVS stress
 
 ### Protection Hierarchy Operation
@@ -148,9 +148,25 @@ The design implements a **hierarchical protection approach** to handle automotiv
 | Overcurrent Protection | 15.1A load current | 3µs response, auto-retry |
 | Reverse Polarity | -65V maximum | Built-in protection |
 
+## Power Consumption Analysis
+
+| Supply Voltage | EN/UVLO Current | OV Current | TPS4800 Quiescent | Total Current | Total Power | Equivalent @ 12V |
+|----------------|-----------------|------------|-------------------|---------------|-------------|------------------|
+| 13V | 22.6µA | 26.1µA | 43µA | 91.7µA | 1.19mW | 0.099mA |
+| 26V | 45.2µA | 52.3µA | 43µA | 140.5µA | 3.65mW | 0.304mA |
+| 52V | 90.4µA | 104.6µA | 43µA | 238µA | 12.38mW | 1.032mA |
+
+**Notes:**
+- EN/UVLO divider: 575kΩ total (470kΩ + 105kΩ)
+- OV divider: 497.2kΩ total (487kΩ + 10.2kΩ)  
+- TPS4800-Q1 quiescent current: 43µA typical (from datasheet)
+- Power excludes load current through MOSFETs
+- "Equivalent @ 12V" shows power consumption as current draw on a 12V system
+
 ## Design Notes
 - All resistor values are standard 1% E96 series for easy sourcing
 - Low current draw design suitable for always-on automotive applications
 - Fast overcurrent protection with reasonable retry intervals
 - Conservative margins on all protection thresholds
 - EVM demo board documentation appears to contain calculation errors vs datasheet
+- Still do not FULLY understand what happens in reverse polarity, especially without back to back output MOSFETS.  For now, we will run both but DNP it for testing.  TI datasheet is inadequate. 
