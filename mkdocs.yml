@@ -34,7 +34,7 @@ nav:
    - Quick Start Guide: basic-use/quick-start.md
    - Troubleshooting: basic-use/troubleshooting.md
  - Hardware:
-   - System Architecture: hardware/system-architecture.md
+   - System Architecture: hardware/index.md
    - Digital Inputs: hardware/digital-inputs.md
    - Switching Power Supply: hardware/switching_power_supply_doc.md
    - Digital Outputs: hardware/digital-outputs.md
