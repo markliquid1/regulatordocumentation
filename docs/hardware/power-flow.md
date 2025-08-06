@@ -1,25 +1,4 @@
-### TVS Diode Configuration
-**Bidirectional TVS Clamp Bridge (Cathodes Tied Together):**
 
-**D1 (Positive Rail Protection):**
-- **SMBJ64A** (64V unidirectional TVS)
-- **Connection**: Anode to GND, Cathode to shared node
-- **Breakdown Range**: 60.8V-67.2V
-- **Function**: Clamps positive transients >64V to ~76-103V range
-
-**D7 (Negative Rail Protection):**
-- **SMBJ75A** (75V unidirectional TVS) 
-- **Connection**: Anode to VIN, Cathode to shared node
-- **Breakdown Range**: 71.3V-83.3V
-- **Function**: Clamps negative transients <-75V to ~-90 to -121V range
-
-**Shared Cathode Node**: Creates floating reference point for bidirectional clamping
-
-**Topology Benefits:**
-- **Positive overvoltage**: D1 avalanche breakdown clamps high VIN
-- **Negative overvoltage**: D7 avalanche breakdown clamps low VIN  
-- **Reverse polarity**: Both diodes forward conduct (~1.4V drop), creating controlled short to trip upstream protection
-- **No interference**: TVS breakdown voltages above TPS4800-Q1 OVP threshold# TPS4800-Q1 High-Side Driver Design Documentation
 
 ## Device Overview
 - **Part Number**: TPS4800-Q1
@@ -89,21 +68,32 @@ The design implements a **hierarchical protection approach** to handle automotiv
 2. **Secondary Protection**: External TVS diodes clamp severe transients above 65V
 3. **Energy Storage**: Input capacitors absorb transient energy during brief spikes
 
-### TVS Diode Configuration
-**Positive Rail Protection:**
-- **SMBJ64A** (64V TVS): Cathode to VIN, Anode to GND
+### TVS Diode Configuration (on TPS4800-Q1 input)
+**Bidirectional TVS Clamp Bridge (Cathodes Tied Together):**
+
+**D1 (Positive Rail Protection):**
+- **SMBJ64A** (64V unidirectional TVS)
+- **Connection**: Anode to GND, Cathode to shared node
 - **Breakdown Range**: 60.8V-67.2V
 - **Soft Conduction**: Begins ~65V (above OV protection range)
-- **Function**: Clamps positive transients >65V without interfering with OV protection
+- **Function**: Clamps positive transients >64V to ~76-103V range
 
-**Negative Rail Protection:**
-- **SMBJ75A** (75V TVS): Anode to VIN, Cathode to GND  
-- **Function**: Clamps negative transients below -75V
+**D7 (Negative Rail Protection):**
+- **SMBJ75A** (75V unidirectional TVS) 
+- **Connection**: Anode to VIN, Cathode to shared node
+- **Breakdown Range**: 71.3V-83.3V
 - **Redundant Protection**: Backs up TPS4800-Q1's internal -65V protection
+- **Function**: Clamps negative transients <-75V to ~-90 to -121V range
 
-**Input Capacitance:**
-- **Total**: 11µF (10µF  + 1µF)
-- **Function**: Energy storage during transients, reduces TVS stress
+**Shared Cathode Node**: Creates floating reference point for bidirectional clamping
+
+**Topology Benefits:**
+- **Positive overvoltage**: D1 avalanche breakdown clamps high VIN
+- **Negative overvoltage**: D7 avalanche breakdown clamps low VIN  
+- **Reverse polarity**: Both diodes forward conduct (~1.4V drop), creating controlled short to trip upstream protection
+- **No interference**: TVS breakdown voltages above TPS4800-Q1 OVP threshold# TPS4800-Q1 High-Side Driver Design Documentation
+
+
 
 ### Protection Hierarchy Operation
 - **6V-58V Normal**: No protection active, normal operation
