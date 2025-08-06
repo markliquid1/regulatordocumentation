@@ -39,6 +39,8 @@ nav:
    - Switching Power Supply: hardware/switching_power_supply_doc
    - Digital Outputs: hardware/digital-outputs.md
    - Alternator Field Drive: hardware/alternator_field_drive.md
+   - Press and Temp Sensor: hardware/bmp390_documentation.md
+   - Warning Buzzer: hardware/buzzer_control_doc.md
    - Analog Inputs: hardware/analoginputsADS1115.md
    - Input Protection: hardware/input-protection.md
    - ESP32 Controller: hardware/esp32-controller.md
