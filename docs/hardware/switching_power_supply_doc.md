@@ -128,7 +128,35 @@ When both converters operate in series:
 - Input filtering critical for EMI compliance
 - Enable sequencing: 5V must be stable before 3.3V rail activates
 
-## Revision Info
-- Design optimized for automotive 12V nominal input
-- Component selection prioritizes efficiency over cost
-- Thermal analysis assumes good PCB design practices
+### Nominal Current Budget in our use case
+| Component | Active Mode | Sleep Mode | Rail |
+|-----------|-------------|------------|------|
+| ESP32 (WiFi off) | 80 mA | 10 µA | 3.3V |
+| ADS1115 ADC | 150 µA | 150 µA | 3.3V |
+| INA228 Current Monitor | 1 mA | 1 mA | 3.3V |
+| BMP390 Pressure Sensor | 3 µA | 3 µA | 3.3V |
+| LM2907 Frequency Converter | 5 mA | 5 mA | 5V |
+| Voltage Dividers | 20 mA | 20 mA | Various |
+| **System Total** | **106 mA** | **26 mA** | **Mixed** |
+
+### Operating Point Efficiency
+At typical load currents, the system operates in the high-efficiency region:
+
+| Operating Mode | Load Current | 5V Stage Efficiency | 3.3V Stage Efficiency | Overall Efficiency |
+|----------------|--------------|--------------------|-----------------------|-------------------|
+| Active (ESP32 on) | 106 mA | 92% | 95% | **87.4%** |
+| Sleep (ESP32 off) | 26 mA | 90% | 95% | **85.5%** |
+
+### Power Consumption Summary
+| Mode | 3.3V Power | 5V Power | 12V Input Power | Efficiency |
+|------|------------|----------|-----------------|------------|
+| Active | 350 mW | 25 mW | 430 mW | 87.4% |
+| Sleep | 86 mW | 25 mW | 130 mW | 85.5% |
+
+### Design Margin
+- **Current headroom**: 10-20× safety margin on both rails
+- **Thermal margin**: Minimal power dissipation (<100mW total)
+- **Voltage regulation**: Excellent for precision analog circuits
+- **EMI performance**: Switching converters with integrated synchronous rectification
+
+This load profile demonstrates optimal utilization of the switching supply's capabilities, operating in the peak efficiency region while maintaining substantial design margin for future expansion.
