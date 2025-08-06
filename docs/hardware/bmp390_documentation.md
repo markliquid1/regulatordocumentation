@@ -1,4 +1,4 @@
-# BMP390 Pressure Sensor Interface Circuit Documentation
+# BMP390 Pressure Sensor Interface 
 
 ## Overview
 Interface circuit for BMP390 digital barometric pressure sensor with I2C communication protocol and power conditioning. The sensor is configured for I2C operation with address selection via SDO pin.

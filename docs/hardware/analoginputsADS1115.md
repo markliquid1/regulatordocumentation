@@ -1,4 +1,4 @@
-# Analog Inputs System - ADS1115
+# Analog Inputs - ADS1115
 
 ## Overview
 

@@ -39,7 +39,7 @@ nav:
    - Switching Power Supply: hardware/switching_power_supply_doc
    - Digital Outputs: hardware/digital-outputs.md
    - Alternator Field Drive: hardware/alternator_field_drive.md
-   - Press and Temp Sensor: hardware/bmp390_documentation.md
+   - Baro and Temp Sensor: hardware/bmp390_documentation.md
    - Warning Buzzer: hardware/buzzer_control_doc.md
    - Tachometer Output: hardware/tach_out.md
    - USB C Connector: hardware/usb_c.md

@@ -1,7 +1,7 @@
-# USB-C ESP32-S3 Interface Board Documentation
+# USB-C Connector 
 
 ## Overview
-This USB-C interface board provides power delivery and programming connectivity for an ESP32-S3 microcontroller. The design includes comprehensive protection, proper USB-C device configuration, and power source selection for both development and production environments.
+This connector provides power delivery (with appropriate jumper position) and programming connectivity for an ESP32-S3 microcontroller. The design includes comprehensive protection, proper USB-C device configuration, and power source selection for both development and production environments.
 
 ## Main Components
 
@@ -40,7 +40,7 @@ This USB-C interface board provides power delivery and programming connectivity 
 - **Signal Integrity**: 22Ω resistors provide impedance matching and current limiting
 
 #### ESD Protection
-- **Component**: Dual low-capacitance TVS diode array (e.g., PESD5V0S2UT)
+- **Component**: Dual low-capacitance TVS diode array (e.g., USBLC6-2SC6)
 - **Placement**: Between series resistors and ESP32-S3 data pins
 - **Specifications**: <1pF capacitance, ~6V clamping voltage
 - **Protection**: Guards against electrostatic discharge on exposed USB connector
@@ -111,7 +111,7 @@ This USB-C interface board provides power delivery and programming connectivity 
 ## Design Features
 
 ### Protection Systems
-- **ESD Protection**: TVS diodes on USB data lines
+- **ESD Protection**: TVS diodes on USB data lines USBLC6-2SC6 
 - **Power Isolation**: Jumper-controlled source selection
 - **Overcurrent**: Inherent USB host current limiting
 - **Signal Integrity**: Series termination resistors

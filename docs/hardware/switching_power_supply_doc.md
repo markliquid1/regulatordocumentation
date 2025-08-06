@@ -1,7 +1,7 @@
-# Switching Power Supply
+# Switching Power Supplies
 
 ## Purpose
-This dual-stage switching power supply converts wide-range input voltage to regulated 5V and 3.3V rails. The system prioritizes efficiency while providing clean, stable power for digital and analog circuits.
+This dual switching power supplies convert wide-range input voltage to regulated 5V and 3.3V rails. The system achieves extreme efficiency for what it does, which is important for this device to be used as a battery monitor.
 
 ## Input Voltage Range
 - **VIN_2-60**: 4.2V to 65V (recommended operating range)

@@ -1,4 +1,4 @@
-# NMEA2000 CAN Transceiver Interface - Engineering Design Summary
+# NMEA2000 CAN Interface 
 
 ## Circuit Overview
 This circuit provides a galvanically isolated NMEA2000 CAN interface for an ESP32-S3 microcontroller. The design converts 12V boat power to isolated 5V, then uses an isolated CAN transceiver to communicate with the NMEA2000 network while protecting the microcontroller from electrical noise and ground potential differences common in marine environments.
@@ -70,10 +70,6 @@ This circuit provides a galvanically isolated NMEA2000 CAN interface for an ESP3
 - **RXDCAN**: CAN receive data input to ESP32-S3 from U7 pin 2
 - **3V3**: Power supply for MCU side of ISO1050DUB (from ESP32-S3 board)
 
-### Control/Monitoring
-- **FB_MPM**: Voltage divider feedback signal to U11 for output voltage control
-- **GND**: System ground connection to ESP32-S3 board
-
 ## Power Consumption Analysis
 
 ### Standby Conditions (CAN bus idle, no traffic)
@@ -87,7 +83,7 @@ This circuit provides a galvanically isolated NMEA2000 CAN interface for an ESP3
 - **Load Current**: Depends on 5V_ISOLATED rail loading
 - **Total Active**: ~25-30mA from 12V input
 
-### Sleep Mode (if ESP32-S3 enables low power)
+### Sleep Mode (NOT SUPPORTED)
 - **MCP3610AGQV (U11)**: Can be shut down via enable control
 - **ISO1050DUB (U7)**: Has standby mode capability
 - **Potential Sleep Current**: <1mA if properly controlled

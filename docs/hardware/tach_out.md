@@ -1,6 +1,11 @@
-# ESP32 to 60V Tachometer Signal Circuit Documentation
+# Tachometer Output Circuit
 
 ## Circuit Connections (One by One)
+
+**Purpose:**
+- Many tachometers don't work at idle due to low voltage
+- Regulator has ultra-sensitive ability to pick up on any signal
+- Circuit amplifies this to battery voltage for output to any other devices
 
 **1. ESP32 GPIO Input:**
 - ESP32 GPIO pin connects to one end of R78 (2.2kΩ)

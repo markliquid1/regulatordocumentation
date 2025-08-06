@@ -1,4 +1,4 @@
-# Input Protection with USB Power Integration
+# Input Protection for most of the board
 
 ## Device Overview
 - **Part Number**: TPS4800-Q1
@@ -29,7 +29,7 @@
 - **At 60V Battery**: Current = 120.7µA
 - **Component Values**: Both 487kΩ and 10.2kΩ are standard 1% resistors
 
-### INP (Pin 3) - Input Control Signal **[Modified for USB Integration]**
+### INP (Pin 3) - Input Control Signal **[Modified for USB-C Power Option]**
 - **Thresholds**: 2V high, 0.8V low
 - **Configuration**: Jumper-controlled connection to VIN (6-60V)
 - **Implementation**: 2-pin jumper header between VIN and INP pin
