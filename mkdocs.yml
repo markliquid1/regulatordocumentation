@@ -36,6 +36,7 @@ nav:
  - Hardware:
    - System Architecture: hardware/system-architecture.md
    - Digital Inputs: hardware/digital-inputs.md
+   - Switching Power Supply: hardware/switching_power_supply
    - Digital Outputs: hardware/digital-outputs.md
    - Alternator Field Drive: alternator_field_drive.md
    - Analog Inputs: hardware/analoginputsADS1115.md
