@@ -110,7 +110,7 @@ Input Signal ──[R1]──┬──[R2]──GND
 | 24.0V | 1.141V | Valid | 0.1mV | 0.0021V | 0.23% |
 | 48.0V | 2.281V | Valid | 0.1mV | 0.0021V | 0.11% |
 | 60.0V | 2.852V | Valid | 0.1mV | 0.0021V | 0.092% |
-| 65.2V | 3.100V | **ADC maximum is 3.3** | 0.1mV | 0.0021V | 0.084% |
+| 65.2V | 3.100V | Valid | 0.1mV | 0.0021V | 0.084% |
 
 **Resolution**: 
 - **ADC LSB resolution**: 0.1mV (3.3V ÷ 32768 counts)
