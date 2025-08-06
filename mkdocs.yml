@@ -39,7 +39,7 @@ nav:
    - Digital Outputs: hardware/digital-outputs.md
    - Alternator Field Drive: hardware/field-output.md
    - Analog Inputs: hardware/analoginputsADS1115.md
-   - Power Supply: hardware/power-supply.md
+   - Power Flow: hardware/power-flow.md
    - ESP32 Controller: hardware/esp32-controller.md
    - Connectors & Wiring: hardware/connectors.md
  - Software - ESP32:
