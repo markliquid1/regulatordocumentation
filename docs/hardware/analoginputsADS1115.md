@@ -2,49 +2,40 @@
 
 ## Overview
 
-The regulator features an ADS1115 4 channel 16-bit ADC with I2C interface and op-amp buffering for high-impedance, accurate measurements with negligible power consumption in all conditions.
+The 4 channel ADS1115 DAC with op-amp buffering provides high-impedance, accurate measurements of Battery Voltage, Alternator Current, Engine Speed, and Thermistor Temp with negligible power consumption.  The design is hardened for noisy marine environments.
 
-## Critical Design Limitations
+##  Design Considerations
 
 ### Op-Amp Output Voltage Constraints
 
-**Why Op-Amp Buffering is Required**: The high-impedance voltage dividers (typically 384kΩ to 1MΩ+ equivalent) cannot directly drive the ADS1115 input without significant loading errors. Op-amp buffers provide the necessary impedance transformation from high-impedance sources to low-impedance ADC inputs.
+**Why Op-Amp Buffering is Required**: The high-impedance voltage dividers (typically 384kΩ to 1MΩ+) used to minimize current draw cannot directly drive the ADS1115 input without significant loading errors, especially if protection diodes are used. Op-amp buffers provide the necessary impedance transformation from high-impedance sources to low-impedance ADC inputs while at the same time constaining inputs to the safe range.
 
-**However, this introduces a critical limitation**: Even with the rail-to-rail TLV9154IDR op-amp, the **minimum output voltage is approximately 10-20mV** (typical VOL specification). This constraint directly limits the minimum measurable input values on all channels:
+**However, this introduces an imporant limitation**: Even with the excellent rail-to-rail TLV9154IDR op-amp, the **minimum output voltage is approximately 10-20mV** (typical VOL specification). This directly limits the minimum measurable input values on all 4 ADS channels:
 
 | Channel | Minimum Op-Amp Output | Minimum Measurable Input | Impact |
 |---------|----------------------|-------------------------|---------|
 | 0 (Battery) | ~10mV | 0.21V | No practical impact (batteries never this low) |
 | 1 (Current) | ~10mV | -246A | No impact (within ±200A sensor range) |
-| 2 (RPM) | ~10mV | 8Hz → 27-479 RPM | **idle detection depends on signal freq** |
+| 2 (RPM) | ~10mV | 8Hz → 27-479 RPM | **min idle detection depends on signal freq** |
 | 3 (Temperature) | ~10mV | Depends on configuration | **Limits cold temperature range** |
 
 ### ADS1115 Input Range Limitations
 
-**Critical Specification Corrections**: The ADS1115 specifications are commonly misunderstood:
+**Specification Clarity**: The ADS1115 specifications are easy to misunderstand:
 
 - **Advertised range**: ±4.096V (with GAIN = 1 setting)
-- **Reality**: Input range is **0V to +3.3V maximum** due to single 3.3V supply rail
+- **Reality**: Practical range for this use case is **0V to +3.3V maximum** due to single 3.3V supply rail
 - **Negative voltages**: **Cannot be measured** - ADS1115 inputs must remain positive
-- **Maximum input**: Limited to 3.3V supply voltage, not the advertised 4.096V
 
-This creates additional measurement constraints that must be considered in all voltage divider calculations.
+These constraints must be considered for all channels.
 
 ---
 
 ## System Architecture
 
-### Design Philosophy
-All analog input channels share a common, proven architecture optimized for:
-- **High accuracy**: Precision components with minimal temperature drift
-- **Ultra-low power consumption**: Optimized for battery-powered marine applications  
-- **Inherent protection**: Single-supply design prevents overvoltage damage
-- **EMI immunity**: Integrated filtering for marine electrical environments
-- **Robust fault tolerance**: Designed to handle high-voltage transients and DC faults
-
-**Trade-offs**: The single-supply design provides excellent protection but introduces minimum voltage limitations that affect low-signal measurements.
-
 ### Signal Chain Architecture
+All analog input channels share a common architecture*:
+
 ```
 Input Signal ──[R1]──┬──[R2]──GND
                      │
@@ -56,6 +47,7 @@ Input Signal ──[R1]──┬──[R2]──GND
                      │
               [Feedback to Input-] (Unity gain)
 ```
+* in the case of Channel 3 (Engine Speed), there is effectively no voltage divider, as R1=0 and R2 = anything.
 
 ### Component Functions
 
@@ -82,23 +74,15 @@ Input Signal ──[R1]──┬──[R2]──GND
 #### ADC (ADS1115)
 - **Resolution**: 16-bit with 0 to +3.3V input range (not ±4.096V as commonly stated)
 - **Interface**: I2C communication
-- **Sample rate**: 128 SPS recommended for low noise
-- **Actual input range**: 0-3.3V (limited by supply rail, cannot measure negative voltages)
 - **LSB resolution**: 0.1mV per count (3.3V ÷ 32768 counts)
 
-### Single-Supply Design Benefits and Limitations
+### Single-Supply Design Benefits 
 
 **Benefits**:
 - **Inherent overvoltage protection**: Op-amp output cannot exceed 3.3V supply rails
 - **No protection diodes needed**: Eliminates leakage current and temperature coefficient errors
 - **Perfect accuracy**: No diode-related drift or offset issues
 - **Low power consumption**: Single 3.3V supply shared with ADS1115
-- **Safety margin**: Op-amp max output (3.1V) < ADS1115 max input (3.3V)
-
-**Limitations**:
-- **Minimum voltage constraint**: Cannot measure inputs below ~10-20mV equivalent
-- **No negative voltage capability**: All measurements must be positive
-- **Reduced dynamic range**: 3.3V maximum instead of theoretical 4.096V
 
 ---
 
@@ -126,9 +110,9 @@ Input Signal ──[R1]──┬──[R2]──GND
 | 24.0V | 1.141V | Valid | 0.1mV | 0.0021V | 0.23% |
 | 48.0V | 2.281V | Valid | 0.1mV | 0.0021V | 0.11% |
 | 60.0V | 2.852V | Valid | 0.1mV | 0.0021V | 0.092% |
-| 65.2V | 3.100V | **ADC maximum** | 0.1mV | 0.0021V | 0.084% |
+| 65.2V | 3.100V | **ADC maximum is 3.3** | 0.1mV | 0.0021V | 0.084% |
 
-**Resolution Clarification**: 
+**Resolution**: 
 - **ADC LSB resolution**: 0.1mV (3.3V ÷ 32768 counts)
 - **Engineering resolution**: 0.0021V input (0.1mV ÷ 0.0475 divider ratio)  
 - **Practical accuracy**: Limited by component tolerances (±0.1% resistors), temperature drift, and noise floor
@@ -170,7 +154,7 @@ Input Signal ──[R1]──┬──[R2]──GND
 | 2.5V | 0A | 1.250V | Valid | 0.1mV | 0.05A | ±1.04A | ✅ Valid |
 | 4.5V | +200A | 2.250V | Valid | 0.1mV | 0.05A | ±1.04A | ✅ Valid |
 
-**Resolution Clarification**:
+**Resolution**:
 - **ADC LSB resolution**: 0.1mV (3.3V ÷ 32768 counts)
 - **Sensor scaling**: 100A/V (200A range ÷ 2V swing)
 - **True current resolution**: 0.1mV ÷ 0.5 divider × 100A/V = **0.02A per LSB**
@@ -178,7 +162,7 @@ Input Signal ──[R1]──┬──[R2]──GND
 - **Noise sources**: Op-amp noise, ADC noise, sensor drift, temperature effects, EMI
 - **Effective resolution**: While theoretical resolution is 0.02A, practical measurements are limited to ~1A accuracy due to system noise and sensor specifications
 
-**Note**: Op-amp minimum output (10mV) corresponds to -246A, well within the ±200A physical sensor limits, so the limitation has no practical impact.
+**Note**: Op-amp minimum output (10mV) corresponds to -246A, well outside the ±200A physical sensor limits, so this has no practical impact.
 
 #### Filter Characteristics
 - **Thevenin resistance**: 384kΩ
@@ -366,11 +350,10 @@ Input Signal ──[R1]──┬──[R2]──GND
 | 100°C | ~0.9kΩ | 0.41V | 0.41V | ✅ Valid | ~3.2°C |
 | 125°C | ~0.5kΩ | 0.24V | 0.24V | ✅ Valid | ~5.8°C |
 
-**Key Limitation**: The 5V supply design cannot measure temperatures below ~15°C due to ADC supply rail limitation.
 
 #### Alternative Optimized Configuration (Recommendation)
 For full temperature range capability:
-- **Supply voltage**: 3.3V (matches ADC supply, but was tough on this iteration of board hardware)
+- **Supply voltage**: 3.3V (matches ADC supply, but was impossible on this iteration of board hardware)
 - **R1**: 15kΩ ±0.1%, 1/8W, 0805 SMD (pullup to 3.3V)
 - **Temperature range**: -40°C to +125°C (full range)
 - **Power reduction**: ~40% lower consumption
@@ -379,7 +362,7 @@ For full temperature range capability:
 The documented 5V/10kΩ configuration suffers from:
 - **Cold temperature limitation**: Voltages above 3.3V cannot be measured by ADC
 - **Wasted voltage range**: High voltages at cold temperatures exceed ADC capability
-- **Higher power consumption**: 5V supply increases current draw
+- **Higher power consumption**: 5V supply slightly increases current draw
 
 #### Filter Characteristics (5V Supply Design)
 - **Thevenin resistance**: 5kΩ (parallel combination at mid-range)
@@ -403,36 +386,26 @@ The documented 5V/10kΩ configuration suffers from:
 
 | Pin | Symbol | Function | Connection |
 |-----|--------|----------|------------|
-| 1 | OUT1 | Op Amp A Output | **ADS1115 Channel 0 (A0)** |
-| 2 | IN1- | Op Amp A Inverting Input | **Connect to Pin 1 (unity gain)** |
-| 3 | IN1+ | Op Amp A Non-inverting Input | **Channel 0 voltage divider** |
+| 1 | OUT1 | Op Amp A Output | **ADS1115 Channel 0 (AIN0)** |
+| 2 | IN1- | Op Amp A Inverting Input | **Connect to Pin 1** |
+| 3 | IN1+ | Op Amp A Non-inverting Input | **Channel 0 voltage divider output** |
 | 4 | V+ | Positive Power Supply | **+3.3V** |
-| 5 | IN2+ | Op Amp B Non-inverting Input | **Channel 1 voltage divider** |
-| 6 | IN2- | Op Amp B Inverting Input | **Connect to Pin 7 (unity gain)** |
-| 7 | OUT2 | Op Amp B Output | **ADS1115 Channel 1 (A1)** |
-| 8 | OUT3 | Op Amp C Output | **ADS1115 Channel 2 (A2)** |
-| 9 | IN3- | Op Amp C Inverting Input | **Connect to Pin 8 (unity gain)** |
-| 10 | IN3+ | Op Amp C Non-inverting Input | **LM2907_OUT DIRECT NO DIVIDER** |
+| 5 | IN2+ | Op Amp B Non-inverting Input | **Channel 1 voltage divider output** |
+| 6 | IN2- | Op Amp B Inverting Input | **Connect to Pin 7** |
+| 7 | OUT2 | Op Amp B Output | **ADS1115 Channel 1 (AIN1)** |
+| 8 | OUT3 | Op Amp C Output | **ADS1115 Channel 2 (AIN2)** |
+| 9 | IN3- | Op Amp C Inverting Input | **Connect to Pin 8** |
+| 10 | IN3+ | Op Amp C Non-inverting Input | **LM2907_OUT DIRECT (NO DIVIDER)** |
 | 11 | V- | Negative Power Supply | **GND (0V)** |
-| 12 | IN4+ | Op Amp D Non-inverting Input | **Channel 3 voltage divider** |
-| 13 | IN4- | Op Amp D Inverting Input | **Connect to Pin 14 (unity gain)** |
-| 14 | OUT4 | Op Amp D Output | **ADS1115 Channel 3 (A3)** |
+| 12 | IN4+ | Op Amp D Non-inverting Input | **Channel 3 voltage divider output** |
+| 13 | IN4- | Op Amp D Inverting Input | **Connect to Pin 14** |
+| 14 | OUT4 | Op Amp D Output | **ADS1115 Channel 3 (AIN3)** |
 
 **Unity Gain Configuration**: Each op-amp output connects to its inverting input for 1:1 voltage following.
 
 ### ADS1115 Configuration
 
-**Recommended Settings**
-- **Input range**: 0V to +3.3V maximum (NOT ±4.096V as commonly stated)
-- **PGA (Programmable Gain Amplifier)**: GAIN = 1 setting provides best resolution for 0-3.3V range
-
-**Critical Reality Check**:
-- **Marketing specification**: ±4.096V full scale range
-- **Actual limitation**: 0V to +3.3V due to single supply operation
-- **Negative voltage capability**: **None** - all inputs must be positive
-- **Maximum measurable**: Limited by 3.3V supply rail, not internal ADC range
-
-**Resolution Analysis**
+**Resolution**
 - **Theoretical ADC range**: ±4.096V (GAIN = 1)
 - **Actual usable range**: 0V to +3.3V
 - **16-bit resolution**: 0.1mV per LSB (3.3V ÷ 32768 counts)
@@ -480,7 +453,7 @@ The documented 5V/10kΩ configuration suffers from:
 ### Overvoltage Protection Verification
 ✅ **Inherent protection confirmed**: Single-supply op-amp output cannot exceed 3.3V  
 ✅ **No protection diodes required**: Eliminates leakage current and temperature drift  
-✅ **Safety margins verified**: Op-amp max output (3.1V) < ADS1115 max input (3.3V)  
+✅ **Safety margins verified**: Op-amp max output (3.3V) < ADS1115 max allowed input 
 
 ### Accuracy Verification  
 ✅ **No leakage current errors**: Op-amp buffer isolates high-impedance voltage dividers  
@@ -498,9 +471,6 @@ The documented 5V/10kΩ configuration suffers from:
 ✅ **Marine environment**: Ultra-low power, high accuracy, EMI immune design  
 ✅ **Battery compatibility**: 129µA total consumption suitable for extended operation  
 ✅ **Fault tolerance**: Robust protection against high-voltage transients and DC faults
-
-⚠️ **Low-signal limitations**: Minimum voltage constraints affect idle RPM and cold temperature detection
-
 ---
 
 ## Bill of Materials
@@ -576,7 +546,7 @@ The documented 5V/10kΩ configuration suffers from:
 - **Supported configurations**:
   - Multi-pulse alternator stator (typical marine/automotive)
   - Single pulse per revolution (slow engines) - 
-- **Frequency range**: **8Hz to 2640Hz** (optimized from 16Hz-4000Hz)
+- **Frequency range**: **8Hz to 2640Hz** 
 - **Engine RPM range**: 
   - Conservative (6-pulse, 1.5:1): **53 RPM** to **17,600 RPM**
   - Aggressive (7-pulse, 2.5:1): **27 RPM** to **9,041 RPM**  
@@ -601,29 +571,6 @@ The documented 5V/10kΩ configuration suffers from:
 - **Total power consumption**: 193µA equivalent at 12V (with 5V Channel 3)
 - **Battery life impact**: Minimal (<0.01% daily consumption on 100Ah battery)
 - **Environmental rating**: Suitable for marine applications (-40°C to +85°C)
-- **Op-amp trade-offs**: TLV9154IDR rail-to-rail output provides best available low-voltage performance, but fundamental ~10mV limitation still constrains minimum measurements
-- **ADC reality check**: Actual 0-3.3V range, not advertised ±4.096V range
-- **Configuration status**: 
-  - **Channel 2**: Direct connection improves minimum RPM detection by 50%
-  - **Channel 3**: 5V supply design limits cold temperature measurements
-
-### Critical Design Limitations and Trade-offs
-
-**Inherent Single-Supply Limitations**:
-- **Minimum voltage detection**: ~10mV op-amp output limit affects all channels
-- **No negative voltage capability**: ADS1115 cannot measure negative voltages
-- **ADC range constraint**: 3.3V supply limits maximum measurable voltage, not internal 4.096V range
-
-**Channel-Specific Impacts**:
-- **Channel 0**: No practical impact (batteries never operate at 0.21V minimum)
-- **Channel 1**: No practical impact (minimum -246A within sensor ±200A range)
-- **Channel 2**: - minimum 8Hz (27-479 RPM depending on configuration)
-- **Channel 3**: **Cold temperature limitation** - 5V design cannot measure below ~15°C
-
-**Design Philosophy Trade-offs**:
-- **Protection vs. Performance**: Single-supply design provides excellent overvoltage protection but sacrifices some low-signal detection capability
-- **Simplicity vs. Range**: No protection diodes eliminate complexity and error sources but create minimum voltage constraints
-- **Power vs. Capability**: Ultra-low power consumption achieved through optimized design
 
 ### Recommended Design Improvements
 
@@ -632,14 +579,3 @@ The documented 5V/10kΩ configuration suffers from:
 - Consider 3.3V/15kΩ configuration for full -40°C to +125°C range
 - Would reduce power consumption by ~40%
 - Would enable full cold temperature measurement capability
-
-## Engineering Validation Summary
-
-This analog input system has been thoroughly analyzed for both capabilities and limitations:
-
-**Signal Integrity**: All channels provide excellent accuracy across their intended ranges with proper filtering and buffering, **with optimized configurations eliminating major limitations**.
-
-**Power Efficiency**: Ultra-low power consumption (129µA at 12V) suitable for continuous battery-powered operation, with optimized channels providing additional power savings.
-
-**Fault Protection**: Robust design handles overvoltage conditions and DC faults without component damage, **with design optimizations minimizing the cost of protection**.
-
