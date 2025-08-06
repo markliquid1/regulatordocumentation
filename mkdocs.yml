@@ -36,10 +36,12 @@ nav:
  - Hardware:
    - System Architecture: hardware/system-architecture.md
    - Digital Inputs: hardware/digital-inputs.md
-   - Switching Power Supply: hardware/switching_power_supply_doc
+   - Switching Power Supply: hardware/switching_power_supply_doc.md
    - Digital Outputs: hardware/digital-outputs.md
    - Alternator Field Drive: hardware/alternator_field_drive.md
    - Baro and Temp Sensor: hardware/bmp390_documentation.md
+   - NMEA0183 and VeDirect: hardware/NMEA0183_and_VeDirect.md
+   - BatteryV and Current Monitor: hardware/ina228.md
    - Warning Buzzer: hardware/buzzer_control_doc.md
    - Tachometer Output: hardware/tach_out.md
    - USB C Connector: hardware/usb_c.md
