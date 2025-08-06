@@ -1,4 +1,4 @@
-# Input Protection 
+# Input Protection with USB Power Integration
 
 ## Device Overview
 - **Part Number**: TPS4800-Q1
@@ -29,14 +29,16 @@
 - **At 60V Battery**: Current = 120.7µA
 - **Component Values**: Both 487kΩ and 10.2kΩ are standard 1% resistors
 
-### INP (Pin 3) - Input Control Signal
+### INP (Pin 3) - Input Control Signal **[Modified for USB Integration]**
 - **Thresholds**: 2V high, 0.8V low
-- **Configuration**: Direct connection to VIN (6-60V)
+- **Configuration**: Jumper-controlled connection to VIN (6-60V)
+- **Implementation**: 2-pin jumper header between VIN and INP pin
+- **Battery Mode (Jumper Installed)**: INP = VIN, device enabled when battery voltage present
+- **USB Mode (Jumper Removed)**: INP floating → internal 100nA pull-down → device disabled
 - **At 12V Battery**: INP = 12V (well above 2V HIGH threshold)
-- **Behavior**: Always-on operation when battery voltage present
+- **Behavior**: Manual control - MOSFET enabled only when jumper installed
 - **Absolute Maximum**: 70V (our 60V max is within limits)
-- **Internal**: 100nA pull-down when floating
-- **Rationale**: Simplified control - MOSFET enabled whenever battery connected
+- **Power Isolation**: Complete battery power path disconnect when jumper removed
 
 ### ISCP (Pin 8) - Short Circuit Protection Threshold
 - **Design Requirement**: 15A overcurrent protection
@@ -59,13 +61,44 @@
   - Continues retrying until fault clears
 - **At 12V Battery**: Timer behavior independent of supply voltage
 
+## Power Source Integration
+
+### USB-C Power Mode (INP Jumper Removed)
+- **USB Power Selection**: J17 jumper on USB-C board enables 5V from VBUS
+- **Battery Isolation**: Remove INP jumper → TPS4800-Q1 disabled → complete battery power path isolation
+- **Power Flow**: USB 5V → existing 3.3V buck (TLV62569DBV) → ESP32-S3 + peripherals
+- **Battery Current**: ~45µA (only voltage divider leakage, TPS4800 disabled)
+- **USB Current**: ~400mA @ 5V for full system operation
+- **5V Buck Safety**: Safe to apply USB 5V to LMR36510ADDA output when TPS4800 input isolated
+
+### Battery Power Mode (INP Jumper Installed)  
+- **Battery Power Selection**: Remove J17 jumper (isolate USB power from 5V rail)
+- **Battery Enable**: Install INP jumper → TPS4800-Q1 enabled
+- **Power Flow**: Battery → TPS4800-Q1 → LMR36510ADDA (5V buck) → TLV62569DBV (3.3V buck) → ESP32-S3
+- **Battery Current**: 88µA quiescent + load current
+- **USB Current**: 0mA (USB power isolated)
+
+### Jumper Control Summary
+| Jumper | Location | Function | Installed | Removed |
+|--------|----------|----------|-----------|---------|
+| **INP Jumper** | TPS4800-Q1 board | Battery enable | Battery power ON | Battery power OFF |
+| **J17 Jumper** | USB-C board | USB power | USB power ON | USB power OFF |
+
+**Power Source Selection Matrix:**
+| INP Jumper | J17 Jumper | Result | Battery Current | USB Current |
+|------------|------------|---------|-----------------|-------------|
+| Installed | Removed | Battery only | 88µA + load | 0mA |
+| Removed | Installed | USB only | 45µA | ~400mA |
+| Removed | Removed | No power | 45µA | 0mA |
+| **Installed** | **Installed** | **⚠️ CONFLICT** | **AVOID** | **AVOID** |
+
 ## Input Protection Design
 
 ### Transient Protection Strategy
 The design implements a **hierarchical protection approach** to handle automotive transients while preserving proper overvoltage protection functionality:
 
-1. **Primary Protection**: TPS4800-Q1 OV pin triggers controlled shutdown at 61.8V-64.7V
-2. **Secondary Protection**: External TVS diodes clamp severe transients above 65V
+1. **Primary Protection**: TPS4800-Q1 OV pin triggers controlled shutdown at 58.8V-61.5V
+2. **Secondary Protection**: External TVS diodes clamp severe transients above 64V
 3. **Energy Storage**: Input capacitors absorb transient energy during brief spikes
 
 ### TVS Diode Configuration (on TPS4800-Q1 input)
@@ -91,9 +124,7 @@ The design implements a **hierarchical protection approach** to handle automotiv
 - **Positive overvoltage**: D1 avalanche breakdown clamps high VIN
 - **Negative overvoltage**: D7 avalanche breakdown clamps low VIN  
 - **Reverse polarity**: Both diodes forward conduct (~1.4V drop), creating controlled short to trip upstream protection
-- **No interference**: TVS breakdown voltages above TPS4800-Q1 OVP threshold# TPS4800-Q1 High-Side Driver Design Documentation
-
-
+- **No interference**: TVS breakdown voltages above TPS4800-Q1 OVP threshold
 
 ### Protection Hierarchy Operation
 - **6V-58V Normal**: No protection active, normal operation
@@ -116,8 +147,11 @@ The design implements a **hierarchical protection approach** to handle automotiv
 | D_POS (TVS) | SMBJ64A | - | TVS Diode | Positive transient protection |
 | D_NEG (TVS) | SMBJ75A | - | TVS Diode | Negative transient protection |
 | C_INPUT | 11µF total | - | Capacitors | Input energy storage |
+| **INP Jumper** | **2-pin header** | - | **Jumper** | **Battery power isolation control** |
 
-## Performance at 12V Battery (Typical Operation)
+## Performance Analysis
+
+### Battery Mode Operation (INP Jumper Installed)
 
 | Parameter | Value | Notes |
 |-----------|-------|-------|
@@ -129,34 +163,65 @@ The design implements a **hierarchical protection approach** to handle automotiv
 | Short-Circuit Protection | 15.1A | Fast 3µs response |
 | Auto-Retry Interval | 5.0 seconds | If fault persists |
 
+### USB Power Mode (INP Jumper Removed)
+
+| Parameter | Value | Notes |
+|-----------|-------|-------|
+| EN/UVLO Current | 20.9µA | Still through voltage divider |
+| OV Current | 24.1µA | Still through voltage divider |
+| Device Quiescent Current | **0µA** | **Device disabled (INP floating)** |
+| **Total Battery Current** | **45.0µA** | **Only voltage divider leakage** |
+| TPS4800 Output | High impedance | MOSFETs disabled |
+| Battery Power Path | Isolated | No power delivery to 5V buck |
+| Current Savings | **43µA** | **TPS4800 quiescent eliminated** |
+
 ## Protection Summary
 
-| Protection Type | Threshold | Response |
-|----------------|-----------|----------|
-| Undervoltage Lockout | 6.8V battery | Device shutdown |
-| Overvoltage Protection | 58.8V - 61.5V battery | FET shutdown, FLT asserted |
-| Overcurrent Protection | 15.1A load current | 3µs response, auto-retry |
-| Reverse Polarity | -65V maximum | Built-in protection |
+| Protection Type | Threshold | Response | Active When |
+|----------------|-----------|----------|-------------|
+| Undervoltage Lockout | 6.8V battery | Device shutdown | INP jumper installed |
+| Overvoltage Protection | 58.8V - 61.5V battery | FET shutdown, FLT asserted | INP jumper installed |
+| Overcurrent Protection | 15.1A load current | 3µs response, auto-retry | INP jumper installed |
+| Reverse Polarity | -65V maximum | Built-in protection | INP jumper installed |
+| **USB Power Isolation** | **Manual** | **Complete battery disconnect** | **INP jumper removed** |
 
 ## Power Consumption Analysis
 
+### Battery Mode (INP Jumper Installed)
 | Supply Voltage | EN/UVLO Current | OV Current | TPS4800 Quiescent | Total Current | Total Power | Equivalent @ 12V |
 |----------------|-----------------|------------|-------------------|---------------|-------------|------------------|
 | 13V | 22.6µA | 26.1µA | 43µA | 91.7µA | 1.19mW | 0.099mA |
 | 26V | 45.2µA | 52.3µA | 43µA | 140.5µA | 3.65mW | 0.304mA |
 | 52V | 90.4µA | 104.6µA | 43µA | 238µA | 12.38mW | 1.032mA |
 
+### USB Mode (INP Jumper Removed)
+| Supply Voltage | EN/UVLO Current | OV Current | TPS4800 Quiescent | Total Current | Total Power | Equivalent @ 12V |
+|----------------|-----------------|------------|-------------------|---------------|-------------|------------------|
+| 13V | 22.6µA | 26.1µA | **0µA** | **48.7µA** | **0.63mW** | **0.053mA** |
+| 26V | 45.2µA | 52.3µA | **0µA** | **97.5µA** | **2.54mW** | **0.212mA** |
+| 52V | 90.4µA | 104.6µA | **0µA** | **195µA** | **10.14mW** | **0.845mA** |
+
 **Notes:**
-- EN/UVLO divider: 575kΩ total (470kΩ + 105kΩ)
-- OV divider: 497.2kΩ total (487kΩ + 10.2kΩ)  
-- TPS4800-Q1 quiescent current: 43µA typical (from datasheet)
+- EN/UVLO divider: 575kΩ total (470kΩ + 105kΩ) - always active for monitoring
+- OV divider: 497.2kΩ total (487kΩ + 10.2kΩ) - always active for monitoring
+- TPS4800-Q1 quiescent current: 43µA typical when enabled, 0µA when INP disabled
 - Power excludes load current through MOSFETs
 - "Equivalent @ 12V" shows power consumption as current draw on a 12V system
+- **USB mode power savings**: 43µA reduction from TPS4800 shutdown
+
+### Further Optimization Potential
+- **Voltage divider jumpers**: Could add jumpers to EN/UVLO and OV dividers for complete battery isolation (~0µA)
+- **Current implementation**: Maintains monitoring capability even in USB mode
+- **Trade-off**: 45µA monitoring current vs complete battery isolation
 
 ## Design Notes
-- All resistor values are standard 1% E96 series for easy sourcing
-- Low current draw design suitable for always-on automotive applications
-- Fast overcurrent protection with reasonable retry intervals
-- Conservative margins on all protection thresholds
-- EVM demo board documentation appears to contain calculation errors vs datasheet
-- Still do not FULLY understand what happens in reverse polarity, especially without back to back output MOSFETS.  For now, we will run both but DNP it for testing.  TI datasheet is inadequate. 
+- **INP control**: Cleanest method for battery power path isolation without affecting protection monitoring
+- **All resistor values**: Standard 1% E96 series for easy sourcing
+- **Low current draw**: Design suitable for always-on automotive applications
+- **Fast overcurrent protection**: 3µs response with reasonable 5-second retry intervals
+- **Conservative margins**: All protection thresholds have adequate safety margins
+- **Production ready**: Manual jumper control suitable for field service and development
+- **Power source safety**: No possibility of conflicts with proper jumper management
+- **LMR36510ADDA compatibility**: Safe to apply USB 5V to buck output when TPS4800 input isolated
+- **EVM discrepancy**: Demo board documentation appears to contain calculation errors vs datasheet
+- **Reverse polarity behavior**: Still not fully understood without back-to-back output MOSFETs. Will populate both TVS but DNP for initial testing. TI datasheet inadequate for this specific configuration.

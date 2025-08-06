@@ -142,12 +142,4 @@ This circuit provides high-side switching control for 5V loads such as buzzers, 
 
 ## Notes
 - **Logic is active HIGH**: GPIO HIGH turns load ON
-- Can handle PWM control if switching frequency is kept low (<1kHz)
-- 5V supply must be stable before applying control signals
-- Suitable for automotive and industrial applications
-- **Circuit verified**: Logic path confirmed through step-by-step analysis
-
-## Revision Info
-- Component selection optimized for common 5V loads
-- Flyback protection sized for typical relay/solenoid applications
-- Gate drive designed for 3.3V logic compatibility
+- Can handle PWM control if switching frequency is kept low (<1kHz) (? not tested)
