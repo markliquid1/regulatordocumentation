@@ -1,10 +1,10 @@
 # Hardware Overview
 
-## System Architecture
+## Architecture
 
-The Xengineering alternator regulator is a marine-grade open-source battery management and charging control system built around an ESP32-S3 microcontroller. The design emphasizes ultra-low power consumption, wide input voltage range, and robust protection for harsh marine environments.
+The regulator is built around an ESP32-S3 microcontroller. Hardware was all selected for ultra-low power consumption, wide voltage ranges, and robust protection for harsh environments.
 
-### Core Specifications
+### Some Hardware Specifications
 
 | Parameter | Specification | Notes |
 |-----------|---------------|-------|
@@ -12,7 +12,7 @@ The Xengineering alternator regulator is a marine-grade open-source battery mana
 | Typical Operating Voltage | 12V/24V/48V | Marine/automotive systems |
 | Operating Temperature | -40°C to +85°C | Industrial grade components |
 | Field Current Control | Up to 15A | PWM controlled |
-| Current Measurement | ±500A capability | Via external shunt |
+| Alternator Current Measurement | ±200A capability | Via external Hall-effect clamp-on meter |
 
 ## Power System
 

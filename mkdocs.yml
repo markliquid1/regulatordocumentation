@@ -1,6 +1,6 @@
-site_name: Xengineering Alternator Regulator Documentation
+site_name: Alternator Regulator Documentation
 site_url: https://docs.xengineering.net
-site_description: Technical documentation for Xengineering marine open-source alternator regulator system
+site_description: Technical docs for Xengineering marine open-source alternator regulator system
 site_author: Xengineering
 
 repo_name: markliquid1/regulatordocumentation
@@ -29,10 +29,9 @@ markdown_extensions:
 nav:
  - Home: index.md
  - Basic Use:
-   - Getting Started: basic-use/getting-started.md
+   - Spec Sheet: basic-use/key_features_list.md
    - Installation: basic-use/installation.md
    - Quick Start Guide: basic-use/quick-start.md
-   - Troubleshooting: basic-use/troubleshooting.md
  - Hardware:
    - System Architecture: hardware/index.md
    - Digital Inputs: hardware/digital-inputs.md
