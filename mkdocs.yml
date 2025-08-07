@@ -28,8 +28,8 @@ markdown_extensions:
 
 nav:
  - Home: index.md
- - Basic Use:
-   - Spec Sheet: basic-use/key_features_list.md
+ - Intro:
+   - Features: basic-use/key_features_list.md
    - Installation: basic-use/installation.md
    - Quick Start Guide: basic-use/quick-start.md
  - Hardware:
