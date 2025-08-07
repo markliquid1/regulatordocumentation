@@ -1,8 +1,7 @@
-# Xengineering Regulator Documentation
 
-Welcome to the comprehensive documentation for the Xengineering marine electrical regulator system.
+## System Overview
 
-## What You'll Find Here
+The Xengineering Regulator is a marine electrical management system designed to monitor, control, and regulate various electrical systems aboard vessels.  It does the job of an alternator regulator, battery monitor, and also has many "Strava for boats" type features.
 
 ### For End Users
 - **[Getting Started](basic-use/getting-started.md)** - First-time setup and basic operation
@@ -14,18 +13,4 @@ Welcome to the comprehensive documentation for the Xengineering marine electrica
 - **[Hardware Overview](hardware/index.md)** - Complete hardware architecture
 - **[Software Overview](software/index.md)** - Code structure and development guide
 
-## System Overview
 
-The Xengineering Regulator is a sophisticated marine electrical management system designed to monitor, control, and regulate various electrical systems aboard vessels.
-
-## Key Features
-
-- **Multi-Protocol Support**: NMEA0183, NMEA2000, Victron VE.Direct
-- **Real-Time Monitoring**: Digital/analog inputs, power flow monitoring  
-- **Web Interface**: HTML/CSS/JavaScript client for remote control
-- **ESP32 Based**: Reliable, WiFi-enabled microcontroller platform
-- **Modular Design**: Expandable architecture for custom applications
-
----
-
-Choose your path above based on whether you're installing/using the system or developing/modifying it.
