@@ -1,8 +1,8 @@
-# X Engineering Alternator Regulator - Key Features
+# Features
 
 ## Field Control & Charging Management
 
-### Advanced Control Modes
+### Control Modes
 - **Standard Mode**: Traditional voltage/current regulation with safety overrides
 - **Learning Mode**: Adaptive thermal management that learns safe operating limits
 - **Manual Override**: Direct duty cycle control for testing and troubleshooting
@@ -10,14 +10,14 @@
 - **Weather Mode**: Solar-aware charging that disables alternator when sufficient solar available
 - **Limp Home Mode**: Emergency operation with reduced functionality and conservative limits
 
-### Intelligent Charging Control
+### Charging Control
 - **Multi-Stage Charging**: Automatic bulk/float transitions with configurable voltage targets
 - **20-Point RPM Curves**: Engine speed-dependent current limiting for optimal power delivery
 - **Dual Current Targets**: Separate Hi/Low mode settings with instant switching
 - **BMS Integration**: Digital input for Battery Management System override protection
 - **Temperature Compensation**: Real-time thermal feedback with graduated field reduction
 
-### Learning Algorithm Features
+### Learning Algorithm 
 - **Thermal History Tracking**: Remembers overheat events and applies progressive penalties
 - **Neighbor Learning**: Adjusts adjacent RPM points when overheating occurs
 - **Automatic Recovery**: Gradual current increases during extended safe operation
@@ -25,7 +25,7 @@
 
 ## Sensor Systems & Monitoring
 
-### Precision Measurement
+### Measurements
 - **Dual Battery Voltage**: INA228 (±0.1% accuracy) + ADS1115 with cross-validation
 - **High-Resolution Current**: 16-bit measurements with microamp sensitivity
 - **Temperature Monitoring**: Digital OneWire DS18B20 sensors (±0.5°C) + analog thermistor
@@ -47,7 +47,7 @@
 - **Full Charge Detection**: Multi-parameter detection using voltage, current, and time criteria
 - **Dynamic Calibration**: Automatic shunt gain correction based on full charge cycles
 
-### Energy Tracking
+### SOC Tracking
 - **Comprehensive Energy Logging**: Charged/discharged energy totals with Wh precision
 - **Fuel Consumption Estimates**: Calculated diesel usage based on alternator energy output
 - **Runtime Statistics**: Engine hours, alternator on-time, cycle counting
