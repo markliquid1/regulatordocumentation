@@ -4,6 +4,21 @@
 
 This guide shows how to set up a professional documentation website using MkDocs with GitHub Actions deployment. Your documentation will be published at https://docs.xengineering.net.
 
+## Daily Workflow - START HERE
+
+**This is what you do every day after editing markdown files locally:**
+
+```bash
+cd ~/Projects/xengineering_docs
+git add .
+git commit -m "Update documentation"
+git push origin main
+```
+
+**That's it!** GitHub Actions automatically builds and deploys your changes to https://docs.xengineering.net in 2-3 minutes.
+
+---
+
 ## AI Assistant Instructions
 
 If you're an AI helping with this project, here are the key details:
@@ -155,6 +170,7 @@ nav:
    - AI Notes: localstuff for Xengineering ref/AI_notes_Aug2025.md
    - Protrak MX2e Guide: localstuff for Xengineering ref/protrak_mx2e_guide.md
    - Xregulator Backup Guide: localstuff for Xengineering ref/xregulator_backup_guide.md
+   - MkDocs Website Guide: localstuff for Xengineering ref/mkdocs_website_guide.md
 
 copyright: Copyright &copy; 2025 Xengineering
 ```
