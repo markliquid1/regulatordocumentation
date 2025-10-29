@@ -1,4 +1,8 @@
-# Complete MkDocs GitHub Pages Setup Guide
+# MkDocs Documentation Website Setup Guide
+
+## Overview
+
+This guide shows how to set up a professional documentation website using MkDocs with GitHub Actions deployment. Your documentation will be published at https://docs.xengineering.net.
 
 ## AI Assistant Instructions
 
@@ -42,10 +46,6 @@ xengineering_docs/
 
 ---
 
-## Overview
-
-This guide shows how to set up a professional MkDocs documentation site with GitHub Actions deployment, avoiding the problematic `mkdocs gh-deploy` command that causes source/deployment sync issues.
-
 ## Initial Setup
 
 ### 1. Create GitHub Repository
@@ -75,44 +75,91 @@ This creates:
 
 ### 4. Configure MkDocs
 
-Replace the contents of `mkdocs.yml`:
+Replace the contents of `mkdocs.yml`. Here's the actual current configuration for the Xengineering documentation site:
 
 ```yaml
-site_name: Xengineering Documentation
+site_name: Alternator Regulator Documentation
 site_url: https://docs.xengineering.net
-site_description: Technical documentation for Xengineering marine electrical regulator system
+site_description: Technical docs for Xengineering marine open-source alternator regulator system
 site_author: Xengineering
 
 repo_name: markliquid1/regulatordocumentation
 repo_url: https://github.com/markliquid1/regulatordocumentation
 
 theme:
-  name: material
-  features:
-    - navigation.sections
-    - navigation.expand
-    - search.highlight
+ name: material
+ features:
+   - navigation.sections
+   - navigation.expand
+   - search.highlight
 
 plugins:
-  - search
+ - search
 
 extra_css:
-  - stylesheets/extra.css
+ - stylesheets/extra.css
 
 markdown_extensions:
-  - admonition
-  - pymdownx.highlight
-  - pymdownx.superfences
-  - toc:
-      permalink: true
+ - admonition
+ - pymdownx.highlight
+ - pymdownx.superfences
+ - toc:
+     permalink: true
 
 nav:
-  - Home: index.md
-  - Getting Started: getting-started.md
-  - Advanced: advanced.md
+ - Home: index.md
+ - Intro:
+   - Features: basic-use/key_features_list.md
+   - Getting Started: basic-use/getting-started.md
+   - Installation: basic-use/installation.md
+   - Quick Start Guide: basic-use/quick-start.md
+   - Troubleshooting: basic-use/troubleshooting.md
+ - Hardware:
+   - System Architecture: hardware/index.md
+   - Digital Inputs: hardware/digital-inputs.md
+   - Switching Power Supply: hardware/switching_power_supply_doc.md
+   - Digital Outputs: hardware/digital-outputs.md
+   - Alternator Field Drive: hardware/alternator_field_drive.md
+   - Baro and Temp Sensor: hardware/bmp390_documentation.md
+   - NMEA0183 and VeDirect: hardware/NMEA0183_and_VeDirect.md
+   - BatteryV and Current Monitor: hardware/ina228.md
+   - Warning Buzzer: hardware/buzzer_control_doc.md
+   - Tachometer Output: hardware/tach_out.md
+   - USB-C: hardware/usb_c.md
+   - NMEA2K: hardware/nmea2k.md
+   - Analog Inputs: hardware/analoginputsADS1115.md
+   - Input Protection: hardware/input-protection.md
+   - ESP32 Controller: hardware/esp32-brain.md
+   - LM2907 Resistor Mod: hardware/lm2907 resistor mod.md
+   - Connectors & Wiring: hardware/connectors.md
+ - Software - ESP32:
+   - System Overview: software/esp32/system_overview.md
+   - Sensor Systems: software/esp32/sensor_systems.md
+   - Communication Interfaces: software/esp32/communication_interfaces.md
+   - Field Control: software/esp32/field_control_docs.md
+   - Learning Mode: software/esp32/Learning_Mode_System.md
+   - Battery Management: software/esp32/battery_management_docs.md
+   - Network & Web System: software/esp32/network_web_system_docs.md
+   - Safety & Monitoring: software/esp32/safety_monitoring_docs.md
+   - Advanced Features: software/esp32/advanced_features_docs.md
+   - Configuration: software/esp32/configuration_development_docs.md
+ - Software - Client:
+   - HTML Structure: software/client/html.md
+   - JavaScript Logic: software/client/javascript.md
+   - CSS Styling: software/client/css.md
+ - Local Xengineering Ref Only:
+   - Partitioning: localstuff for Xengineering ref/esp32_partition_guide.md
+   - OTA: localstuff for Xengineering ref/updated_ota_docs V3 .md
+   - Planning: localstuff for Xengineering ref/updated_planning_doc.md
+   - Biz Stuff: localstuff for Xengineering ref/business_analysis_summary.md
+   - AI Notes: localstuff for Xengineering ref/AI_notes_Aug2025.md
+   - Protrak MX2e Guide: localstuff for Xengineering ref/protrak_mx2e_guide.md
+   - Xregulator Backup Guide: localstuff for Xengineering ref/xregulator_backup_guide.md
 
-copyright: Copyright &copy; 2025 Your Name
+copyright: Copyright &copy; 2025 Xengineering
 ```
+
+**Note:** The "Local Xengineering Ref Only" section contains internal documentation not intended for external users. You can remove this section if publishing docs publicly.
 
 ### 5. Create Custom Styling (Optional)
 
@@ -283,13 +330,6 @@ git push origin main
 ### Daily Workflow
 
 ```bash
-# Navigate to project
-cd ~/Projects/xengineering_docs
-
-# Edit files (use any editor)
-# Make your changes...
-
-# Deploy changes
 cd ~/Projects/xengineering_docs
 git add .
 git commit -m "Update documentation"
@@ -303,7 +343,6 @@ git push origin main
 #### 1. Create the Markdown File
 
 ```bash
-# Create new page
 echo "# New Page Title
 
 Content goes here..." > docs/new-page.md
@@ -311,38 +350,52 @@ Content goes here..." > docs/new-page.md
 
 #### 2. Add to Navigation
 
-Edit `mkdocs.yml` and add to the `nav` section:
+Edit `mkdocs.yml` and add to the `nav` section. For example, to add a new troubleshooting page:
 
 ```yaml
 nav:
-  - Home: index.md
-  - Getting Started: getting-started.md
-  - New Page: new-page.md  # <-- Add this line
-  - Advanced: advanced.md
+ - Home: index.md
+ - Intro:
+   - Features: basic-use/key_features_list.md
+   - Getting Started: basic-use/getting-started.md
+   - Installation: basic-use/installation.md
+   - Quick Start Guide: basic-use/quick-start.md
+   - Troubleshooting: basic-use/troubleshooting.md
+   - New Troubleshooting Page: basic-use/new-troubleshooting.md  # <-- Add this line
 ```
 
 #### 3. Create Subsections
 
-For nested navigation:
+The actual navigation uses nested sections. Here's how the Hardware section is structured:
 
 ```yaml
 nav:
-  - Home: index.md
-  - User Guide:
-    - Getting Started: user-guide/getting-started.md
-    - Installation: user-guide/installation.md
-    - Troubleshooting: user-guide/troubleshooting.md
-  - Developer Guide:
-    - API Reference: dev-guide/api.md
-    - Contributing: dev-guide/contributing.md
+ - Hardware:
+   - System Architecture: hardware/index.md
+   - Digital Inputs: hardware/digital-inputs.md
+   - ESP32 Controller: hardware/esp32-brain.md
+   - Connectors & Wiring: hardware/connectors.md
 ```
 
-Create the folder structure:
+To add a new hardware page:
+
 ```bash
-mkdir -p docs/user-guide docs/dev-guide
-echo "# Getting Started" > docs/user-guide/getting-started.md
-echo "# API Reference" > docs/dev-guide/api.md
+echo "# New Hardware Component
+
+Documentation for new component..." > docs/hardware/new-component.md
 ```
+
+Then add it to the Hardware section in `mkdocs.yml`:
+
+```yaml
+ - Hardware:
+   - System Architecture: hardware/index.md
+   - Digital Inputs: hardware/digital-inputs.md
+   - New Component: hardware/new-component.md  # <-- Add here
+   - ESP32 Controller: hardware/esp32-brain.md
+```
+
+### Adding Images
 
 **For copy-paste images:** Unfortunately, there's no elegant solution. MkDocs/GitHub requires images to be files in the repository. Your options:
 
@@ -351,6 +404,8 @@ echo "# API Reference" > docs/dev-guide/api.md
 3. **Use a different platform** like Notion, GitBook, or Confluence that support direct paste
 
 The filesystem requirement is fundamental to how static site generators work - they need actual image files to include in the build.
+
+#### 1. Create Images Folder
 
 ```bash
 mkdir -p docs/images
@@ -416,20 +471,33 @@ For clickable images:
 Your final project should look like:
 
 ```
-regulatordocumentation/
+xengineering_docs/
 ├── .github/
 │   └── workflows/
 │       └── deploy.yml
 ├── docs/
 │   ├── images/
-│   │   ├── screenshot.png
-│   │   └── diagram.jpg
+│   │   └── opto_schematic.png
 │   ├── stylesheets/
 │   │   └── extra.css
-│   ├── user-guide/
+│   ├── basic-use/
+│   │   ├── key_features_list.md
 │   │   ├── getting-started.md
-│   │   └── installation.md
-│   ├── CNAME (if using custom domain)
+│   │   ├── installation.md
+│   │   ├── quick-start.md
+│   │   └── troubleshooting.md
+│   ├── hardware/
+│   │   ├── index.md
+│   │   ├── esp32-brain.md
+│   │   └── ... (all hardware docs)
+│   ├── software/
+│   │   ├── esp32/
+│   │   │   └── ... (ESP32 firmware docs)
+│   │   └── client/
+│   │       └── ... (web interface docs)
+│   ├── localstuff for Xengineering ref/
+│   │   └── ... (internal reference docs)
+│   ├── CNAME (custom domain)
 │   └── index.md
 ├── site/ (auto-generated, ignore this)
 ├── mkdocs.yml
@@ -485,7 +553,7 @@ Visit `http://127.0.0.1:8000` to preview your changes locally.
 
 ```bash
 # Navigate to project
-cd ~/Projects/regulatordocumentation
+cd ~/Projects/xengineering_docs
 
 # Create new page
 echo "# Page Title" > docs/new-page.md
@@ -494,7 +562,7 @@ echo "# Page Title" > docs/new-page.md
 cp ~/Desktop/image.png docs/images/
 
 # Deploy changes
-cd ~/Projects/regulatordocumentation
+cd ~/Projects/xengineering_docs
 git add .
 git commit -m "Update docs"
 git push origin main

@@ -1,5 +1,6 @@
 # Alternator Regulator Cloud Platform - System Planning Document
 
+// To access database:
 // https://supabase-nine-ashy.vercel.app/
 
 ## Technology Platform Decision
@@ -303,30 +304,23 @@
 
 ## 8. Development Timeline & Phases
 
-### Phase 1: Core System (Month 1)
-- User registration and authentication
-- Basic ESP32 data upload to Supabase
-- Simple leaderboards (speed, energy production)
-- Admin interface for user management
-- Vercel deployment pipeline
-
-### Phase 2: Analytics Dashboard (Month 2)
-- Personal analytics charts
-- Historical data visualization
-- Advanced leaderboard categories
-- Admin moderation tools
-
-### Phase 3: Enhanced Features (Month 3)
-- GPS track visualization
-- Fleet statistics
-- Email summaries
-- Performance optimizations
-
-### Phase 4: Social Features (Future)
-- Real-time notifications
-- Basic messaging system
-- Collaborative features
-- Advanced analytics
+- User registration and authentication       (WHAT IS AUTHENTICATION?)
+- Basic ESP32 data upload to Supabase (I think this is done already)
+- Simple leaderboards (speed, energy production)    (not done yet)
+- Admin interface for user management     (not done)
+- Vercel deployment pipeline       (what does this mean?)
+- Personal analytics charts      (these need definition)
+- Historical data visualization (needs definition, i would say it's the same thing as "personal analytics charts")
+- Advanced leaderboard categories (these can wait, but don't want to make design decisions now that make this difficult)
+- Admin moderation tools     (these can wait, but don't want to make design decisions now that make this difficult)
+- GPS track visualization  (this is similar to "advanced leaderboard"- something i don't need now but want to keep in back of my mind when making design decisions)
+- Fleet statistics (these can wait, but don't want to make design decisions now that make this difficult)
+- Email summaries    (probably never going to do this)
+- Performance optimizations  (can wait until shown to be needed)
+- Real-time notifications  (can wait)
+- Basic messaging system (can wait)
+- Collaborative features (needs definition, i don't know what this means)
+- Advanced analytics  (meaningless buzzword)
 
 ## 9. System Architecture
 

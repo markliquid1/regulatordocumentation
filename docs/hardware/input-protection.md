@@ -20,14 +20,14 @@
 - **Rationale**: Provides undervoltage lockout protection, keeps device off during deep battery discharge
 
 ### OV (Pin 2) - Overvoltage Protection
-- **Threshold**: 1.225V rising ±2% (1.20V to 1.25V)
-- **Design Requirement**: 58.8V overvoltage protection (48V lithium system)
-- **Voltage Divider**: R_top=487kΩ, R_bottom=10.2kΩ (total 497.2kΩ)
-- **OVP Trigger Range**: 58.8V to 61.5V (accounting for threshold tolerance)
-- **At 12V Battery**: OV pin = 0.246V (well below 1.225V threshold)
-- **Current Draw**: 12V / 497.2kΩ = 24.1µA
-- **At 60V Battery**: Current = 120.7µA
-- **Component Values**: Both 487kΩ and 10.2kΩ are standard 1% resistors
+- **Threshold**: 1.225V rising ±4.37% (1.171V to 1.278V)
+- **Design Requirement**: 58V minimum overvoltage protection (48V lithium system)
+- **Voltage Divider**: R_top=499kΩ, R_bottom=10.2kΩ (total 509.2kΩ)
+- **OVP Trigger Range**: 58.5V to 63.8V (accounting for threshold tolerance)
+- **At 12V Battery**: OV pin = 0.240V (well below 1.171V minimum threshold)
+- **Current Draw**: 12V / 509.2kΩ = 23.6µA
+- **At 60V Battery**: Current = 117.8µA
+- **Component Values**: Both 499kΩ and 10.2kΩ are standard 1% resistors
 
 ### INP (Pin 3) - Input Control Signal **[Modified for USB-C Power Option]**
 - **Thresholds**: 2V high, 0.8V low
@@ -67,7 +67,7 @@
 - **USB Power Selection**: J17 jumper on USB-C board enables 5V from VBUS
 - **Battery Isolation**: Remove INP jumper → TPS4800-Q1 disabled → complete battery power path isolation
 - **Power Flow**: USB 5V → existing 3.3V buck (TLV62569DBV) → ESP32-S3 + peripherals
-- **Battery Current**: ~45µA (only voltage divider leakage, TPS4800 disabled)
+- **Battery Current**: ~44µA (only voltage divider leakage, TPS4800 disabled)
 - **USB Current**: ~400mA @ 5V for full system operation
 - **5V Buck Safety**: Safe to apply USB 5V to LMR36510ADDA output when TPS4800 input isolated
 
@@ -75,7 +75,7 @@
 - **Battery Power Selection**: Remove J17 jumper (isolate USB power from 5V rail)
 - **Battery Enable**: Install INP jumper → TPS4800-Q1 enabled
 - **Power Flow**: Battery → TPS4800-Q1 → LMR36510ADDA (5V buck) → TLV62569DBV (3.3V buck) → ESP32-S3
-- **Battery Current**: 88µA quiescent + load current
+- **Battery Current**: 87µA quiescent + load current
 - **USB Current**: 0mA (USB power isolated)
 
 ### Jumper Control Summary
@@ -87,9 +87,9 @@
 **Power Source Selection Matrix:**
 | INP Jumper | J17 Jumper | Result | Battery Current | USB Current |
 |------------|------------|---------|-----------------|-------------|
-| Installed | Removed | Battery only | 88µA + load | 0mA |
-| Removed | Installed | USB only | 45µA | ~400mA |
-| Removed | Removed | No power | 45µA | 0mA |
+| Installed | Removed | Battery only | 87µA + load | 0mA |
+| Removed | Installed | USB only | 44µA | ~400mA |
+| Removed | Removed | No power | 44µA | 0mA |
 | **Installed** | **Installed** | **⚠️ CONFLICT** | **AVOID** | **AVOID** |
 
 ## Input Protection Design
@@ -97,7 +97,7 @@
 ### Transient Protection Strategy
 The design implements a **hierarchical protection approach** to handle automotive transients while preserving proper overvoltage protection functionality:
 
-1. **Primary Protection**: TPS4800-Q1 OV pin triggers controlled shutdown at 58.8V-61.5V
+1. **Primary Protection**: TPS4800-Q1 OV pin triggers controlled shutdown at 58.5V-63.8V
 2. **Secondary Protection**: External TVS diodes clamp severe transients above 64V
 3. **Energy Storage**: Input capacitors absorb transient energy during brief spikes
 
@@ -128,7 +128,7 @@ The design implements a **hierarchical protection approach** to handle automotiv
 
 ### Protection Hierarchy Operation
 - **6V-58V Normal**: No protection active, normal operation
-- **58.8V-61.5V**: OV protection triggers, controlled MOSFET shutdown
+- **58.5V-63.8V**: OV protection triggers, controlled MOSFET shutdown
 - **64V+**: TVS conducts, absorbs transient energy, prevents chip damage
 - **Negative spikes**: TVS and internal protection both active
 
@@ -138,7 +138,7 @@ The design implements a **hierarchical protection approach** to handle automotiv
 |-----------|-------|-----------|------|----------|
 | R1 (EN/UVLO top) | 470kΩ | 1% | Resistor | UVLO voltage divider |
 | R2+R3 (EN/UVLO bottom) | 105kΩ | 1% | Resistor | UVLO voltage divider |
-| R_OV_top | 487kΩ | 1% | Resistor | OVP voltage divider |
+| R_OV_top | 499kΩ | 1% | Resistor | OVP voltage divider |
 | R_OV_bottom | 10.2kΩ | 1% | Resistor | OVP voltage divider |
 | RISCP | 5.6kΩ | 1% | Resistor | Short-circuit threshold |
 | CTMR | 220nF | - | Ceramic Cap | Fault timer |
@@ -156,10 +156,10 @@ The design implements a **hierarchical protection approach** to handle automotiv
 | Parameter | Value | Notes |
 |-----------|-------|-------|
 | EN/UVLO Current | 20.9µA | Through voltage divider |
-| OV Current | 24.1µA | Through voltage divider |
-| Total Divider Current | 45.0µA | At 12V battery |
+| OV Current | 23.6µA | Through voltage divider |
+| Total Divider Current | 44.5µA | At 12V battery |
 | Device Quiescent Current | 43µA typical | From datasheet |
-| Total System Current | ~88µA | Excluding load current |
+| Total System Current | ~87µA | Excluding load current |
 | Short-Circuit Protection | 15.1A | Fast 3µs response |
 | Auto-Retry Interval | 5.0 seconds | If fault persists |
 
@@ -168,9 +168,9 @@ The design implements a **hierarchical protection approach** to handle automotiv
 | Parameter | Value | Notes |
 |-----------|-------|-------|
 | EN/UVLO Current | 20.9µA | Still through voltage divider |
-| OV Current | 24.1µA | Still through voltage divider |
+| OV Current | 23.6µA | Still through voltage divider |
 | Device Quiescent Current | **0µA** | **Device disabled (INP floating)** |
-| **Total Battery Current** | **45.0µA** | **Only voltage divider leakage** |
+| **Total Battery Current** | **44.5µA** | **Only voltage divider leakage** |
 | TPS4800 Output | High impedance | MOSFETs disabled |
 | Battery Power Path | Isolated | No power delivery to 5V buck |
 | Current Savings | **43µA** | **TPS4800 quiescent eliminated** |
@@ -180,7 +180,7 @@ The design implements a **hierarchical protection approach** to handle automotiv
 | Protection Type | Threshold | Response | Active When |
 |----------------|-----------|----------|-------------|
 | Undervoltage Lockout | 6.8V battery | Device shutdown | INP jumper installed |
-| Overvoltage Protection | 58.8V - 61.5V battery | FET shutdown, FLT asserted | INP jumper installed |
+| Overvoltage Protection | 58.5V - 63.8V battery | FET shutdown, FLT asserted | INP jumper installed |
 | Overcurrent Protection | 15.1A load current | 3µs response, auto-retry | INP jumper installed |
 | Reverse Polarity | -65V maximum | Built-in protection | INP jumper installed |
 | **USB Power Isolation** | **Manual** | **Complete battery disconnect** | **INP jumper removed** |
@@ -190,37 +190,31 @@ The design implements a **hierarchical protection approach** to handle automotiv
 ### Battery Mode (INP Jumper Installed)
 | Supply Voltage | EN/UVLO Current | OV Current | TPS4800 Quiescent | Total Current | Total Power | Equivalent @ 12V |
 |----------------|-----------------|------------|-------------------|---------------|-------------|------------------|
-| 13V | 22.6µA | 26.1µA | 43µA | 91.7µA | 1.19mW | 0.099mA |
-| 26V | 45.2µA | 52.3µA | 43µA | 140.5µA | 3.65mW | 0.304mA |
-| 52V | 90.4µA | 104.6µA | 43µA | 238µA | 12.38mW | 1.032mA |
+| 13V | 22.6µA | 25.5µA | 43µA | 91.1µA | 1.18mW | 0.099mA |
+| 26V | 45.2µA | 51.0µA | 43µA | 139.2µA | 3.62mW | 0.302mA |
+| 52V | 90.4µA | 102.1µA | 43µA | 235.5µA | 12.25mW | 1.021mA |
 
 ### USB Mode (INP Jumper Removed)
 | Supply Voltage | EN/UVLO Current | OV Current | TPS4800 Quiescent | Total Current | Total Power | Equivalent @ 12V |
 |----------------|-----------------|------------|-------------------|---------------|-------------|------------------|
-| 13V | 22.6µA | 26.1µA | **0µA** | **48.7µA** | **0.63mW** | **0.053mA** |
-| 26V | 45.2µA | 52.3µA | **0µA** | **97.5µA** | **2.54mW** | **0.212mA** |
-| 52V | 90.4µA | 104.6µA | **0µA** | **195µA** | **10.14mW** | **0.845mA** |
+| 13V | 22.6µA | 25.5µA | **0µA** | **48.1µA** | **0.63mW** | **0.052mA** |
+| 26V | 45.2µA | 51.0µA | **0µA** | **96.2µA** | **2.50mW** | **0.208mA** |
+| 52V | 90.4µA | 102.1µA | **0µA** | **192.5µA** | **10.01mW** | **0.834mA** |
 
 **Notes:**
 - EN/UVLO divider: 575kΩ total (470kΩ + 105kΩ) - always active for monitoring
-- OV divider: 497.2kΩ total (487kΩ + 10.2kΩ) - always active for monitoring
+- OV divider: 509.2kΩ total (499kΩ + 10.2kΩ) - always active for monitoring
 - TPS4800-Q1 quiescent current: 43µA typical when enabled, 0µA when INP disabled
 - Power excludes load current through MOSFETs
 - "Equivalent @ 12V" shows power consumption as current draw on a 12V system
 - **USB mode power savings**: 43µA reduction from TPS4800 shutdown
-
-### Further Optimization Potential
-- **Voltage divider jumpers**: Could add jumpers to EN/UVLO and OV dividers for complete battery isolation (~0µA)
-- **Current implementation**: Maintains monitoring capability even in USB mode
-- **Trade-off**: 45µA monitoring current vs complete battery isolation
 
 ## Design Notes
 - **INP control**: Cleanest method for battery power path isolation without affecting protection monitoring
 - **All resistor values**: Standard 1% E96 series for easy sourcing
 - **Low current draw**: Design suitable for always-on automotive applications
 - **Fast overcurrent protection**: 3µs response with reasonable 5-second retry intervals
-- **Conservative margins**: All protection thresholds have adequate safety margins
-- **Production ready**: Manual jumper control suitable for field service and development
+- **Conservative margins**: All protection thresholds have adequate safety margins with 0.5V margin above 58V requirement
 - **Power source safety**: No possibility of conflicts with proper jumper management
 - **LMR36510ADDA compatibility**: Safe to apply USB 5V to buck output when TPS4800 input isolated
 - **EVM discrepancy**: Demo board documentation appears to contain calculation errors vs datasheet

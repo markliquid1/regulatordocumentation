@@ -33,42 +33,45 @@ The regulator implements multiple independent safety systems to protect the alte
 The INA228 provides independent hardware monitoring with configurable voltage thresholds:
 
 ```cpp
-// Configure hardware overvoltage threshold
-uint16_t thresholdLSB = (uint16_t)(VoltageHardwareLimit / 0.003125);
-INA.setBusOvervoltageTH(thresholdLSB);
-INA.setDiagnoseAlertBit(INA228_DIAG_BUS_OVER_LIMIT);
+void updateINA228OvervoltageThreshold() {
+  // Update the hardware limit based on current BulkVoltage setting
+  VoltageHardwareLimit = BulkVoltage + 0.1;
+  
+  // Calculate threshold in LSB units for INA228 with proper rounding
+  const double LSB = 0.003125;  // 3.125 mV/LSB
+  uint16_t thresholdLSB = (uint16_t)(VoltageHardwareLimit / LSB + 0.5);
 
-// Enable latching alert with ALERT pin control
-Wire.beginTransmission(INA.getAddress());
-Wire.write(0x0F);  // ALERT_MASK_ENABLE register
-Wire.write(0x98);  // Enable ALERT pin + latch + bus overvoltage
-Wire.write(0x00);
-Wire.endTransmission();
+  // Program overvoltage threshold and clear under-voltage
+  INA.setBusOvervoltageTH(thresholdLSB);
+  INA.setBusUndervoltageTH(0x0000);
+
+  // Configure DIAG_ALRT behavior explicitly for predictable operation
+  INA.clearDiagnoseAlertBit(INA228_DIAG_SLOW_ALERT);     // Compare on instantaneous readings
+  INA.clearDiagnoseAlertBit(INA228_DIAG_ALERT_LATCH);    // Transparent mode
+  INA.clearDiagnoseAlertBit(INA228_DIAG_ALERT_POLARITY); // Active-low open-drain
+  INA.setDiagnoseAlertBit(INA228_DIAG_BUS_OVER_LIMIT);   // Enable BUSOL reporting
+
+  // Verify what was actually written to the chip
+  uint16_t readback_BOVL = INA.getBusOvervoltageTH();
+  uint16_t readback_BUVL = INA.getBusUndervoltageTH();
+  
+  queueConsoleMessage("INA228 readback: BOVL=0x" + String(readback_BOVL, HEX) + 
+                      " (" + String(readback_BOVL * LSB, 3) + "V), BUVL=0x" + String(readback_BUVL, HEX));
+}
 ```
 
 **Operation**:
 - **Threshold**: BulkVoltage + 0.1V (typically 14.0V for 12V systems)
 - **Response time**: <1ms hardware detection
-- **Action**: Pulls ALERT pin low, sets status bit
+- **Action**: Sets status bit in DIAG_ALRT register
 - **Recovery**: Automatic when voltage drops below threshold
 
 **Monitoring Loop**:
 ```cpp
 // Check for hardware overvoltage alert
 uint16_t alertStatus = readINA228AlertRegister(INA.getAddress());
-if (!inaOvervoltageLatched && (alertStatus & 0x0080)) {
-  inaOvervoltageLatched = true;
-  inaOvervoltageTime = millis();
-  queueConsoleMessage("INA228 hardware overvoltage detected! Field disabled until corrected");
-}
-
-// Auto-clear after 10 seconds if condition resolved
-if (inaOvervoltageLatched && millis() - inaOvervoltageTime >= 10000) {
-  clearINA228AlertLatch(INA.getAddress());
-  if (!(readINA228AlertRegister(INA.getAddress()) & 0x0080)) {
-    inaOvervoltageLatched = false;
-    queueConsoleMessage("INA228 overvoltage condition cleared");
-  }
+if (alertStatus & 0x0010) {  // Check BUSOL bit (bit 4)
+  queueConsoleMessage("INA228 DIAG_ALRT: Overvoltage detected at " + String(IBV, 2) + "V");
 }
 ```
 
@@ -79,7 +82,7 @@ Inductive kickback protection prevents MOSFET damage during field switching:
 **Circuit Design**:
 ```
 Battery 12V → Field Coil (2-6Ω, ~50mH) → MOSFET → Ground
-                ↑
+                ↘
             Flyback Diode (1N4007 or equivalent)
 ```
 
@@ -341,31 +344,103 @@ void processAlarmOutput(bool currentCondition, String reason) {
 
 ### Watchdog Protection
 
-15-second watchdog timer prevents system hangs:
+The ESP32 dual-core architecture uses a 15-second watchdog timer to prevent system hangs and ensure safe operation:
 
+**What is a Watchdog?**
+- **Purpose**: Detects when code gets stuck in infinite loops or hangs
+- **Timeout**: If the main task doesn't "feed" the watchdog within 15 seconds, the ESP32 automatically reboots
+- **Safety benefit**: During reboot, all GPIO pins reset to LOW, which turns OFF the alternator field
+- **Hardware reset**: Complete system restart ensures recovery from any software failure
+
+**Watchdog Setup**:
 ```cpp
 void setupWatchdog() {
-  esp_task_wdt_config_t wdt_config = {
-    .timeout_ms = 15000,   // 15 seconds
-    .idle_core_mask = 0,   // Don't monitor idle cores
-    .trigger_panic = true  // Reboot on timeout
-  };
-  esp_task_wdt_init(&wdt_config);
-  esp_task_wdt_add(NULL);  // Add main loop task
-  queueConsoleMessage("Watchdog enabled: 15 second timeout for safety");
+  // Try to add main task to existing watchdog (Arduino framework pre-initializes)
+  esp_err_t add_result = esp_task_wdt_add(NULL);
+  if (add_result == ESP_OK) {
+    queueConsoleMessage("Watchdog already active - main task added");
+  } else {
+    // Create new watchdog if none exists
+    esp_task_wdt_config_t wdt_config = {
+      .timeout_ms = 15000,   // 15 seconds
+      .idle_core_mask = 0,   // Don't monitor idle cores
+      .trigger_panic = true  // Reboot on timeout
+    };
+    esp_task_wdt_init(&wdt_config);
+    esp_task_wdt_add(NULL);
+    queueConsoleMessage("Watchdog created and main task added");
+  }
 }
+```
 
+**Core Architecture and Task Coverage**:
+- **Core 1**: Main loop with field control - monitored by watchdog
+- **Core 0**: WiFi, system tasks, TempTask - separate monitoring
+- **TempTask**: Independent temperature reading task with separate health monitoring
+
+**Main Loop Watchdog Feeding**:
+```cpp
 void loop() {
   esp_task_wdt_reset();  // Feed watchdog every loop iteration
   // ... main loop code ...
 }
 ```
 
-**Protection Logic**:
-- **Timeout**: 15 seconds without watchdog reset
-- **Action**: Hardware reset of ESP32
-- **Recovery**: Full system restart with safety state
-- **Field safety**: GPIO pins reset to LOW → field disabled
+### TempTask Health Monitoring
+
+The temperature reading task runs independently on Core 0 and has its own health monitoring system:
+
+```cpp
+// TempTask health monitoring globals
+unsigned long lastTempTaskHeartbeat = 0;
+bool tempTaskHealthy = true;
+const unsigned long TEMP_TASK_TIMEOUT = 20000;  // 20 seconds
+
+void TempTask(void *parameter) {
+  for (;;) {
+    // Update heartbeat to show task is alive
+    lastTempTaskHeartbeat = millis();
+    tempTaskHealthy = true;
+    
+    // Temperature reading operations...
+    // Update heartbeat during long conversion waits
+    for (int i = 0; i < 25; i++) {
+      vTaskDelay(pdMS_TO_TICKS(200));
+      lastTempTaskHeartbeat = millis();  // Show task isn't hung
+    }
+  }
+}
+
+void checkTempTaskHealth() {
+  unsigned long now = millis();
+  
+  // Check if TempTask is responding
+  if (now - lastTempTaskHeartbeat > TEMP_TASK_TIMEOUT) {
+    if (tempTaskHealthy) {
+      tempTaskHealthy = false;
+      queueConsoleMessage("CRITICAL: TempTask hung - reducing field for safety");
+      
+      // Safety response: reduce field output
+      if (!IgnoreTemperature && dutyCycle > MinDuty + 20) {
+        dutyCycle = MinDuty + 10;  // Conservative field setting
+      }
+      digitalWrite(33, HIGH);  // Sound alarm
+    }
+  } else {
+    // TempTask recovered
+    if (!tempTaskHealthy) {
+      tempTaskHealthy = true;
+      queueConsoleMessage("TempTask: Recovered and responding normally");
+    }
+  }
+}
+```
+
+**Benefits**:
+- **Independent monitoring**: Separate from main watchdog system
+- **Safety response**: Reduces field output when temperature monitoring fails
+- **Automatic recovery**: Detects when TempTask resumes normal operation
+- **User notification**: Console messages about temperature monitoring status
 
 ### Memory Monitoring
 
@@ -677,40 +752,4 @@ void updateSystemHealthMetrics() {
 | Parameter | Default | Range | Description |
 |-----------|---------|--------|-------------|
 | TemperatureLimitF | 150 | 100-250 | Alternator temperature limit (°F) |
-| VoltageAlarmHigh | 15 | 12-18 | High voltage alarm threshold |
-| VoltageAlarmLow | 11 | 8-12 | Low voltage alarm threshold |
-| CurrentAlarmHigh | 100 | 50-200 | High current alarm threshold |
-| MaximumAllowedBatteryAmps | 100 | 50-500 | Battery current protection limit |
-
-### System Health Parameters
-
-| Parameter | Default | Range | Description |
-|-----------|---------|--------|-------------|
-| WARNING_THROTTLE_INTERVAL | 30000 | 5000-300000 | Warning message throttle (ms) |
-| DATA_TIMEOUT | 10000 | 1000-60000 | Sensor freshness timeout (ms) |
-| FIELD_COLLAPSE_DELAY | 10000 | 5000-30000 | Emergency shutdown lockout (ms) |
-| ALARM_TEST_DURATION | 2000 | 1000-10000 | Alarm test duration (ms) |
-
-### Thermal Model Parameters
-
-| Parameter | Default | Range | Description |
-|-----------|---------|--------|-------------|
-| WindingTempOffset | 50.0 | 0-100 | Winding temperature offset (°F) |
-| PulleyRatio | 2.0 | 1.0-4.0 | Engine to alternator speed ratio |
-| THERMAL_UPDATE_INTERVAL | 10000 | 1000-60000 | Thermal calculation rate (ms) |
-
-## Error Recovery Procedures
-
-### Automatic Recovery Systems
-- **Watchdog reset**: Complete system restart on hang
-- **Sensor fallback**: Automatic switch to backup sensors
-- **Field collapse recovery**: 10-second lockout with automatic resume
-- **Memory management**: Garbage collection and stack monitoring
-
-### Manual Recovery Options
-- **Factory reset**: GPIO15 pin recovery mode
-- **Alarm reset**: Web interface manual reset
-- **Configuration reset**: Delete individual setting files
-- **Complete restart**: 2-hour automatic maintenance restart
-
-This comprehensive safety and monitoring system ensures reliable operation while providing detailed diagnostics and protection against all major failure modes.
+| VoltageAlarmHigh | 15 | 12-18 | High voltage alarm

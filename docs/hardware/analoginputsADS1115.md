@@ -579,3 +579,171 @@ The documented 5V/10kΩ configuration suffers from:
 - Consider 3.3V/15kΩ configuration for full -40°C to +125°C range
 - Would reduce power consumption by ~40%
 - Would enable full cold temperature measurement capability
+
+
+# TLV9154 Op-Amp Failure Analysis and Protection Fix
+
+## Failure Description
+
+**Failure Pattern:**
+- Two TLV9154 op-amps failed with similar symptoms
+- One showed visible burn damage centered around ground pin (Pin 11)
+- Second showed no visible damage but produced garbage ADC readings
+- One failure occurred with engine off (no input signals active)
+- Neither circuit used the Thermistor channel.
+
+
+## Root Cause Analysis
+
+### Theory 1: Power Sequencing Issue
+
+**Problem:** Mixed voltage design with inadequate input protection
+- **3.3V supply** powers TLV9154 op-amp (Pin 4 = V+, Pin 11 = GND)
+- **5V signals** directly connected to op-amp inputs:
+  - Channel 2 (Pin 10): LM2907 output (0-5V range)
+  - Channel 3 (Pin 12): Thermistor voltage divider with 5V pullup
+
+**Failure Mechanism:**
+1. During power-up, 5V rail establishes before 3.3V rail
+2. Op-amp inputs receive 5V while supply pins are unpowered (0V)
+3. Internal ESD protection diodes become forward-biased
+4. Current path: 5V source → Input pin → ESD diode → unpowered supply rail
+5. ESD diodes exceed safe current limits, causing thermal damage
+6. Ground pin (Pin 11) becomes current exit point, showing burn damage
+
+### Current Calculations
+
+**Without Protection (Original Design):**
+- Channel 2: 5V directly to Pin 10, limited only by LM2907 output impedance
+- Channel 3: 5V through 10kΩ thermistor pullup = 0.5mA potential current
+- Internal ESD diodes not rated for continuous current → thermal failure
+
+**Systematic Failure:** Two similar failures indicate design issue, not random component failure
+
+## Secondary Issue: Grounding Architecture
+
+### Theory #2: Current Grounding Problem
+
+**Problematic Design:**
+- **ADS1115 ground** connected to battery negative through INA228 Shunt- terminal separate Cat6 wire strand (thin wire)
+- **TLV9154 ground** connected to main PCB ground plane
+- **INA228** grounded normally to ground plane, but Shunt- goes to battery via Cat6
+Ground Plane connected by battery bank - by a thick wire, say 12 gauge.
+
+**Why This Is Poor Design:**
+
+*Kelvin Sensing Misuse:*
+- INA228 Shunt+/Shunt- are designed for **Kelvin sensing** (voltage measurement only)
+- Should carry **no return current** from other circuits
+- Using Shunt- as ground reference for ADS1115 violates this principle
+
+*Ground Impedance Mismatch:*
+- **Main ground plane:** Low impedance, wide copper area
+- **Cat6 wire:** Higher resistance, inductance, and voltage drop
+- Creates **different ground potentials** between TLV9154 and ADS1115
+
+### Potential Contribution to Failure
+
+**Ground Loop Analysis:**
+
+*Steady-State Voltage Drop:*
+- Cat6 wire resistance: ~0.1Ω (typical)
+- ADS1115 current: 150µA
+- Voltage drop: 150µA × 0.1Ω = **15µV**
+
+*Transient Current Problem:*
+- The steady-state drop calculation is **irrelevant** to the failure
+- The problem is **transient return**: when the ADS input clamps conduct (during spikes/over-range/power-sequence)
+- **Amps** of instantaneous current can try to return through that skinny "Kelvin" path
+- Forces a ground delta and dumps heat at the TLV9154 V− bond
+- Note from Mark, i don't believe this BS, but doesn't change the result.
+
+*Impact Assessment:*
+- **15µV steady-state offset** not sufficient to cause op-amp damage directly
+- **Transient ground currents** during fault conditions could contribute to thermal damage
+- **Bad practice** that violates current sensing design principles
+
+### Recommended Grounding Fix
+
+**Proper Architecture:**
+1. **Connect ADS1115 AGND** to main PCB ground plane (same as TLV9154)
+2. **Use INA228 Shunt± only for Kelvin sensing** (no current return path)
+3. **Route main power return** through dedicated thick wire/plane
+4. **Keep sensing and power grounds separate** until single-point connection
+
+
+## Protection Solution for Theory #1
+
+### Input Protection Resistors
+
+**Value:** 4.7kΩ in series with each TLV9154 non-inverting input
+**Tolerance:** 1% or 5% (tolerance not critical for protection function)
+
+**Pins to Protect:**
+- Pin 3 (Channel 0 - Battery voltage)
+- Pin 5 (Channel 1 - Current sensor)
+- Pin 10 (Channel 2 - LM2907 RPM) ← **Critical for this failure due to 5V supply**
+- Pin 12 (Channel 3 - Temperature) ← **Critical for this failure due to 5V supply**
+
+**Protection Calculations:**
+
+*Fault Current with 4.7kΩ Protection:*
+- **Op-amp powered (3.3V):** (5V - 3.3V - 0.3V) / 4.7kΩ = **0.3mA** → Safe
+- **Op-amp unpowered (0V):** (5V - 0.3V) / 4.7kΩ = **1.0mA** → Safe (survives)
+
+*Accuracy Impact:*
+- Op-amp input bias current: ~10pA typ
+- Voltage drop: 10pA × 4.7kΩ = **0.047µV** → Negligible
+- Existing voltage dividers have much higher source impedance anyway
+
+### Output Protection Resistors
+
+**Value:** 330Ω in series with each TLV9154 output to ADS1115
+**Tolerance:** 1% or 5%
+
+**Pins to Protect:**
+- Pin 1 → ADS1115 AIN0
+- Pin 7 → ADS1115 AIN1  
+- Pin 8 → ADS1115 AIN2
+- Pin 14 → ADS1115 AIN3
+
+**Protection Calculations:**
+
+*Fault Current (ADS1115 unpowered):*
+- Maximum op-amp output: 3.3V
+- Current into ADS1115 input clamp: (3.3V - 0.3V) / 330Ω = **9.1mA**
+- ADS1115 specification: ±10mA continuous maximum → **Within spec**
+
+*Accuracy Impact:*
+- ADS1115 input impedance: Very high during sampling
+- Voltage drop during normal operation: **Effectively zero**
+
+
+## Implementation Summary
+
+### Required Changes
+1. **Add 4.7kΩ resistors** in series with TLV9154 inputs (Pins 3, 5, 10, 12)
+2. **Add 330Ω resistors** in series with TLV9154 outputs (Pins 1, 7, 8, 14)
+3. **Fix ADS1115 grounding** to use main ground plane (separate issue)
+4. **Extra cap** 0.1 µF X7R from V+↔V− at the pins (also keep the 10 µF bulk). This is standard power integrity for op-amps.
+
+
+### Expected Results
+- **Prevents power sequencing failures** (primary cause of current failures)
+- **Limits fault currents to safe levels** in all operating conditions
+- **Maintains measurement accuracy** (protection resistors have negligible impact)
+- **Provides ESD protection** during assembly and field service
+
+## Design Validation
+
+**Power Sequencing Test:**
+- Verify 5V and 3.3V startup timing with oscilloscope
+- Confirm protection resistors limit current during sequencing faults
+- Test system behavior with various power-up sequences
+
+**Fault Testing:**
+- Apply 5V to individual inputs with op-amp unpowered
+- Verify current limitation and no damage
+- Confirm normal operation after fault conditions
+
+**Critical Insight:** Reference circuit designs often omit protection resistors, assuming ideal operating conditions. Real-world applications require protection against predictable fault modes like power sequencing issues.
