@@ -214,11 +214,236 @@ Input Signal ──[R1]──┬──[R2]──GND
 **Input Signal Conditioning (Pin 1 – TACH+)**
 - **AC coupling**: Two 10µF/100V capacitors in parallel (20µF total)
 - **Series resistance**: **4.7kΩ, 2W (HP122WJ0472T4E)**
-- **Input filtering**: 6.8nF capacitor to ground (5kHz cutoff)
+- **Input filtering**: 6.8nF capacitor to ground
 - **Input termination**: 100kΩ resistor to ground
 - **Overvoltage protection**: SMBJ12CA bidirectional TVS diode (12V clamp)
-- **High-pass cutoff**: 1/(2π × 100kΩ × 20µF) = **0.08Hz**
-- **Voltage attenuation**: ~4.5% (4.7kΩ + 100kΩ divider)
+
+#### Input Signal Conditioning - Detailed Analysis
+
+The LM2907 input circuit is an AC-coupled, attenuated input with complex frequency-dependent behavior. Proper analysis requires treating this as an AC circuit with both capacitive reactances and resistive elements.
+
+**Circuit Topology:**
+```
+Stator Signal → 4.7kΩ series → 20µF coupling → LM2907 Pin 1
+                                                    ↓
+                                            (100kΩ || 6.8nF) to GND
+                                                    ↓
+                                              SMBJ12CA TVS
+```
+
+**High-Pass Filter Characteristics:**
+- **Time constant**: τ = R_bias × C_coupling = 100kΩ × 20µF = **2.0 seconds**
+- **Corner frequency**: f_c = 1/(2πτ) = 1/(2π × 100kΩ × 20µF) = **0.08 Hz**
+- **Purpose**: Blocks DC offset, allows AC signal to pass
+
+**Complex Impedance Analysis at Operating Frequencies:**
+
+At typical alternator frequency (60Hz):
+- **Coupling capacitor reactance**: X_c(20µF) = 1/(2π × 60Hz × 20µF) ≈ **133Ω**
+- **Shunt capacitor reactance**: X_c(6.8nF) = 1/(2π × 60Hz × 6.8nF) ≈ **389kΩ**
+
+**Parallel Load Impedance (100kΩ || 6.8nF at 60Hz):**
+```
+Z_parallel = (R_bias × Z_shunt) / (R_bias + Z_shunt)
+Z_parallel = (100kΩ × (-j389kΩ)) / (100kΩ - j389kΩ)
+|Z_parallel| ≈ 96.9kΩ at ∠-14.4°
+```
+
+**Total Circuit Impedance:**
+```
+Z_total = R_series + Z_coupling + Z_parallel
+Z_total = 4.7kΩ + (-j133Ω) + (93.8kΩ - j24.1kΩ)
+|Z_total| ≈ 101.5kΩ
+```
+
+**Frequency-Dependent Transfer Function:**
+
+The combined transfer function includes both high-pass coupling and voltage division:
+```
+H(f) = H_coupling(f) × H_divider(f)
+
+where:
+H_coupling(f) = [j2πf × τ] / [1 + j2πf × τ]  (high-pass from AC coupling)
+H_divider(f) = Z_load(f) / [Z_series + Z_coupling(f) + Z_load(f)]
+```
+
+**Signal Attenuation vs. Frequency:**
+
+| Frequency | X_c(20µF) | X_c(6.8nF) | Coupling Gain | Divider Gain | Total Gain | Attenuation | Required Input* |
+|-----------|-----------|------------|---------------|--------------|------------|-------------|-----------------|
+| 5 Hz | 1592Ω | 4.68MΩ | 0.628 | 0.955 | 0.600 | 40% | 41.7mVpp |
+| 10 Hz | 796Ω | 2.34MΩ | 0.783 | 0.955 | 0.748 | 25% | 33.4mVpp |
+| 50 Hz | 159Ω | 468kΩ | 0.950 | 0.955 | 0.907 | 9.3% | 27.6mVpp |
+| 60 Hz | 133Ω | 389kΩ | 0.958 | 0.955 | 0.915 | 8.5% | 27.3mVpp |
+| 100 Hz | 80Ω | 234kΩ | 0.975 | 0.955 | 0.931 | 6.9% | 26.8mVpp |
+| 1000 Hz | 8Ω | 23.4kΩ | 0.998 | 0.955 | 0.953 | 4.7% | 26.2mVpp |
+| 2000 Hz | 4Ω | 11.7kΩ | 0.999 | 0.955 | 0.954 | 4.6% | 26.2mVpp |
+
+\* Required stator amplitude to produce 25mVpp at LM2907 Pin 1 (minimum detection threshold)
+
+**Key Observations:**
+1. **At high frequencies** (>100Hz): Coupling capacitor has minimal impedance, attenuation approaches resistive divider limit (~4.7%)
+2. **At mid frequencies** (50-100Hz): Combined attenuation ~7-9% due to coupling capacitor reactance
+3. **At low frequencies** (<10Hz): Significant high-pass attenuation, requires much stronger input signals
+4. **Shunt capacitor** (6.8nF): Negligible effect below 1kHz, provides high-frequency noise filtering
+
+**TVS Clamping Analysis:**
+
+The SMBJ12CA TVS begins conducting when node voltage exceeds approximately 13V. Node peak voltage depends on input amplitude and frequency:
+
+| Input Amplitude | Node Peak @ 60Hz | TVS Status | Impact |
+|-----------------|------------------|------------|--------|
+| 12V pp | 5.73V | No clamp | Normal operation |
+| 24V pp | 11.46V | No clamp | Normal operation |
+| 48V pp | 22.91V | **Clamps** | Limits peaks, reduces power |
+| 60V pp | 28.64V | **Clamps** | Heavy clamping, significant power |
+
+At 48V pp and above, TVS clamping occurs during signal peaks, providing overvoltage protection and reducing actual power dissipation below calculated linear values.
+
+#### LM2907 Recovery Time After Field Dropout
+
+**Problem Description:**
+When the alternator field is cut off (load dump protection or shutdown), the RPM reading drops to zero and takes 5-10 seconds to recover even though actual zero-crossing loss is only ~300ms. This is caused by the AC coupling capacitor charge retention.
+
+**Coupling Capacitor Discharge Mechanism:**
+
+When a large signal is present, the 20µF coupling capacitor charges to a DC level corresponding to the signal amplitude. When the signal suddenly drops (field cutoff), this stored charge must discharge through the 100kΩ bias resistor before the LM2907 can detect the restored signal.
+
+**Exponential Decay:**
+```
+V_offset(t) = V_initial × e^(-t/τ)
+
+where τ = R_bias × C_coupling = 100kΩ × 20µF = 2.0 seconds
+```
+
+**Recovery Time to Detection Threshold:**
+
+The LM2907 requires approximately 25mVpp at Pin 1 for reliable frequency detection. Recovery is defined as the time until the residual DC offset has decayed enough for the restored signal to exceed this threshold.
+
+```
+Recovery fraction α = 1 - (V_threshold / V_initial)
+t_recovery = -τ × ln(1 - α)
+```
+
+**Recovery Timing:**
+
+| Recovery Level | Time Factor | Recovery Time | Practical Meaning |
+|----------------|-------------|---------------|-------------------|
+| 63% recovered | 1.0τ | 2.0 seconds | One time constant |
+| 90% recovered | 2.3τ | **4.6 seconds** | **Practical recovery** |
+| 95% recovered | 3.0τ | 6.0 seconds | Near-complete |
+| 99% recovered | 4.6τ | 9.2 seconds | Essentially complete |
+
+**Observed Behavior:**
+- Field dropout creates 5-10 second RPM reading gap
+- Actual zero-crossing signal loss is only ~300ms
+- Remaining 4.6-9.2 seconds is coupling capacitor discharge time
+- This matches the exponential recovery prediction of 2.3τ to 4.6τ
+
+**Why Component Values Were Not Changed:**
+
+An alternative bias resistor value of 10kΩ would reduce the time constant to 0.2 seconds (recovery time ~0.46 seconds), eliminating the dropout problem. However, testing revealed that fixing one problem caused another, and a better balance could not be found. 
+
+Speculation: The lower bias resistance (10kΩ) likely created issues with:
+- Reduced signal sensitivity (40% gain reduction requiring stronger input signals)
+- Potential high-frequency instability or noise pickup with lower impedance node
+- Changed signal-to-noise ratio affecting detection reliability at idle speeds
+- TVS clamping occurring at lower input voltages (16V peak at 48V pp input vs 23V with 100kΩ)
+
+**Solution - Software Field Management:**
+
+Rather than compromise the hardware circuit balance, the recovery time issue is addressed in software by maintaining a small alternator field current at all times. This field current is sufficient to generate a detectable stator signal for RPM measurement but small enough that no charging occurs (effectively "off" from a charging perspective). This ensures continuous RPM readings without the 5-10 second dropout after field transitions.
+
+#### Power Dissipation Analysis
+
+**AC Operation (Normal Conditions):**
+
+Under normal AC operation, power dissipation must be calculated using complex impedance analysis with RMS voltage and current values.
+
+**At 12V Peak-to-Peak (4.24V RMS, 60Hz):**
+```
+|Z_total| = 101.5kΩ
+I_rms = 4.24V / 101.5kΩ = 41.8µA
+P_series = (41.8µA)² × 4.7kΩ = 0.008mW
+P_bias = |V_node_rms|² / R_bias = 0.16mW
+P_total = 0.17mW
+```
+
+**At 24V Peak-to-Peak (8.49V RMS, 60Hz):**
+```
+I_rms ≈ 0.106mA
+P_series = (0.106mA)² × 4.7kΩ = 0.053mW
+P_bias = 0.71mW
+P_total = 0.76mW
+```
+
+**At 48V Peak-to-Peak (16.97V RMS, 60Hz) - TVS Clamping Occurs:**
+```
+Without TVS: I_rms ≈ 0.21mA, P_bias would be ~2.9mW
+With TVS clamping: Node voltage limited to ~13V peaks
+Actual P_bias ≈ 2-3mW (reduced by clamping)
+P_series ≈ 0.2mW
+```
+
+**Summary - AC Power Dissipation:**
+
+| Input Amplitude | Frequency | Bias R Power | Series R Power | Total | TVS Status |
+|-----------------|-----------|--------------|----------------|-------|------------|
+| 12V pp (4.24V RMS) | 60Hz | 0.16mW | 0.008mW | 0.17mW | No clamp |
+| 24V pp (8.49V RMS) | 60Hz | 0.71mW | 0.053mW | 0.76mW | No clamp |
+| 48V pp (16.97V RMS) | 60Hz | ~2-3mW* | 0.2mW | ~2.2-3.2mW | **Clamps** |
+| 60V pp (21.21V RMS) | 60Hz | ~3-4mW* | 0.3mW | ~3.3-4.3mW | **Clamps** |
+
+\* TVS clamping reduces power dissipation below linear calculation
+
+**DC Fault Conditions (Engine-Off with Rectifier Leakage):**
+
+If DC voltage appears on the stator tap (fault condition), the coupling capacitor will charge to the input voltage and steady-state DC current flows through the bias resistor:
+
+**Steady-State DC Analysis (After Capacitor Charged):**
+```
+I_dc = V_input / R_bias
+P_bias = V_input² / R_bias
+P_series ≈ 0 (no current through series resistor after capacitor charges)
+```
+
+| DC Input | Steady-State Current | Bias Resistor Power | Status |
+|----------|---------------------|---------------------|---------|
+| 12V | 120µA | 1.44mW | Negligible |
+| 14V | 140µA | 1.96mW | Safe |
+| 24V | 240µA | 5.76mW | Safe |
+| 48V | 480µA | 23.0mW | Safe |
+
+**Transient DC Fault (Before Capacitor Charges):**
+
+During the initial moment of a DC fault before the coupling capacitor charges, current flows through both resistors in series. The TVS provides protection:
+
+```
+I_transient = V_input / (R_series + R_bias) 
+            = V_input / 104.7kΩ (if TVS doesn't clamp)
+```
+
+| DC Input | Maximum Transient I | Series R Power | TVS Protection | Status |
+|----------|---------------------|----------------|----------------|---------|
+| 14V | 134µA | 0.08mW | No clamp needed | ✅ Safe |
+| 28V | 267µA | 0.33mW | No clamp needed | ✅ Safe |
+| 56V | 535µA | 1.34mW | TVS clamps | ✅ Safe |
+
+**Component Ratings:**
+- **4.7kΩ series resistor**: HP122WJ0472T4E rated at 2W - massive safety margin
+- **100kΩ bias resistor**: 0.1W rated - adequate for all operating conditions
+- Maximum power in bias resistor: ~23mW at 48V DC fault (4.3× safety margin)
+- Normal AC operation: <1mW in bias resistor under typical conditions
+
+#### Normal AC Operation (3V to 58V inputs)
+- **No damage risk**: AC signals don't cause sustained power dissipation above safe limits
+- **TVS clipping**: Signals above ~48V pp get peak-clamped to ~13V by SMBJ12CA, maintaining proper LM2907 operation while protecting the circuit
+- **Circuit robustness**: Safe operation with input signals from 3V to 58V+ amplitude
+
+#### Filter Characteristics (Optimized - No Voltage Divider)
+- **Thevenin resistance**: ~0Ω (direct connection from LM2907)
+- **Cutoff frequency**: 6.4MHz (effectively no filtering of alternator signals)
+- **Purpose**: Provides minimal high-frequency noise protection without signal attenuation
 
 #### Frequency and RPM Analysis
 
@@ -254,315 +479,120 @@ Input Signal ──[R1]──┬──[R2]──GND
 
 #### Input Signal Requirements
 
-**Minimum detectable signal**: ±40mV at Pin 1 (LM2907 worst-case threshold *** datasheet unclear on this!!)
+**Minimum detectable signal**: ~25mVpp at Pin 1 after attenuation (LM2907 worst-case threshold per datasheet interpretation)
 
-**Input signal analysis for 100mV (±100mV) input:**
+**Required Stator Signal vs. Frequency:**
+
+Due to high-pass filter attenuation at low frequencies, the required stator amplitude varies with frequency:
+
+| Frequency | Required Stator | Signal at Pin 1 | High-Pass Loss | Detection Status | Engine RPM (Conserv.) |
+|-----------|-----------------|-----------------|----------------|------------------|---------------------|
+| 5Hz | 41.7mVpp | 25mVpp | 40% | Marginal | 33 RPM |
+| 10Hz | 33.4mVpp | 25mVpp | 25% | ✅ Good | 67 RPM |
+| 20Hz | 28.0mVpp | 25mVpp | 11% | ✅ Good | 133 RPM |
+| 50Hz | 27.6mVpp | 25mVpp | 9.3% | ✅ Good | 333 RPM |
+| 100Hz | 26.8mVpp | 25mVpp | 6.9% | ✅ Excellent | 667 RPM |
+| 500Hz | 26.3mVpp | 25mVpp | 5.0% | ✅ Excellent | 3333 RPM |
+| 1000Hz | 26.2mVpp | 25mVpp | 4.7% | ✅ Excellent | 6667 RPM |
+
+**Frequency Response Impact:**
+- **Above 100Hz**: Minimal attenuation (~5-7%), excellent sensitivity
+- **50-100Hz**: Moderate attenuation (~7-9%), good sensitivity
+- **10-50Hz**: Increasing attenuation (10-25%), requires stronger signals
+- **Below 10Hz**: Significant attenuation (>25%), marginal detection
+
+This explains why very low RPM detection depends on stator signal strength - the high-pass filter causes 2× signal requirement at 5Hz compared to 100Hz.
+
+**Input signal analysis for 100mVpp stator input:**
 
 | Frequency | Signal at Pin 1 | Detection | Engine RPM (Conservative) | Engine RPM (1-pulse) |
 |-----------|-----------------|-----------|---------------------------|---------------------|
-| 50Hz | 95.4mV | ✅ Valid | 333 RPM | 3000 RPM |
-| 100Hz | 95.4mV | ✅ Valid | 667 RPM | 6000 RPM |
-| 500Hz | 94.6mV | ✅ Valid | 3333 RPM | 30000 RPM |
-| 800Hz | 93.0mV | ✅ Valid | 5333 RPM | 48000 RPM |
-| 1000Hz | 91.8mV | ✅ Valid | 6667 RPM | 60000 RPM |
+| 50Hz | 90.7mVpp | ✅ Excellent | 333 RPM | 3000 RPM |
+| 100Hz | 93.1mVpp | ✅ Excellent | 667 RPM | 6000 RPM |
+| 500Hz | 95.3mVpp | ✅ Excellent | 3333 RPM | 30000 RPM |
+| 800Hz | 95.4mVpp | ✅ Excellent | 5333 RPM | 48000 RPM |
+| 1000Hz | 95.3mVpp | ✅ Excellent | 6667 RPM | 60000 RPM |
 
 **Very Low Frequency Analysis (1-pulse systems):**
 
 **Minimum detectable**: 8Hz = 479 RPM for 1-pulse systems 
 
-| Engine RPM | Frequency | Signal at Pin 1 | Detection Status |
-|------------|-----------|-----------------|------------------|
-| 479 RPM | 8Hz | Variable | **Minimum detectable** |
-| 1500 RPM | 25Hz | 238mV | ✅ Valid |
-| 3000 RPM | 50Hz | 477mV | ✅ Valid |
-| 6000 RPM | 100Hz | 954mV | ✅ Valid |
-| 18000 RPM | 300Hz | 286mV | ✅ Valid |
-| 30000 RPM | 500Hz | 477mV | ✅ Valid |
-| 60000 RPM | 1000Hz | 918mV | ✅ Valid |
-| 95040 RPM | 1584Hz | 1510mV | ✅ Valid |
-| 158400 RPM | 2640Hz | 2518mV | **Maximum detectable** |
-
+| Engine RPM | Frequency | Required Stator | Signal at Pin 1 | Detection Status |
+|------------|-----------|-----------------|-----------------|------------------|
+| 479 RPM | 8Hz | ~50mVpp | 25mVpp | **Minimum detectable** |
+| 1500 RPM | 25Hz | 28.8mVpp | 25mVpp | ✅ Good if signal present |
+| 3000 RPM | 50Hz | 27.6mVpp | 25mVpp | ✅ Good |
+| 6000 RPM | 100Hz | 26.8mVpp | 25mVpp | ✅ Excellent |
+| 18000 RPM | 300Hz | 26.3mVpp | 25mVpp | ✅ Excellent |
+| 30000 RPM | 500Hz | 26.3mVpp | 25mVpp | ✅ Excellent |
+| 60000 RPM | 1000Hz | 26.2mVpp | 25mVpp | ✅ Excellent |
+| 95040 RPM | 1584Hz | 26.2mVpp | 25mVpp | ✅ Excellent |
+| 158400 RPM | 2640Hz | 26.2mVpp | 25mVpp | **Maximum detectable** |
 
 **Sine vs. Square Wave Performance**: Both waveform types perform identically for frequency detection. The LM2907 detects zero crossings regardless of waveform shape, and AC coupling affects both equally at very low frequencies.
 
-#### Normal AC Operation (3V to 58V inputs)
-- **No damage risk**: AC signals don't cause sustained power dissipation
-- **TVS clipping**: Signals above 12V get clipped to 12V, maintaining proper LM2907 operation
-- **Circuit robustness**: Safe operation with input signals up to 58V+ amplitude
-
-#### DC Fault Protection Analysis
-
-**Sustained DC voltage analysis** (engine-off or fault conditions):
-
-| DC Input | Current Through 4.7kΩ | Power in 4.7kΩ | Total Power | Equivalent at 12V | Status |
-|----------|----------------------|----------------|-------------|-------------------|---------|
-| 14V | 426µA | 0.85mW | 7.4mW | **0.62mA** | ✅ Safe |
-| 28V | 3.4mA | 54.5mW | 96.7mW | **8.1mA** | ✅ Safe |
-| 56V | 9.36mA | 412mW | 525mW | **43.8mA** | ✅ Safe |
-
-**Component ratings**: 4.7kΩ resistor (HP122WJ0472T4E) rated for 2W, providing excellent safety margin up to 56V DC faults.
-
-#### Filter Characteristics (Optimized - No Voltage Divider)
-- **Input impedance**: Direct connection to op-amp (>1MΩ input impedance)
-- **Cutoff frequency**: Determined by LM2907 output impedance and 5nF capacitor
-- **Time constant**: Minimal (direct connection)
-- **99% settling time**: <50µs
-
-#### Power Consumption Analysis (No Voltage Divider)
-- **Voltage divider power**: 0W (no divider resistors)
-- **Op-amp power**: 0.13mW (shared IC allocation)
-- **Total power**: 0.13mW
-- **Equivalent at 12V**: **10.8µA** (unchanged from IC power)
-
 ---
-
-### Channel 3: Temperature Monitor (5V Supply Design)
-
-**Application**: Engine or ambient temperature monitoring using 10kΩ NTC thermistor
-
-#### Current Design Parameters
-- **Supply voltage**: 5V 
-- **R1**: 10kΩ ±0.1%, 1/8W, 0805 SMD (pullup to 5V)
-- **R2**: 10kΩ NTC thermistor (user-supplied sensor, to ground)
-- **Divider configuration**: 10kΩ pullup to 5V, thermistor to ground
-- **Filter capacitor**: 5nF ±10%, X7R, 0603 SMD
-
-#### Design Limitations with 5V Supply
-**Critical Issue**: 5V supply with 10kΩ/10kΩ divider creates voltages above 3.3V for cold temperatures:
-- ADC cannot measure voltages above 3.3V (supply rail limitation)
-- Cold temperatures below ~15°C are unmeasurable
-- **Temperature range**: Limited to ~15°C to +125°C (cold temperature limitation)
-- **ADC voltage range**: 1.67V to 4.17V (but clipped at 3.3V maximum)
-
-#### Thermistor Performance Analysis (5V Supply)
-
-**Voltage divider equation**: V_out = 5V × R_thermistor / (10kΩ + R_thermistor)
-
-| Temperature | Thermistor Resistance | Divider Voltage | ADC Reading | Measurable | Temperature Resolution |
-|-------------|----------------------|-----------------|-------------|------------|----------------------|
-| -40°C | ~195kΩ | 4.76V | **3.3V clipped** | ❌ **Unmeasurable** | N/A |
-| -20°C | ~84kΩ | 4.47V | **3.3V clipped** | ❌ **Unmeasurable** | N/A |
-| 0°C | ~27kΩ | 3.65V | **3.3V clipped** | ❌ **Unmeasurable** | N/A |
-| 15°C | ~15kΩ | 3.00V | 3.00V | ✅ Valid | ~1.2°C |
-| 25°C | ~10kΩ | 2.50V | 2.50V | ✅ Valid | ~0.8°C |
-| 50°C | ~3.9kΩ | 1.41V | 1.41V | ✅ Valid | ~1.0°C |
-| 75°C | ~1.8kΩ | 0.76V | 0.76V | ✅ Valid | ~1.8°C |
-| 100°C | ~0.9kΩ | 0.41V | 0.41V | ✅ Valid | ~3.2°C |
-| 125°C | ~0.5kΩ | 0.24V | 0.24V | ✅ Valid | ~5.8°C |
-
-
-#### Alternative Optimized Configuration (Recommendation)
-For full temperature range capability:
-- **Supply voltage**: 3.3V (matches ADC supply, but was impossible on this iteration of board hardware)
-- **R1**: 15kΩ ±0.1%, 1/8W, 0805 SMD (pullup to 3.3V)
-- **Temperature range**: -40°C to +125°C (full range)
-- **Power reduction**: ~40% lower consumption
-
-#### Original Configuration Limitations
-The documented 5V/10kΩ configuration suffers from:
-- **Cold temperature limitation**: Voltages above 3.3V cannot be measured by ADC
-- **Wasted voltage range**: High voltages at cold temperatures exceed ADC capability
-- **Higher power consumption**: 5V supply slightly increases current draw
-
-#### Filter Characteristics (5V Supply Design)
-- **Thevenin resistance**: 5kΩ (parallel combination at mid-range)
-- **Cutoff frequency**: 6.4kHz
-- **Time constant**: 25µs
-- **99% settling time**: 125µs
-
-#### Power Consumption Analysis (5V Supply Design)
-| Temperature | Thermistor R | Divider Current | Divider Power | Total Power | Equiv at 12V |
-|-------------|--------------|-----------------|---------------|-------------|--------------|
-| 15°C | 15kΩ | 200µA | 1.00mW | 1.13mW | **94.2µA** |
-| 25°C | 10kΩ | 250µA | 1.25mW | 1.38mW | **115µA** |
-| 100°C | 0.9kΩ | 459µA | 2.30mW | 2.43mW | **203µA** |
-| 125°C | 0.5kΩ | 476µA | 2.38mW | 2.51mW | **209µA** |
-
----
-
-## IC Configuration Details
-
-### TLV9154IDR Quad Op-Amp Pinout (SOIC-14 Package)
-
-| Pin | Symbol | Function | Connection |
-|-----|--------|----------|------------|
-| 1 | OUT1 | Op Amp A Output | **ADS1115 Channel 0 (AIN0)** |
-| 2 | IN1- | Op Amp A Inverting Input | **Connect to Pin 1** |
-| 3 | IN1+ | Op Amp A Non-inverting Input | **Channel 0 voltage divider output** |
-| 4 | V+ | Positive Power Supply | **+3.3V** |
-| 5 | IN2+ | Op Amp B Non-inverting Input | **Channel 1 voltage divider output** |
-| 6 | IN2- | Op Amp B Inverting Input | **Connect to Pin 7** |
-| 7 | OUT2 | Op Amp B Output | **ADS1115 Channel 1 (AIN1)** |
-| 8 | OUT3 | Op Amp C Output | **ADS1115 Channel 2 (AIN2)** |
-| 9 | IN3- | Op Amp C Inverting Input | **Connect to Pin 8** |
-| 10 | IN3+ | Op Amp C Non-inverting Input | **LM2907_OUT DIRECT (NO DIVIDER)** |
-| 11 | V- | Negative Power Supply | **GND (0V)** |
-| 12 | IN4+ | Op Amp D Non-inverting Input | **Channel 3 voltage divider output** |
-| 13 | IN4- | Op Amp D Inverting Input | **Connect to Pin 14** |
-| 14 | OUT4 | Op Amp D Output | **ADS1115 Channel 3 (AIN3)** |
-
-**Unity Gain Configuration**: Each op-amp output connects to its inverting input for 1:1 voltage following.
-
-### ADS1115 Configuration
-
-**Resolution**
-- **Theoretical ADC range**: ±4.096V (GAIN = 1)
-- **Actual usable range**: 0V to +3.3V
-- **16-bit resolution**: 0.1mV per LSB (3.3V ÷ 32768 counts)
-- **Effective resolution**: 0.1mV / divider_ratio per input LSB
-
----
-
-## System Performance Analysis
-
-### Total System Power Consumption
-
-#### Per-Channel Power Analysis (Typical Operating Conditions)
-| Channel | Application | Input Condition | Channel Power | IC Power Share | Total Power | Equivalent at 12V |
-|---------|-------------|-----------------|---------------|----------------|-------------|-------------------|
-| 0 | Battery Monitor | 12V | 0.14mW | 0.13mW | 0.27mW | **22.5µA** |
-| 1 | Current Monitor | 2.5V (0A) | 4.1µW | 0.13mW | 0.13mW | **10.8µA** |
-| 2 | RPM Monitor (optimized) | 1V | 0µW | 0.13mW | 0.13mW | **10.8µA** |
-| 3 | Temperature (5V design) | 25°C | 1.25mW | 0.13mW | 1.38mW | **115µA** |
-
-#### Total System Power
-- **ADS1115**: 0.50mW (150µA @ 3.3V) = **41.7µA equivalent at 12V**
-- **TLV9154IDR**: 0.013mW (4µA @ 3.3V) = **1.1µA equivalent at 12V**
-- **Total IC power**: 0.51mW = **42.8µA equivalent at 12V**
-- **Total system power**: ~2.32mW = **193µA equivalent at 12V** (with 5V Channel 3)
-
-#### Battery Life Analysis (100Ah 12V Battery)
-- **Continuous current draw**: ~193µA
-- **Daily consumption**: 4.6mAh (0.005% of capacity)
-- **Estimated battery life**: >50 years (limited by self-discharge, not monitoring system)
-- **Conclusion**: Excellent performance for battery-powered marine applications
-
-### Accuracy and Resolution Summary
-
-| Channel | Input Range | Engineering Units | ADC Resolution | Best Accuracy | Limitations |
-|---------|-------------|-------------------|----------------|---------------|-------------|
-| 0 | 0.21V - 65.2V | Battery voltage | 0.0021V | 0.084% | Min 0.21V (op-amp limit) |
-| 1 | ±200A | Alternator current | 0.02A | 0.52% | None (within sensor range) |
-| 2 | 8Hz - 2640Hz | Engine frequency | Variable | 0.03% | Min 8Hz → 27-479 RPM |
-| 3 | 15°C to +125°C | Temperature | 0.1mV | Variable | Cold temp limitation (5V design) |
-
----
-
-## Design Validation Results
-
-### Overvoltage Protection Verification
-✅ **Inherent protection confirmed**: Single-supply op-amp output cannot exceed 3.3V  
-✅ **No protection diodes required**: Eliminates leakage current and temperature drift  
-✅ **Safety margins verified**: Op-amp max output (3.3V) < ADS1115 max allowed input 
-
-### Accuracy Verification  
-✅ **No leakage current errors**: Op-amp buffer isolates high-impedance voltage dividers  
-✅ **Temperature stability**: No Schottky diode temperature coefficients  
-✅ **Precision components**: 0.1% resistors eliminate ratio errors  
-⚠️ **Minimum voltage limitations**: Op-amp VOL (~10mV) creates measurement dead zones
-
-### Noise Performance Verification
-✅ **Low-pass filtering effective**: 5nF capacitors remove high-frequency noise before amplification  
-✅ **EMI immunity**: Capacitive filtering with proper placement  
-✅ **Ground isolation**: Single-point grounding minimizes ground loops  
-
-### Environmental Suitability
-✅ **Temperature range**: -40°C to +85°C (industrial grade components)  
-✅ **Marine environment**: Ultra-low power, high accuracy, EMI immune design  
-✅ **Battery compatibility**: 129µA total consumption suitable for extended operation  
-✅ **Fault tolerance**: Robust protection against high-voltage transients and DC faults
----
-
-## Bill of Materials
-
-### Shared System Components
-- **U1**: TLV9154IDR quad op-amp, SOIC-14 SMD package
-- **U2**: ADS1115IDGSR 16-bit ADC, MSOP-10 SMD package  
-- **C_BYPASS**: 100nF ±10%, X7R dielectric, 0603 SMD decoupling capacitor
-
-### Channel 0: Battery Voltage Monitor
-- **R1**: 1MΩ ±0.1%, 1/8W, 0805 SMD
-- **R2**: 49.9kΩ ±0.1%, 1/8W, 0805 SMD
-- **C1**: 5nF ±10%, X7R, 0603 SMD
-
-### Channel 1: Current Monitor  
-- **R1**: 768kΩ ±0.1%, 1/8W, 0805 SMD
-- **R2**: 768kΩ ±0.1%, 1/8W, 0805 SMD
-- **C1**: 5nF ±10%, X7R, 0603 SMD
-
-### Channel 2: RPM Monitor (Optimized Configuration)
-- **R1**: Not used (direct connection)
-- **R2**: Not used (direct connection)  
-- **C1**: 5nF ±10%, X7R, 0603 SMD
-
-**LM2907 Input Circuit:**
-- **R_SERIES**: 4.7kΩ, 2W (HP122WJ0472T4E), critical for DC fault protection
-- **C_AC1, C_AC2**: 10µF/100V, parallel for 20µF total AC coupling
-- **C_FILTER**: 6.8nF ±10%, 0603 SMD (5kHz low-pass filter)
-- **R_TERM**: 100kΩ ±5%, 1/8W, 0805 SMD
-- **TVS1**: SMBJ12CA bidirectional TVS diode
-
-**LM2907 Timing Circuit:**
-- **C_TIMING1**: 10nF ±10%, 0603 SMD (Pin 2)
-- **C_TIMING2**: 3 × 1µF ±10%, 0805 SMD parallel (Pin 3, total 3µF)
-- **R_TIMING**: 25kΩ ±0.1%, 1/8W, 0805 SMD (Pin 3)
-- **C_BYPASS**: 1µF ±10%, 0805 SMD (power supply bypass)
-
-### Channel 3: Temperature Monitor (5V Supply Design)
-- **R1**: 10kΩ ±0.1%, 1/8W, 0805 SMD (pullup to 5V)
-- **R2**: 10kΩ NTC thermistor (user-supplied)
-- **Supply**: 5V 
-- **C1**: 5nF ±10%, X7R, 0603 SMD
-
-### Component Selection Notes
-- **Temperature rating**: Industrial grade (-40°C to +85°C minimum)
-- **Precision**: ±0.1% resistor tolerance critical for measurement accuracy
-- **Package size**: 0805/0603 SMD for compact layout and thermal stability
-- **Capacitor dielectric**: X7R for temperature stability in filtering applications
-- **High-power resistor**: HP122WJ0472T4E (2W) essential for DC fault protection
-- **Op-amp selection**: TLV9154IDR provides rail-to-rail output for superior low-voltage performance
-- **Channel 3 limitation**: 5V supply creates cold temperature measurement limitations due to ADC range
-
----
-
-## Customer Application Guidelines
-
-### Channel 0: Battery Voltage Monitoring
-- **Recommended range**: 12V, 24V, or 48V systems
-- **Resolution**: 2.1mV (excellent for battery monitoring)
-- **Update rate**: Suitable for continuous monitoring
-- **Power impact**: 22.5µA at 12V input
-- **Limitation**: Cannot measure below 0.21V (not practically relevant)
-
-### Channel 1: Current Monitoring  
-- **Compatible sensors**: QNHC1K-21 200A hall sensor or equivalent
-- **Sensor requirements**: 2.5V center, ±2V swing for full scale
-- **Resolution**: 0.02A theoretical, ~1A practical accuracy
-- **Power impact**: 10.8µA (minimal)
-
-### Channel 2: RPM Monitoring
-- **Input requirements**: Minimum 50mV (±50mV) for reliable detection  
-- **Recommended input**: 100mV+ for best performance
-- **Supported configurations**:
-  - Multi-pulse alternator stator (typical marine/automotive)
-  - Single pulse per revolution (slow engines) - 
-- **Frequency range**: **8Hz to 2640Hz** 
-- **Engine RPM range**: 
-  - Conservative (6-pulse, 1.5:1): **53 RPM** to **17,600 RPM**
-  - Aggressive (7-pulse, 2.5:1): **27 RPM** to **9,041 RPM**  
-  - 1-pulse direct: **479 RPM** to **158,400 RPM**
-- **Signal types**: Both sine and square waves work identically
-- **DC fault protection**: Safe up to 56V sustained DC input
-- **Power impact**: **Eliminated** (no voltage divider power consumption)
-
 
 ### Channel 3: Temperature Monitor
-- **Current configuration**: 10kΩ pullup at 5V supply
-- **Temperature limitation**: 5V supply creates unmeasurable voltages above 3.3V ADC limit for cold temperatures
-- **Temperature range**: 
-  - **Current (5V/10kΩ)**: 15°C to +125°C (cold temperature limitation)
-  - **Potential improvement (3.3V/15kΩ)**: -40°C to +125°C (full range)
-- **Resolution**: 0.1mV ADC resolution with 0.8-5.8°C temperature resolution depending on curve position
+
+**Application**: 10kΩ NTC thermistor (Murata NXFT15XH103FA2B050) for engine or ambient temperature
+
+#### Design Parameters (Current Configuration)
+- **Supply voltage**: 5V
+- **Pull-up resistor**: 10kΩ ±1%, 0805 SMD
+- **Thermistor**: 10kΩ @ 25°C, B=3380K, ±0.5%
+- **Filter capacitor**: 5nF ±10%, X7R, 0603 SMD
+- **No voltage divider**: Direct connection to op-amp buffer input
+- **Measurement range**: 15°C to 125°C (limited by 3.3V ADC maximum)
+
+#### Circuit Topology
+```
+5V ──[10kΩ pullup]──┬──[5nF filter]──GND
+                    │
+              [NTC Thermistor to GND]
+                    │
+            [Op-amp buffer input]
+```
+
+**Voltage division**: V_sense = 5V × R_NTC / (10kΩ + R_NTC)
+
+#### Performance Analysis
+| Temperature | R_NTC | V_sense | ADC Input | ADC Reading | Status |
+|-------------|-------|---------|-----------|-------------|--------|
+| -40°C | 119.4kΩ | 4.61V | **3.3V max** | Clipped | ❌ Cannot measure |
+| -20°C | 52.7kΩ | 4.20V | **3.3V max** | Clipped | ❌ Cannot measure |
+| 0°C | 27.3kΩ | 3.66V | **3.3V max** | Clipped | ❌ Cannot measure |
+| 15°C | 18.6kΩ | 3.25V | 3.25V | Valid | ✅ Minimum measurable |
+| 25°C | 10.0kΩ | 2.50V | 2.50V | Valid | ✅ Valid |
+| 50°C | 3.60kΩ | 1.32V | 1.32V | Valid | ✅ Valid |
+| 75°C | 1.39kΩ | 0.61V | 0.61V | Valid | ✅ Valid |
+| 100°C | 0.58kΩ | 0.27V | 0.27V | Valid | ✅ Valid |
+| 125°C | 0.26kΩ | 0.13V | 0.13V | Valid | ✅ Valid |
+
+**Resolution**:
+- **ADC LSB resolution**: 0.1mV (3.3V ÷ 32768 counts)
+- **Temperature resolution**: Variable, best at mid-range (~0.03°C per LSB at 25°C)
+- **Practical accuracy**: ±1°C including thermistor tolerance, ADC noise, and self-heating
+
+#### Filter Characteristics
+- **Thevenin resistance**: 5kΩ (10kΩ || 10kΩ at 25°C, varies with temperature)
+- **Cutoff frequency**: ~6.4kHz at 25°C
+- **Time constant**: ~25µs
+- **99% settling time**: ~125µs
+
+#### Power Consumption Analysis
+| Temperature | R_NTC | Circuit Current | Power | Equivalent at 12V |
+|-------------|-------|-----------------|-------|-------------------|
+| -40°C | 119.4kΩ | 38.6µA | 193µW | **16.1µA** |
+| 25°C | 10.0kΩ | 250µA | 1.25mW | **104µA** |
+| 50°C | 3.60kΩ | 367µA | 1.84mW | **153µA** |
+| 75°C | 1.39kΩ | 440µA | 2.20mW | **183µA** |
+| 100°C | 0.58kΩ | 473µA | 2.36mW | **197µA** |
+| 125°C | 0.26kΩ | 488µA | 2.44mW | **203µA** |
+
+**Power Characteristics**:
+- **Temperature coefficient**: Power consumption increases with temperature
+- **Self-heating**: Negligible (<0.1°C error) due to low power dissipation
 - **Power impact**: 115µA at 25°C, up to 209µA at 125°C
 - **Supply requirement**: Currently 5V (creates ADC range limitations)
 - **Design limitation**: Cold temperatures below ~15°C cannot be measured due to voltage exceeding 3.3V ADC maximum
