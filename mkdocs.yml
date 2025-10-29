@@ -30,8 +30,10 @@ nav:
  - Home: index.md
  - Intro:
    - Features: basic-use/key_features_list.md
+   - Getting Started: basic-use/getting-started.md
    - Installation: basic-use/installation.md
    - Quick Start Guide: basic-use/quick-start.md
+   - Troubleshooting: basic-use/troubleshooting.md
  - Hardware:
    - System Architecture: hardware/index.md
    - Digital Inputs: hardware/digital-inputs.md
@@ -47,7 +49,8 @@ nav:
    - NMEA2K: hardware/nmea2k.md
    - Analog Inputs: hardware/analoginputsADS1115.md
    - Input Protection: hardware/input-protection.md
-   - ESP32 Controller: hardware/esp32-controller.md
+   - ESP32 Controller: hardware/esp32-brain.md
+   - LM2907 Resistor Mod: hardware/lm2907 resistor mod.md
    - Connectors & Wiring: hardware/connectors.md
  - Software - ESP32:
    - System Overview: software/esp32/system_overview.md
@@ -61,17 +64,16 @@ nav:
    - Advanced Features: software/esp32/advanced_features_docs.md
    - Configuration: software/esp32/configuration_development_docs.md
  - Software - Client:
-   - Web Interface Overview: software/client/web-interface-overview.md
    - HTML Structure: software/client/html.md
    - JavaScript Logic: software/client/javascript.md
    - CSS Styling: software/client/css.md
-   - Real-time Data Flow: software/client/realtime-data.md
  - Local Xengineering Ref Only:
    - Partitioning: localstuff for Xengineering ref/esp32_partition_guide.md
-   - MkDocs Guide: localstuff for Xengineering ref/mkdocs_setup_guide.md
-   - OTA: localstuff for Xengineering ref/updated_ota_docs V3.md
+   - OTA: localstuff for Xengineering ref/updated_ota_docs V3 .md
    - Planning: localstuff for Xengineering ref/updated_planning_doc.md
    - Biz Stuff: localstuff for Xengineering ref/business_analysis_summary.md
    - AI Notes: localstuff for Xengineering ref/AI_notes_Aug2025.md
+   - Protrak MX2e Guide: localstuff for Xengineering ref/protrak_mx2e_guide.md
+   - Xregulator Backup Guide: localstuff for Xengineering ref/xregulator_backup_guide.md
 
 copyright: Copyright &copy; 2025 Xengineering
